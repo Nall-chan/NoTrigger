@@ -1,0 +1,11 @@
+{
+    "id": "{28198BA1-3563-4C85-81AE-8176B53589B8}",
+    "name": "NoTriggerGroup",
+    "type": 3,
+    "vendor": "",
+    "aliases": ["Variablenüberwachung (Group)"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "NT"
+}

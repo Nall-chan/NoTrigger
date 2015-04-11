@@ -1,0 +1,97 @@
+{
+    "elements":
+            [
+                {
+                    "name": "Active",
+                    "type": "CheckBox",
+                    "caption": "Active"
+                },
+                {
+                    "name": "VarID",
+                    "type": "SelectVariable",
+                    "caption": "Variable"
+                },
+                {
+                    "name": "CheckMode",
+                    "type": "Select",
+                    "caption": "Prüfmodus",
+                    "options": [
+                        {
+                            "label": "OnUpdate",
+                            "value": 0
+                        },
+                        {
+                            "label": "OnChange",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "Timer",
+                    "type": "IntervalBox",
+                    "caption": "seconds"
+                },
+                {
+                    "name": "HasState",
+                    "type": "CheckBox",
+                    "caption": "Statusvariable ''STATE'' verwenden ?"
+                },
+                {
+                    "name": "ScriptID",
+                    "type": "SelectScript",
+                    "caption": "Script"
+                },
+                {
+                    "name": "StartUp",
+                    "type": "Select",
+                    "caption": "Neustart-Verzögerung",
+                    "options": [
+                        {
+                            "label": "keine",
+                            "value": 0
+                        },
+                        {
+                            "label": "Intervallzeit",
+                            "value": 1
+                        },
+                        {
+                            "label": "bis Aktualisierung",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "MultipleAlert",
+                    "type": "CheckBox",
+                    "caption": "Mehrfachauslösung"
+                }
+            ],
+    "status":
+            [
+                {
+                    "code": 102,
+                    "icon": "active",
+                    "caption": "Überwachung aktiv."
+                },
+                {
+                    "code": 104,
+                    "icon": "inactive",
+                    "caption": "Überwachung inaktiv."
+                },
+                {
+                    "code": 202,
+                    "icon": "error",
+                    "caption": "Timer darf nicht kleiner 1 sein."
+                },
+                {
+                    "code": 203,
+                    "icon": "error",
+                    "caption": "Variable muß gesetzt sein."
+                },
+                {
+                    "code": 204,
+                    "icon": "error",
+                    "caption": "Variable darf nicht auf sich selbst zeigen."
+                }
+            ]
+}
