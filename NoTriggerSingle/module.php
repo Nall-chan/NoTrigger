@@ -44,14 +44,17 @@ class NoTriggerSingle extends IPSModule {
 
 ################## DUMMYS / WOARKAROUNDS - protected
 
-    protected function HasActiveParent() {
-        $id = @IPS_GetInstanceParentID($this->InstanceID);
-        if ($id > 0) {
-            if (IPS_GetInstance($id)['InstanceStatus'] == IS_ACTIVE)
+    protected function HasActiveParent()
+    {
+        IPS_LogMessage(__CLASS__, __FUNCTION__); //          
+        $instance = IPS_GetInstance($this->InstanceID);
+        if ($instance['ConnectionID'] > 0)
+        {
+            $parent = IPS_GetInstance($instance['ConnectionID']);
+            if ($parent['InstanceStatus'] == IS_ACTIVE)
                 return true;
-            else
-                return false;
         }
+        return false;
     }
 
     protected function SetStatus($data) {
