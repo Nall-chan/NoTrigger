@@ -9,7 +9,7 @@
                 {
                     "name": "CheckMode",
                     "type": "Select",
-                    "caption": "Prüfmodus",
+                    "caption": "PrÃ¼fmodus",
                     "options": [
                         {
                             "label": "OnUpdate",
@@ -39,7 +39,7 @@
                 {
                     "name": "StartUp",
                     "type": "Select",
-                    "caption": "Neustart-Verzögerung",
+                    "caption": "Neustart-VerzÃ¶gerung",
                     "options": [
                         {
                             "label": "keine",
@@ -58,7 +58,7 @@
                 {
                     "name": "MultipleAlert",
                     "type": "CheckBox",
-                    "caption": "Mehrfachauslösung"
+                    "caption": "MehrfachauslÃ¶sung"
                 }
             ],
     "status":
@@ -66,17 +66,17 @@
                 {
                     "code": 102,
                     "icon": "active",
-                    "caption": "Überwachung aktiv."
+                    "caption": "Ãœberwachung aktiv."
                 },
                 {
                     "code": 104,
                     "icon": "inactive",
-                    "caption": "Überwachung inaktiv."
+                    "caption": "Ãœberwachung inaktiv."
                 },
                 {
                     "code": 105,
                     "icon": "active",
-                    "caption": "Ungültige Objekte in der Überwachung."
+                    "caption": "UngÃ¼ltige Objekte in der Ãœberwachung."
                 },
                 {
                     "code": 202,

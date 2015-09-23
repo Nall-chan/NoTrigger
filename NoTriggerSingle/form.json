@@ -14,7 +14,7 @@
                 {
                     "name": "CheckMode",
                     "type": "Select",
-                    "caption": "Prüfmodus",
+                    "caption": "PrÃ¼fmodus",
                     "options": [
                         {
                             "label": "OnUpdate",
@@ -44,7 +44,7 @@
                 {
                     "name": "StartUp",
                     "type": "Select",
-                    "caption": "Neustart-Verzögerung",
+                    "caption": "Neustart-VerzÃ¶gerung",
                     "options": [
                         {
                             "label": "keine",
@@ -63,7 +63,7 @@
                 {
                     "name": "MultipleAlert",
                     "type": "CheckBox",
-                    "caption": "Mehrfachauslösung"
+                    "caption": "MehrfachauslÃ¶sung"
                 }
             ],
     "status":
@@ -71,12 +71,12 @@
                 {
                     "code": 102,
                     "icon": "active",
-                    "caption": "Überwachung aktiv."
+                    "caption": "Ãœberwachung aktiv."
                 },
                 {
                     "code": 104,
                     "icon": "inactive",
-                    "caption": "Überwachung inaktiv."
+                    "caption": "Ãœberwachung inaktiv."
                 },
                 {
                     "code": 202,
@@ -86,7 +86,7 @@
                 {
                     "code": 203,
                     "icon": "error",
-                    "caption": "Variable muß gesetzt sein."
+                    "caption": "Variable muÃŸ gesetzt sein."
                 },
                 {
                     "code": 204,
