@@ -1,9 +1,9 @@
 {
 	"id": "{A0969803-3F8E-4E29-9613-DA4E1B63D878}",
-	"author": "Michael Tröger",
+	"author": "Michael Tr\u00f6ger",
 	"name": "NoTrigger Library",
-	"url": "git.nall-chan.net",
-	"version": "0.1",
+	"url": "http://www.github.com/nall-chan/IPSNoTrigger.git",
+	"version": "1.0",
 	"build": 0,
 	"date": 0
 }
