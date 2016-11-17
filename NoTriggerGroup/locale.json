@@ -1,0 +1,24 @@
+{
+    "translations": {
+        "de": {
+            "active": "Aktiv",
+            "Mode": "Prüfmodus",
+            "OnUpdate": "OnUpdate",
+            "OnChange": "OnChange",
+            "seconds": "Sekunden",
+            "Create statusvariable ''STATE'' ?": "Statusvariable ''STATE'' verwenden ?",
+            "Script": "Script",
+            "Delay after startup": "Neustart-Verzögerung",
+            "none": "keine",
+            "Interval": "Intervallzeit",
+            "until variable change": "bis Aktualisierung",
+            "multiple alerts": "Mehrfachauslösung",
+            "Watchdog active.": "Überwachung aktiv.",
+            "Watchdog inactiv.": "Überwachung inaktiv.",
+            "Invalid object in link.": "Ungültige Objekte in der Überwachung.",
+            "Timer to small.": "Timer darf nicht kleiner 1 sein.",
+            "No links found.": "Keine Links angelegt!",
+            "StateVariable in link.": "Link auf eigene Status Variable!"
+        }
+    }
+}

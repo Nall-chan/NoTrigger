@@ -248,8 +248,9 @@ class NoTriggerBase extends IPSModule
      * Deregistriert eine Überwachung eines Links.
      *
      * @access protected
+     * @param int $LinkId IPS-ID des Link.
      */
-    protected function UnregisterLinkWatch($LinkId)
+    protected function UnregisterLinkWatch(int $LinkId)
     {
         if ($LinkId == 0)
             return;
@@ -263,8 +264,9 @@ class NoTriggerBase extends IPSModule
      * Registriert eine Überwachung eines Links.
      *
      * @access protected
+     * @param int $LinkId IPS-ID des Link.
      */
-    protected function RegisterLinkWatch($LinkId)
+    protected function RegisterLinkWatch(int $LinkId)
     {
         if ($LinkId == 0)
             return;
@@ -277,6 +279,7 @@ class NoTriggerBase extends IPSModule
      * Deregistriert eine Überwachung einer Variable.
      *
      * @access protected
+     * @param int $VarId IPS-ID der Variable.
      */
     protected function UnregisterVariableWatch($VarId)
     {
@@ -292,8 +295,9 @@ class NoTriggerBase extends IPSModule
      * Registriert eine Überwachung einer Variable.
      *
      * @access protected
+     * @param int $VarId IPS-ID der Variable.
      */
-    protected function RegisterVariableWatch($VarId)
+    protected function RegisterVariableWatch(int $VarId)
     {
         if ($VarId == 0)
             return;
@@ -317,14 +321,26 @@ class NoTriggerBase extends IPSModule
 trait DebugHelper
 {
 
-    // DEBUG HELPER
-
+    /**
+     * Ergänzt SetBuffer um eine Debug Ausgabe.
+     *
+     * @access protected
+     * @param string $Name Name des Buffer.
+     * @param string $Data Daten für den Buffer.
+     */
     protected function SetBuffer($Name, $Data)
     {
         $this->SendDebug('SetBuffer ' . $Name, $Data, 0);
         parent::SetBuffer($Name, $Data);
     }
 
+    /**
+     * Ergänzt GetBuffer um eine Debug Ausgabe.
+     *
+     * @access protected
+     * @param string $Name Name des Buffer.
+     * @return string Daten aus den Buffer.
+     */
     protected function GetBuffer($Name)
     {
         $Data = parent::GetBuffer($Name);
@@ -332,6 +348,14 @@ trait DebugHelper
         return $Data;
     }
 
+    /**
+     * Ergänzt SendDebug um Möglichkeit Objekte und Array auszugeben.
+     *
+     * @access protected
+     * @param string $Message Nachricht für Data.
+     * @param mixed $Data Daten für die Ausgabe.
+     * @return int $Format Ausgabeformat für Strings.
+     */
     protected function SendDebug($Message, $Data, $Format)
     {
         if (is_object($Data))

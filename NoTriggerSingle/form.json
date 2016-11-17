@@ -4,7 +4,7 @@
                 {
                     "name": "Active",
                     "type": "CheckBox",
-                    "caption": "Active"
+                    "caption": "active"
                 },
                 {
                     "name": "VarID",
@@ -14,7 +14,7 @@
                 {
                     "name": "CheckMode",
                     "type": "Select",
-                    "caption": "Prüfmodus",
+                    "caption": "Mode",
                     "options": [
                         {
                             "label": "OnUpdate",
@@ -34,7 +34,7 @@
                 {
                     "name": "HasState",
                     "type": "CheckBox",
-                    "caption": "Statusvariable ''STATE'' verwenden ?"
+                    "caption": "Create statusvariable ''STATE'' ?"
                 },
                 {
                     "name": "ScriptID",
@@ -44,18 +44,18 @@
                 {
                     "name": "StartUp",
                     "type": "Select",
-                    "caption": "Neustart-Verzögerung",
+                    "caption": "Delay after startup",
                     "options": [
                         {
-                            "label": "keine",
+                            "label": "none",
                             "value": 0
                         },
                         {
-                            "label": "Intervallzeit",
+                            "label": "Interval",
                             "value": 1
                         },
                         {
-                            "label": "bis Aktualisierung",
+                            "label": "until variable change",
                             "value": 2
                         }
                     ]
@@ -63,7 +63,7 @@
                 {
                     "name": "MultipleAlert",
                     "type": "CheckBox",
-                    "caption": "Mehrfachauslösung"
+                    "caption": "multiple alerts"
                 }
             ],
     "status":
@@ -71,27 +71,27 @@
                 {
                     "code": 102,
                     "icon": "active",
-                    "caption": "Überwachung aktiv."
+                    "caption": "Watchdog active."
                 },
                 {
                     "code": 104,
                     "icon": "inactive",
-                    "caption": "Überwachung inaktiv."
+                    "caption": "Watchdog inactiv."
                 },
                 {
                     "code": 202,
                     "icon": "error",
-                    "caption": "Timer darf nicht kleiner 1 sein."
+                    "caption": "Timer to small."
                 },
                 {
                     "code": 203,
                     "icon": "error",
-                    "caption": "Variable muß gesetzt sein."
+                    "caption": "Variable must be set."
                 },
                 {
                     "code": 204,
                     "icon": "error",
-                    "caption": "Variable darf nicht auf sich selbst zeigen."
+                    "caption": "Variable invalid"
                 }
             ]
 }

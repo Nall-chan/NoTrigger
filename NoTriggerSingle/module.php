@@ -231,7 +231,7 @@ class NoTriggerSingle extends NoTriggerBase
     }
 
     /**
-     * Timer abelaufen Alarm wird erzeugt.
+     * Timer abgelaufen Alarm wird erzeugt.
      *
      * @access public
      */

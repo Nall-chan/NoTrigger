@@ -1,0 +1,24 @@
+{
+    "translations": {
+        "de": {
+            "active": "Aktiv",
+            "Variable": "Variable",
+            "Mode": "Prüfmodus",
+            "OnUpdate": "OnUpdate",
+            "OnChange": "OnChange",
+            "seconds": "Sekunden",
+            "Create statusvariable ''STATE'' ?": "Statusvariable ''STATE'' verwenden ?",
+            "Script": "Script",
+            "Delay after startup": "Neustart-Verzögerung",
+            "none": "keine",
+            "Interval": "Intervallzeit",
+            "until variable change": "bis Aktualisierung",
+            "multiple alerts": "Mehrfachauslösung",
+            "Watchdog active.": "Überwachung aktiv.",
+            "Watchdog inactiv.": "Überwachung inaktiv.",
+            "Timer to small.": "Timer darf nicht kleiner 1 sein.",
+            "Variable must be set.": "Variable muß gesetzt sein.",
+            "Variable invalid.": "Variable darf nicht auf sich selbst zeigen."
+        }
+    }
+}

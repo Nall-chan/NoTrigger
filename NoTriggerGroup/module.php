@@ -15,13 +15,48 @@
 
 require_once(__DIR__ . "/../NoTriggerBase.php");
 
+/**
+ * TNoTriggerVar ist eine Klasse welche die Daten einer überwachten Variable enthält.
+ *
+ * @package       NoTrigger
+ * @author        Michael Tröger <micha@nall-chan.net>
+ * @copyright     2016 Michael Tröger
+ * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ * @version       1.0
+ * @example <b>Ohne</b>
+ */
 class TNoTriggerVar
 {
 
+    /**
+     * IPS-ID der Variable.
+     * @var int 
+     * @access public
+     */
     public $VarId = 0;
+
+    /**
+     * IPS-ID des Link.
+     * @var int 
+     * @access public
+     */
     public $LinkId = 0;
+
+    /**
+     * True wenn Variable schon Alarm ausgelöst hat.
+     * @var bool 
+     * @access public
+     */
     public $Alert = false;
 
+    /**
+     * Erzeugt ein neues Objekt aus TNoTriggerVar.
+     * @access public
+     * @param int $VarId IPS-ID der Variable.
+     * @param int $LinkId IPS-ID des Link.
+     * @param int $Alert Wert für Alert
+     * @return TNoTriggerVar Das erzeugte Objekt.
+     */
     public function __construct(int $VarId, int $LinkId, bool $Alert)
     {
         $this->VarId = $VarId;
@@ -32,37 +67,57 @@ class TNoTriggerVar
 }
 
 /**
- * @property Array $Items Liste mit allen Variablen
+ * TNoTriggerVarList ist eine Klasse welche die Daten aller überwachten Variablen enthält.
+ *
+ * @package       NoTrigger
+ * @author        Michael Tröger <micha@nall-chan.net>
+ * @copyright     2016 Michael Tröger
+ * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ * @version       1.0
+ * @example <b>Ohne</b>
  */
 class TNoTriggerVarList
 {
 
+    /**
+     * Array mit allen überwachten Variablen.
+     * @var array
+     * @access public
+     */
     public $Items = array();
 
-    /* public function __construct($array)
-      {
-      if (is_array($array)) {
-      $this->Items = $array;
-      }
-      } */
-
+    /**
+     * Liefert die Daten welche behalten werden müssen.
+     * @access public
+     */
     public function __sleep()
     {
         return array('Items');
     }
 
+    /**
+     * Fügt einen Eintrag in $Items hinzu.
+     * @access public
+     * @param TNoTriggerVar $NoTriggerVar Das hinzuzufügende Variablen-Objekt.
+     */
     public function Add(TNoTriggerVar $NoTriggerVar)
     {
         $this->Items[] = $NoTriggerVar;
     }
 
+    /**
+     * Löscht einen Eintrag aus $Items.
+     * @access public
+     * @param int $Index Der Index des zu löschenden Items.
+     */
     public function Remove(int $Index)
     {
         unset($this->Items[$Index]);
     }
 
     /**
-     * 
+     * Liefert einen bestimmten Eintrag aus den Items.
+     * @access public
      * @param int $Index
      * @return TNoTriggerVar
      */
@@ -71,6 +126,12 @@ class TNoTriggerVarList
         return $this->Items[$Index];
     }
 
+    /**
+     * Liefert den Index von dem Item mit der entsprechenden IPS-Variablen-ID.
+     * @access public
+     * @param int $VarId Die zu suchende IPS-ID der Variable.
+     * @return int Index des gefundenen Eintrags.
+     */
     public function IndexOfVarID(int $VarId)
     {
         foreach ($this->Items as $Index => $NoTriggerVar)
@@ -81,6 +142,12 @@ class TNoTriggerVarList
         return false;
     }
 
+    /**
+     * Liefert den Index von dem Item mit der entsprechenden IPS-Link-ID.
+     * @access public
+     * @param int $LinkId Die zu suchende IPS-ID des Link.
+     * @return int Index des gefundenen Eintrags.
+     */
     public function IndexOfLinkID(int $LinkId)
     {
         foreach ($this->Items as $Index => $NoTriggerVar)
@@ -527,7 +594,7 @@ class NoTriggerGroup extends NoTriggerBase
     }
 
     /**
-     * Timer abelaufen Alarm wird erzeugt.
+     * Timer abgelaufen Alarm wird erzeugt.
      *
      * @access public
      */
@@ -557,6 +624,11 @@ class NoTriggerGroup extends NoTriggerBase
         $this->StartTimer();
     }
 
+    /**
+     * Liest alle zu Überwachenden Variablen ein.
+     *
+     * @access private
+     */
     private function GetAllTargets()
     {
         $Links = IPS_GetChildrenIDs($this->InstanceID);
