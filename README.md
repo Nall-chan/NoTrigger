@@ -1,6 +1,4 @@
-# IPSKodi
-
-Implementierung der Kodi JSON-RPC API in IP-Symcon.
+# IPSNoTrigger
 
 ## Dokumentation
 
@@ -9,10 +7,10 @@ Implementierung der Kodi JSON-RPC API in IP-Symcon.
 1. [Funktionsumfang](#1-funktionsumfang) 
 2. [Voraussetzungen](#2-voraussetzungen)
 3. [Installation](#3-installation)
-4. [Variablenüberwachung (single)](#4-vorbereitungen)
-5. [Variablenüberwachung (group)](#5-einrichten-der--instanzen-in-ips)
-6. [Variablen im Ziel-Script] (#6-variablen-im-ziel---Script)
-7. [Parameter / Modul-Infos] 
+4. [Variablenüberwachung (single)](#4-variablen%C3%BCberwachung-single)
+5. [Variablenüberwachung (group)](#5-variablen%C3%BCberwachung-group)
+6. [Variablen im Ziel-Script] (#6-variablen-im-ziel-script)
+7. [Parameter / Modul-Infos] (#7-parameter--modul-infos)
 8. [Anhang](#8-anhang)
 9. [Lizenz] (#9-lizenz)
 
@@ -58,8 +56,9 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 **IPS 4.1:**  
    Bei privater Nutzung unter IPS 4.1:  
     Über das Modul-Control folgende URL hinzufügen.  
-   `git://github.com/Nall-chan/IPSKodi.git`  
+   `git://github.com/Nall-chan/IPSNoTrigger.git`  
 
+**IPS 3.x:**  
    Bei privater Nutzung unter IPS 3.x:  
     Kopieren von der NoTrigger.dll in das Unterverzeichnis 'modules' unterhalb des  
     IP-Symcon Installationsverzeichnisses.  
@@ -124,6 +123,7 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
  Folgende Felder im Array der PHP-Variable $_IPS stehen im Ziel-Script zur Verfügung:  
 
+| Index    | Typ     | Beschreibung                                             |
 | :-------:|:------: | :------------------------------------------------------: |
 | VALUE    | boolean | Aktueller Status wobei True = Alarm und False = Ruhe ist |
 | OLDVALUE | boolean | vorheriger Wert                                          |
@@ -183,13 +183,13 @@ Eigenschaften von Variablenüberwachung (Group):
 ## 8. Anhang
 
  Idee von MCS-51 mit dem IPSLibary-Modul IPS-Health welche nie offiziell Verbreitet wurde.  
- Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1
+ Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1  
 
-**Changlog:**
+**Changlog:**  
 
-2.0     :  Erste Version für IPS 4.1
-1.1	:  Erstes öffentliches Release im Forum.
-1.0.0.7	:  Erstes internes Release mit Gruppenüberwachung.
+2.0     :  Erste Version für IPS 4.1  
+1.1	:  Erstes öffentliches Release im Forum.  
+1.0.0.7	:  Erstes internes Release mit Gruppenüberwachung.  
 
 
 ## 9. Lizenz  
