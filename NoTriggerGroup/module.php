@@ -152,7 +152,7 @@ class TNoTriggerVarList
     {
         foreach ($this->Items as $Index => $NoTriggerVar)
         {
-            if ($NoTriggerVar['LinkId'] == $LinkId)
+            if ($NoTriggerVar->LinkId == $LinkId)
                 return $Index;
         }
         return false;
@@ -374,7 +374,7 @@ class NoTriggerGroup extends NoTriggerBase
                 break;
             case OM_CHILDADDED:
                 $IPSObjekt = IPS_GetObject($Data[0]);
-                if (($SenderID <> $this->InstanceID) or ( $IPSObjekt['ObjectType'] <> otLink))
+                if (($SenderID != $this->InstanceID) or ( $IPSObjekt['ObjectType'] != otLink))
                     return;
                 $TriggerVarList = $this->NoTriggerVarList;
                 $Index = $TriggerVarList->IndexOfLinkID($Data[0]);
@@ -459,8 +459,10 @@ class NoTriggerGroup extends NoTriggerBase
     public function ApplyChanges()
     {
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
-        parent::ApplyChanges();
         $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire2(' . $this->InstanceID . '); ');
+        $this->RegisterMessage($this->InstanceID, OM_CHILDADDED);
+        $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
+        parent::ApplyChanges();
 
         if ($this->ReadPropertyBoolean('HasState'))
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, true);
@@ -468,8 +470,6 @@ class NoTriggerGroup extends NoTriggerBase
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, false);
         if (IPS_GetKernelRunlevel() != KR_READY)
             return;
-        $this->RegisterMessage($this->InstanceID, OM_CHILDADDED);
-        $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
         if ($this->CheckConfig())
             $this->StartTimer();
     }
