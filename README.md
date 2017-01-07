@@ -53,12 +53,12 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
  
 ## 3. Installation
 
-**IPS 4.1:**  
+### IPS 4.1:
    Bei privater Nutzung unter IPS 4.1:  
     Über das Modul-Control folgende URL hinzufügen.  
    `git://github.com/Nall-chan/IPSNoTrigger.git`  
 
-**IPS 3.x:**  
+### IPS 3.x:
    Bei privater Nutzung unter IPS 3.x:  
     Kopieren von der NoTrigger.dll in das Unterverzeichnis 'modules' unterhalb des  
     IP-Symcon Installationsverzeichnisses.  
