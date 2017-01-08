@@ -9,7 +9,7 @@
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  *
  */
 
@@ -23,7 +23,7 @@ require_once(__DIR__ . "/../NoTriggerBase.php");
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  *
  * @property int $State Letzer Zustand
@@ -99,7 +99,7 @@ class NoTriggerSingle extends NoTriggerBase
             case VM_DELETE:
                 if ($SenderID != $this->ReadPropertyInteger('VarID'))
                     break;
-                $this->UnregisterVariableWatch(0);
+                $this->UnregisterVariableWatch($SenderID);
                 $this->VarId = 0;
                 IPS_SetProperty($this->InstanceID, 'VarID', 0);
                 IPS_ApplyChanges($this->InstanceID);
