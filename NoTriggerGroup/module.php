@@ -9,7 +9,7 @@
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  *
  */
 
@@ -22,7 +22,7 @@ require_once(__DIR__ . "/../NoTriggerBase.php");
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  */
 class TNoTriggerVar
@@ -73,7 +73,7 @@ class TNoTriggerVar
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  */
 class TNoTriggerVarList
@@ -168,7 +168,7 @@ class TNoTriggerVarList
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  *
  * @property int $Alerts Anzahl der Alarme

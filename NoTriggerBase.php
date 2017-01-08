@@ -9,7 +9,7 @@
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  *
  */
 
@@ -170,7 +170,7 @@ if (@constant('IPS_BASE') == null) //Nur wenn Konstanten noch nicht bekannt sind
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  */
 class NoTriggerBase extends IPSModule
@@ -257,7 +257,6 @@ class NoTriggerBase extends IPSModule
 
         $this->SendDebug('UnregisterLM', $LinkId, 0);
         $this->UnregisterMessage($LinkId, LM_CHANGETARGET);
-//        $this->UnregisterMessage($LinkId, LM_DELETE);
     }
 
     /**
@@ -272,7 +271,6 @@ class NoTriggerBase extends IPSModule
             return;
         $this->SendDebug('RegisterLM', $LinkId, 0);
         $this->RegisterMessage($LinkId, LM_CHANGETARGET);
-//        $this->RegisterMessage($LinkId, VM_UPDATE);
     }
 
     /**
@@ -315,38 +313,11 @@ class NoTriggerBase extends IPSModule
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2016 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
+ * @version       2.0
  * @example <b>Ohne</b>
  */
 trait DebugHelper
 {
-
-    /**
-     * Ergänzt SetBuffer um eine Debug Ausgabe.
-     *
-     * @access protected
-     * @param string $Name Name des Buffer.
-     * @param string $Data Daten für den Buffer.
-     */
-    protected function SetBuffer($Name, $Data)
-    {
-        $this->SendDebug('SetBuffer ' . $Name, $Data, 0);
-        parent::SetBuffer($Name, $Data);
-    }
-
-    /**
-     * Ergänzt GetBuffer um eine Debug Ausgabe.
-     *
-     * @access protected
-     * @param string $Name Name des Buffer.
-     * @return string Daten aus den Buffer.
-     */
-    protected function GetBuffer($Name)
-    {
-        $Data = parent::GetBuffer($Name);
-        $this->SendDebug('GetBuffer ' . $Name, $Data, 0);
-        return $Data;
-    }
 
     /**
      * Ergänzt SendDebug um Möglichkeit Objekte und Array auszugeben.

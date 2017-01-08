@@ -147,14 +147,14 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
 ## 7. Parameter / Modul-Infos
 
-GUIDs der Instanzen (z.B. wenn Instanz per PHP angelegt werden soll):  
+**GUIDs der Instanzen (z.B. wenn Instanz per PHP angelegt werden soll):**  
 
 | Instanz                       | GUID                                   |
 | :---------------------------: | :------------------------------------: |
 | Variablenüberwachung (Single) | {BACCE313-C8F2-4189-B128-74A6888DAD21} |
 | Variablenüberwachung (Group)  | {28198BA1-3563-4C85-81AE-8176B53589B8} |
 
-Eigenschaften von Variablenüberwachung (Single):  
+**Eigenschaften von Variablenüberwachung (Single):**  
 
 | Eigenschaft   | Typ     | Standardwert | Funktion                                                                  |
 | :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
@@ -167,7 +167,7 @@ Eigenschaften von Variablenüberwachung (Single):
 | StartUp       | integer | 0            | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
 | MultipleAlert | boolean | false        | Mehrfachauslösung                                                         |
 
-Eigenschaften von Variablenüberwachung (Group):  
+**Eigenschaften von Variablenüberwachung (Group):**  
 
 | Eigenschaft   | Typ     | Standardwert | Funktion                                                                  |
 | :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
