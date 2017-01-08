@@ -9,10 +9,10 @@
 3. [Installation](#3-installation)
 4. [Variablenüberwachung (single)](#4-variablen%C3%BCberwachung-single)
 5. [Variablenüberwachung (group)](#5-variablen%C3%BCberwachung-group)
-6. [Variablen im Ziel-Script] (#6-variablen-im-ziel-script)
-7. [Parameter / Modul-Infos] (#7-parameter--modul-infos)
+6. [Variablen im Ziel-Script](#6-variablen-im-ziel-script)
+7. [Parameter / Modul-Infos](#7-parameter--modul-infos)
 8. [Anhang](#8-anhang)
-9. [Lizenz] (#9-lizenz)
+9. [Lizenz](#9-lizenz)
 
 ## 1. Funktionsumfang
 
