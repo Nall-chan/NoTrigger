@@ -198,6 +198,7 @@ class NoTriggerGroup extends NoTriggerBase
         $this->Alerts = 0;
         $this->ActiveVarID = 0;
         $this->NoTriggerVarList = new TNoTriggerVarList();
+        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire2(' . $this->InstanceID . '); ');        
     }
 
     /**
@@ -459,7 +460,6 @@ class NoTriggerGroup extends NoTriggerBase
     public function ApplyChanges()
     {
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
-        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire2(' . $this->InstanceID . '); ');
         $this->RegisterMessage($this->InstanceID, OM_CHILDADDED);
         $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
         parent::ApplyChanges();

@@ -187,9 +187,17 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
 **Changlog:**  
 
-2.0     :  Erste Version für IPS 4.1  
-1.1	:  Erstes öffentliches Release im Forum.  
-1.0.0.7	:  Erstes internes Release mit Gruppenüberwachung.  
+Version 2.1:  
+ - Fix: Timer in Create verschoben  
+
+Version 2.0:  
+ - Erste Version für IPS 4.1  
+
+Version 1.1:  
+ - Erstes öffentliches Release im Forum  
+
+Version 1.0.0.7:  
+ - Erstes internes Release mit Gruppenüberwachung  
 
 
 ## 9. Lizenz  

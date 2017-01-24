@@ -208,7 +208,7 @@ class NoTriggerBase extends IPSModule
      * @access protected
      * @param bool $NewState Der neue Wert der Statusvariable
      */
-    protected function SetStateVar(boole $NewState)
+    protected function SetStateVar(bool $NewState)
     {
         if ($this->ReadPropertyBoolean('HasState'))
         {

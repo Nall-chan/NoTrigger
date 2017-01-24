@@ -48,6 +48,7 @@ class NoTriggerSingle extends NoTriggerBase
         $this->RegisterPropertyBoolean('HasState', true);
         $this->RegisterPropertyInteger('StartUp', 0);
         $this->RegisterPropertyInteger('CheckMode', 0);
+        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire(' . $this->InstanceID . '); ');
         $this->State = false;
         $this->VarId = 0;
     }
@@ -116,7 +117,6 @@ class NoTriggerSingle extends NoTriggerBase
     {
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         parent::ApplyChanges();
-        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire(' . $this->InstanceID . '); ');
 
         if ($this->ReadPropertyBoolean('HasState'))
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, true);
