@@ -239,9 +239,9 @@ class NoTriggerBase extends IPSModule
                     'EVENT' => $this->InstanceID,
                     'SENDER' => 'NoTrigger'));
             }
+            else
+                IPS_LogMessage('NoTrigger', 'Script ' . $this->ReadPropertyInteger('ScriptID') . ' existiert nicht!');
         }
-        else
-            IPS_LogMessage('NoTrigger', 'Script ' . $this->ReadPropertyInteger('ScriptID') . ' existiert nicht!');
     }
 
     /**
