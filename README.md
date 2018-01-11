@@ -187,6 +187,9 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
 **Changlog:**  
 
+Version 2.2:  
+ - Fixes für IPS 5.0  
+
 Version 2.1:  
  - Fix: Timer in Create verschoben  
 
@@ -202,4 +205,4 @@ Version 1.0.0.7:
 
 ## 9. Lizenz  
 
-[CC BY-NC-SA 4.0] (https://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
