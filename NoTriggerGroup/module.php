@@ -13,7 +13,7 @@
  *
  */
 
-require_once(__DIR__ . "/../NoTriggerBase.php");
+require_once(__DIR__ . "/../libs/NoTriggerBase.php");
 
 /**
  * TNoTriggerVar ist eine Klasse welche die Daten einer überwachten Variable enthält.

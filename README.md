@@ -1,3 +1,8 @@
+[![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.2-blue.svg)]()
+[![Version](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![Version](https://img.shields.io/badge/Symcon%20Version-4.1%20%3E-green.svg)](https://www.symcon.de/service/dokumentation/installation/migration-v40-v41/)
+
 # IPSNoTrigger
 
 ## Dokumentation
@@ -12,7 +17,8 @@
 6. [Variablen im Ziel-Script](#6-variablen-im-ziel-script)
 7. [Parameter / Modul-Infos](#7-parameter--modul-infos)
 8. [Anhang](#8-anhang)
-9. [Lizenz](#9-lizenz)
+9. [Spenden](#9-spenden)
+10. [Lizenz](#10-lizenz)
 
 ## 1. Funktionsumfang
 
@@ -202,7 +208,13 @@ Version 1.1:
 Version 1.0.0.7:  
  - Erstes internes Release mit Gruppenüberwachung  
 
+## 9. Spenden  
+  
+  Die Library ist für die nicht kommzerielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
-## 9. Lizenz  
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>
+
+
+## 10. Lizenz  
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  

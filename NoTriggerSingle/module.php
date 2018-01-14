@@ -13,7 +13,7 @@
  *
  */
 
-require_once(__DIR__ . "/../NoTriggerBase.php");
+require_once(__DIR__ . "/../libs/NoTriggerBase.php");
 
 /**
  * NoTrigger Klasse für die die Überwachung einer Variable auf fehlende Änderung/Aktualisierung.
