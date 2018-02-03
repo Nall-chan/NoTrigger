@@ -200,6 +200,10 @@ if (!defined("vtBoolean")) //Nur wenn Konstanten noch nicht bekannt sind.
     define('vtFloat', 2);
     define('vtString', 3);
 }
+if (!defined("otVariable")) //Nur wenn Konstanten noch nicht bekannt sind.
+    define('otVariable', 2);
+if (!defined("otLink")) //Nur wenn Konstanten noch nicht bekannt sind.
+    define('otLink', 6);
 
 /**
  * NoTrigger Basis-Klasse für die die Überwachung von Variablen auf fehlende Änderung/Aktualisierung.
