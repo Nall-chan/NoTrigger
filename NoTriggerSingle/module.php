@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  * @addtogroup notrigger
@@ -63,21 +63,20 @@ class NoTriggerSingle extends NoTriggerBase
         $this->SendDebug('Message:SenderID', $SenderID, 0);
         $this->SendDebug('Message:Message', $Message, 0);
         $this->SendDebug('Message:Data', $Data, 0);
-        switch ($Message)
-        {
+        switch ($Message) {
             case IPS_KERNELMESSAGE:
-                switch ($Data[0])
-                {
+                switch ($Data[0]) {
                     case KR_READY:
-                        switch ($this->ReadPropertyInteger('StartUp'))
-                        {
+                        switch ($this->ReadPropertyInteger('StartUp')) {
                             case 0:
-                                if ($this->CheckConfig())
+                                if ($this->CheckConfig()) {
                                     $this->StartTimer();
+                                }
                                 break;
                             case 1:
-                                if ($this->CheckConfig())
+                                if ($this->CheckConfig()) {
                                     $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+                                }
                                 break;
                         }
                         break;
@@ -87,19 +86,21 @@ class NoTriggerSingle extends NoTriggerBase
                 }
                 break;
             case VM_UPDATE:
-                if ($SenderID != $this->ReadPropertyInteger('VarID'))
+                if ($SenderID != $this->ReadPropertyInteger('VarID')) {
                     break;
-                if ($this->ReadPropertyInteger('CheckMode') == 1)
-                {
-                    if ($Data[1] == true)
-                        $this->StartTimer();
                 }
-                else
+                if ($this->ReadPropertyInteger('CheckMode') == 1) {
+                    if ($Data[1] == true) {
+                        $this->StartTimer();
+                    }
+                } else {
                     $this->StartTimer();
+                }
                 break;
             case VM_DELETE:
-                if ($SenderID != $this->ReadPropertyInteger('VarID'))
+                if ($SenderID != $this->ReadPropertyInteger('VarID')) {
                     break;
+                }
                 $this->UnregisterVariableWatch($SenderID);
                 $this->VarId = 0;
                 IPS_SetProperty($this->InstanceID, 'VarID', 0);
@@ -118,21 +119,24 @@ class NoTriggerSingle extends NoTriggerBase
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         parent::ApplyChanges();
 
-        if ($this->ReadPropertyBoolean('HasState'))
+        if ($this->ReadPropertyBoolean('HasState')) {
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, true);
-        else
+        } else {
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, false);
-        if (IPS_GetKernelRunlevel() != KR_READY)
+        }
+        if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
-        if ($this->CheckConfig())
+        }
+        if ($this->CheckConfig()) {
             $this->StartTimer();
+        }
     }
 
-################## PRIVATE     
+    ################## PRIVATE
 
     /**
      * Prüft die Konfiguration
-     * 
+     *
      * @access private
      * @return  boolean True bei OK
      */
@@ -141,35 +145,27 @@ class NoTriggerSingle extends NoTriggerBase
         $this->UnregisterVariableWatch($this->VarId);
         $this->VarId = 0;
         $temp = true;
-        if ($this->ReadPropertyBoolean('Active') == true)
-        {
-            if ($this->ReadPropertyInteger('Timer') < 1)
-            {
+        if ($this->ReadPropertyBoolean('Active') == true) {
+            if ($this->ReadPropertyInteger('Timer') < 1) {
                 $this->SetStatus(202); //Error Timer is Zero
                 $temp = false;
             }
-            if ($this->ReadPropertyInteger('VarID') == 0)
-            {
+            if ($this->ReadPropertyInteger('VarID') == 0) {
                 $this->SetStatus(203); //VarID is Zero
                 $temp = false;
             }
-            if ($this->ReadPropertyBoolean('HasState'))
-            {
-                if ($this->ReadPropertyInteger('VarID') == $this->GetIDForIdent('STATE'))
-                {
+            if ($this->ReadPropertyBoolean('HasState')) {
+                if ($this->ReadPropertyInteger('VarID') == $this->GetIDForIdent('STATE')) {
                     $this->SetStatus(204); //VarID is Self
                     $temp = false;
                 }
             }
-            if ($temp)
-            {
+            if ($temp) {
                 $this->SetStatus(IS_ACTIVE);
                 $this->RegisterVariableWatch($this->ReadPropertyInteger('VarID'));
                 $this->VarId = $this->ReadPropertyInteger('VarID');
             }
-        }
-        else
-        {
+        } else {
             $this->SetStatus(IS_INACTIVE);
             $temp = false;
         }
@@ -183,12 +179,12 @@ class NoTriggerSingle extends NoTriggerBase
      */
     private function StartTimer()
     {
-        if (IPS_GetKernelRunlevel() != KR_READY)
+        if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
+        }
 
         $NowTime = time();
-        if (!IPS_VariableExists($this->ReadPropertyInteger('VarID')))
-        {
+        if (!IPS_VariableExists($this->ReadPropertyInteger('VarID'))) {
             IPS_SetProperty($this->InstanceID, 'VarID', 0);
             IPS_ApplyChanges($this->InstanceID);
             return;
@@ -197,21 +193,19 @@ class NoTriggerSingle extends NoTriggerBase
         $LastTime = $Variable['VariableUpdated'];
         $TargetTime = $LastTime + $this->ReadPropertyInteger('Timer');
         $DiffTime = $TargetTime - $NowTime;
-        if ($TargetTime < $NowTime)
-        {
+        if ($TargetTime < $NowTime) {
             $this->SetStateVar(true);
             $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
             $this->State = true;
-            if ($this->ReadPropertyBoolean('MultipleAlert') == false)
-                $this->StopTimer();  //kein Mehrfachalarm -> Timer aus
-            else
-                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
-        }
-        else
-        {
+            if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
+                $this->StopTimer();
+            }  //kein Mehrfachalarm -> Timer aus
+            else {
+                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+            }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
+        } else {
             $this->SetStateVar(false);
-            if ($this->State)
-            {
+            if ($this->State) {
                 $this->DoScript($this->ReadPropertyInteger('VarID'), false, $this->State);
                 $this->State = false;
             }
@@ -237,20 +231,20 @@ class NoTriggerSingle extends NoTriggerBase
      */
     public function TimerFire()
     {
-        if (IPS_GetKernelRunlevel() == KR_READY)
-        {
+        if (IPS_GetKernelRunlevel() == KR_READY) {
             $this->SetStateVar(true);
 
             $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
             $this->State = true;
 
-            if ($this->ReadPropertyBoolean('MultipleAlert') == false)
-                $this->StopTimer();  //kein Mehrfachalarm -> Timer aus
-            else
-                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
+            if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
+                $this->StopTimer();
+            }  //kein Mehrfachalarm -> Timer aus
+            else {
+                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+            }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
         }
     }
-
 }
 
 /** @} */

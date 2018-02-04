@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  * @addtogroup notrigger
@@ -30,21 +30,21 @@ class TNoTriggerVar
 
     /**
      * IPS-ID der Variable.
-     * @var int 
+     * @var int
      * @access public
      */
     public $VarId = 0;
 
     /**
      * IPS-ID des Link.
-     * @var int 
+     * @var int
      * @access public
      */
     public $LinkId = 0;
 
     /**
      * True wenn Variable schon Alarm ausgelöst hat.
-     * @var bool 
+     * @var bool
      * @access public
      */
     public $Alert = false;
@@ -63,7 +63,6 @@ class TNoTriggerVar
         $this->LinkId = $LinkId;
         $this->Alert = $Alert;
     }
-
 }
 
 /**
@@ -134,10 +133,10 @@ class TNoTriggerVarList
      */
     public function IndexOfVarID(int $VarId)
     {
-        foreach ($this->Items as $Index => $NoTriggerVar)
-        {
-            if ($NoTriggerVar->VarId == $VarId)
+        foreach ($this->Items as $Index => $NoTriggerVar) {
+            if ($NoTriggerVar->VarId == $VarId) {
                 return $Index;
+            }
         }
         return false;
     }
@@ -150,14 +149,13 @@ class TNoTriggerVarList
      */
     public function IndexOfLinkID(int $LinkId)
     {
-        foreach ($this->Items as $Index => $NoTriggerVar)
-        {
-            if ($NoTriggerVar->LinkId == $LinkId)
+        foreach ($this->Items as $Index => $NoTriggerVar) {
+            if ($NoTriggerVar->LinkId == $LinkId) {
                 return $Index;
+            }
         }
         return false;
     }
-
 }
 
 /**
@@ -198,7 +196,7 @@ class NoTriggerGroup extends NoTriggerBase
         $this->Alerts = 0;
         $this->ActiveVarID = 0;
         $this->NoTriggerVarList = new TNoTriggerVarList();
-        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire2(' . $this->InstanceID . '); ');        
+        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire2(' . $this->InstanceID . '); ');
     }
 
     /**
@@ -211,22 +209,21 @@ class NoTriggerGroup extends NoTriggerBase
         $this->SendDebug('Message:SenderID', $SenderID, 0);
         $this->SendDebug('Message:Message', $Message, 0);
         $this->SendDebug('Message:Data', $Data, 0);
-        switch ($Message)
-        {
+        switch ($Message) {
             case IPS_KERNELMESSAGE:
-                switch ($Data[0])
-                {
+                switch ($Data[0]) {
                     case KR_READY:
                         $this->GetAllTargets();
-                        switch ($this->ReadPropertyInteger('StartUp'))
-                        {
+                        switch ($this->ReadPropertyInteger('StartUp')) {
                             case 0:
-                                if ($this->CheckConfig())
+                                if ($this->CheckConfig()) {
                                     $this->StartTimer();
+                                }
                                 break;
                             case 1:
-                                if ($this->CheckConfig())
+                                if ($this->CheckConfig()) {
                                     $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+                                }
                                 break;
                         }
                         break;
@@ -239,23 +236,19 @@ class NoTriggerGroup extends NoTriggerBase
                 // prüfen ob in liste und auswerten wegen Ruhemeldung wenn Alarm war
                 $TriggerVarList = $this->NoTriggerVarList;
                 $Index = $TriggerVarList->IndexOfVarID($SenderID);
-                if ($Index === false)
+                if ($Index === false) {
                     return;
+                }
                 $NoTriggerVar = $TriggerVarList->Get($Index);
-                if ($NoTriggerVar->Alert and ( ($Data[1] == true) or ( $this->ReadPropertyInteger('CheckMode') == 0)))
-                {
+                if ($NoTriggerVar->Alert and (($Data[1] == true) or ($this->ReadPropertyInteger('CheckMode') == 0))) {
                     $TriggerVarList->Items[$Index]->Alert = false;
                     $this->NoTriggerVarList = $TriggerVarList;
                     $this->Alerts--;
-                    if ($this->Alerts == 0) //war letzter Alarm dann ruhe senden uns status setzen
-                    {
+                    if ($this->Alerts == 0) { //war letzter Alarm dann ruhe senden uns status setzen
                         $this->DoScript($NoTriggerVar->VarId, false, true);
                         $this->SetStateVar(false, $NoTriggerVar->VarId);
-                    }
-                    else
-                    { // noch mehr in Alarm, also kein state setzen und...
-                        if ($this->ReadPropertyBoolean('MultipleAlert')) //bei mehrfach auch ruhe sende
-                        {
+                    } else { // noch mehr in Alarm, also kein state setzen und...
+                        if ($this->ReadPropertyBoolean('MultipleAlert')) { //bei mehrfach auch ruhe sende
                             $this->DoScript($NoTriggerVar->VarId, false, true);
                         }
                     }
@@ -263,8 +256,7 @@ class NoTriggerGroup extends NoTriggerBase
 
                 // Var das die aktive Var für den Timer ? Dann Timer neu berechnen
                 $ActiveVarID = $this->ActiveVarID;
-                if ((($SenderID == $ActiveVarID) or ( $ActiveVarID == 0)) and ( ($Data[1] === true) or ( $this->ReadPropertyInteger('CheckMode') == 0))) //Update von Var welche gerade den Timer steuert
-                {
+                if ((($SenderID == $ActiveVarID) or ($ActiveVarID == 0)) and (($Data[1] === true) or ($this->ReadPropertyInteger('CheckMode') == 0))) { //Update von Var welche gerade den Timer steuert
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
                 break;
@@ -273,39 +265,33 @@ class NoTriggerGroup extends NoTriggerBase
                 // prüfen ob in liste und auswerten wegen Ruhemeldung wenn Alarm war
                 $TriggerVarList = $this->NoTriggerVarList;
                 $Index = $TriggerVarList->IndexOfVarID($SenderID);
-                if ($Index === false)
+                if ($Index === false) {
                     return;
+                }
                 $NoTriggerVar = $TriggerVarList->Get($Index);
 
                 //und jetzt gleich prüfen ob vorher alarm und merken
-                if ($NoTriggerVar->Alert)
-                {
+                if ($NoTriggerVar->Alert) {
                     $this->Alerts--;
-                    if ($this->Alerts == 0) //war letzter Alarm dann ruhe senden uns status setzen
-                    {
+                    if ($this->Alerts == 0) { //war letzter Alarm dann ruhe senden uns status setzen
                         $this->DoScript($NoTriggerVar->VarId, false, true);
                         $this->SetStateVar(false, $NoTriggerVar->VarId);
-                    }
-                    else
-                    { // noch mehr in Alarm, also kein state setzen und...
-                        if ($this->ReadPropertyBoolean('MultipleAlert')) //bei mehrfach auch ruhe sende
-                        {
+                    } else { // noch mehr in Alarm, also kein state setzen und...
+                        if ($this->ReadPropertyBoolean('MultipleAlert')) { //bei mehrfach auch ruhe sende
                             $this->DoScript($NoTriggerVar->VarId, false, true);
                         }
                     }
                 }
                 $TriggerVarList->Remove($Index);
                 $this->NoTriggerVarList = $TriggerVarList;
-                if (count($TriggerVarList->Items) == 0)
-                {
+                if (count($TriggerVarList->Items) == 0) {
                     $this->ActiveVarID = 0;
                     $this->SetStatus(203);
                     $this->StopTimer();
                     return;
                 }
                 $ActiveVarID = $this->ActiveVarID;
-                if (($SenderID == $ActiveVarID) or ( $ActiveVarID == 0))
-                {
+                if (($SenderID == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
                 break;
@@ -313,48 +299,40 @@ class NoTriggerGroup extends NoTriggerBase
                 // prüfen ob in liste und auswerten wegen Ruhemeldung wenn Alarm war
                 $TriggerVarList = $this->NoTriggerVarList;
                 $Index = $TriggerVarList->IndexOfLinkID($SenderID);
-                if ($Index === false)
+                if ($Index === false) {
                     return;
+                }
                 $NoTriggerVar = $TriggerVarList->Get($Index);
                 $this->UnregisterVariableWatch($NoTriggerVar->VarId);
                 //und jetzt gleich prüfen ob vorher alarm und merken
-                if ($NoTriggerVar->Alert)
-                {
+                if ($NoTriggerVar->Alert) {
                     $this->Alerts--;
-                    if ($this->Alerts == 0) //war letzter Alarm dann ruhe senden uns status setzen
-                    {
+                    if ($this->Alerts == 0) { //war letzter Alarm dann ruhe senden uns status setzen
                         $this->DoScript($NoTriggerVar->VarId, false, true);
                         $this->SetStateVar(false, $NoTriggerVar->VarId);
-                    }
-                    else
-                    { // noch mehr in Alarm, also kein state setzen und...
-                        if ($this->ReadPropertyBoolean('MultipleAlert')) //bei mehrfach auch ruhe sende
-                        {
+                    } else { // noch mehr in Alarm, also kein state setzen und...
+                        if ($this->ReadPropertyBoolean('MultipleAlert')) { //bei mehrfach auch ruhe sende
                             $this->DoScript($NoTriggerVar->VarId, false, true);
                         }
                     }
                 }
                 $TriggerVarList->Remove($Index);
                 // Prüfen ob Ziel eigener State ist
-                if ($this->ReadPropertyBoolean('HasState'))
-                {
-                    if ($this->GetIDForIdent('STATE') == $Data[0])
-                    {
+                if ($this->ReadPropertyBoolean('HasState')) {
+                    if ($this->GetIDForIdent('STATE') == $Data[0]) {
                         $this->SetStatus(204); //State ist in den Links
                         $this->StopTimer();
                         return;
                     }
                 }
-                if ($Data[0] > 0)
-                {
+                if ($Data[0] > 0) {
                     $Target = IPS_GetObject($Data[0]);
-                    if ($Target['ObjectType'] != otVariable)
+                    if ($Target['ObjectType'] != otVariable) {
                         $Data[0] = 0;
+                    }
                 }
-                if ($Data[0] == 0)
-                {
-                    if (count($TriggerVarList->Items) == 0)
-                    {
+                if ($Data[0] == 0) {
+                    if (count($TriggerVarList->Items) == 0) {
                         $this->NoTriggerVarList = $TriggerVarList;
                         $this->ActiveVarID = 0;
                         $this->SetStatus(203);
@@ -362,45 +340,47 @@ class NoTriggerGroup extends NoTriggerBase
                         return;
                     }
                 }
-                $NoTriggerVar = new TNoTriggerVar($Data[0], $SenderID, FALSE);
+                $NoTriggerVar = new TNoTriggerVar($Data[0], $SenderID, false);
                 $TriggerVarList->Add($NoTriggerVar);
                 $this->NoTriggerVarList = $TriggerVarList;
                 $this->RegisterVariableWatch($Data[0]);
 
 
                 $ActiveVarID = $this->ActiveVarID;
-                if (($NoTriggerVar->VarId == $ActiveVarID) or ( $ActiveVarID == 0))
-                    $this->StartTimer();         // alte Var war aktiv oder gar keine
+                if (($NoTriggerVar->VarId == $ActiveVarID) or ($ActiveVarID == 0)) {
+                    $this->StartTimer();
+                }         // alte Var war aktiv oder gar keine
 
                 break;
             case OM_CHILDADDED:
                 $IPSObjekt = IPS_GetObject($Data[0]);
-                if (($SenderID != $this->InstanceID) or ( $IPSObjekt['ObjectType'] != otLink))
+                if (($SenderID != $this->InstanceID) or ($IPSObjekt['ObjectType'] != otLink)) {
                     return;
+                }
                 $TriggerVarList = $this->NoTriggerVarList;
                 $Index = $TriggerVarList->IndexOfLinkID($Data[0]);
-                if ($Index !== false)
+                if ($Index !== false) {
                     return;
+                }
                 $this->RegisterLinkWatch($Data[0]);
                 // Prüfen ob Ziel eigener State ist
                 $Link = IPS_GetLink($Data[0]);
-                if ($this->ReadPropertyBoolean('HasState'))
-                {
-                    if ($this->GetIDForIdent('STATE') == $Link['TargetID'])
-                    {
+                if ($this->ReadPropertyBoolean('HasState')) {
+                    if ($this->GetIDForIdent('STATE') == $Link['TargetID']) {
                         $this->SetStatus(204); //State ist in den Links
                         $this->StopTimer();
                         return;
                     }
                 }
-                if ($Link['TargetID'] > 0)
-                {
+                if ($Link['TargetID'] > 0) {
                     $Target = IPS_GetObject($Link['TargetID']);
-                    if ($Target['ObjectType'] != otVariable)
+                    if ($Target['ObjectType'] != otVariable) {
                         return;
+                    }
                 }
-                if (count($TriggerVarList->Items) == 0)
+                if (count($TriggerVarList->Items) == 0) {
                     $this->SetStatus(IS_ACTIVE);
+                }
                 $NoTriggerVar = new TNoTriggerVar($Link['TargetID'], $Data[0], false);
                 $TriggerVarList->Add($NoTriggerVar);
                 $this->NoTriggerVarList = $TriggerVarList;
@@ -412,39 +392,33 @@ class NoTriggerGroup extends NoTriggerBase
 
                 $Index = $TriggerVarList->IndexOfLinkID($Data[0]);
                 $this->UnregisterLinkWatch($Data[0]);
-                if ($Index === false)
+                if ($Index === false) {
                     return;
+                }
                 $NoTriggerVar = $TriggerVarList->Get($Index);
                 $this->UnregisterVariableWatch($NoTriggerVar->VarId);
                 //und jetzt gleich prüfen ob vorher alarm und merken
-                if ($NoTriggerVar->Alert)
-                {
+                if ($NoTriggerVar->Alert) {
                     $this->Alerts--;
-                    if ($this->Alerts == 0) //war letzter Alarm dann ruhe senden uns status setzen
-                    {
+                    if ($this->Alerts == 0) { //war letzter Alarm dann ruhe senden uns status setzen
                         $this->DoScript($NoTriggerVar->VarId, false, true);
                         $this->SetStateVar(false, $NoTriggerVar->VarId);
-                    }
-                    else
-                    { // noch mehr in Alarm, also kein state setzen und...
-                        if ($this->ReadPropertyBoolean('MultipleAlert')) //bei mehrfach auch ruhe sende
-                        {
+                    } else { // noch mehr in Alarm, also kein state setzen und...
+                        if ($this->ReadPropertyBoolean('MultipleAlert')) { //bei mehrfach auch ruhe sende
                             $this->DoScript($NoTriggerVar->VarId, false, true);
                         }
                     }
                 }
                 $TriggerVarList->Remove($Index);
                 $this->NoTriggerVarList = $TriggerVarList;
-                if (count($TriggerVarList->Items) == 0)
-                {
+                if (count($TriggerVarList->Items) == 0) {
                     $this->ActiveVarID = 0;
                     $this->SetStatus(203);
                     $this->StopTimer();
                     return;
                 }
                 $ActiveVarID = $this->ActiveVarID;
-                if (($NoTriggerVar->VarId == $ActiveVarID) or ( $ActiveVarID == 0))
-                {
+                if (($NoTriggerVar->VarId == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
 
@@ -464,57 +438,50 @@ class NoTriggerGroup extends NoTriggerBase
         $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
         parent::ApplyChanges();
 
-        if ($this->ReadPropertyBoolean('HasState'))
+        if ($this->ReadPropertyBoolean('HasState')) {
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, true);
-        else
+        } else {
             $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, false);
-        if (IPS_GetKernelRunlevel() != KR_READY)
+        }
+        if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
-        if ($this->CheckConfig())
+        }
+        if ($this->CheckConfig()) {
             $this->StartTimer();
+        }
     }
 
-################## PRIVATE     
+    ################## PRIVATE
 
     /**
      * Prüft die Konfiguration
-     * 
+     *
      * @access private
      * @return  boolean True bei OK
      */
     private function CheckConfig()
     {
         $temp = true;
-        if ($this->ReadPropertyBoolean('Active') == true)
-        {
-            if ($this->ReadPropertyInteger('Timer') < 1)
-            {
+        if ($this->ReadPropertyBoolean('Active') == true) {
+            if ($this->ReadPropertyInteger('Timer') < 1) {
                 $this->SetStatus(202); //Error Timer is Zero
                 $temp = false;
             }
-            if (count($this->NoTriggerVarList->Items) == 0)
-            {
+            if (count($this->NoTriggerVarList->Items) == 0) {
                 $this->SetStatus(203); // kein Childs
                 $temp = false;
-            }
-            else
-            {
-                if ($this->ReadPropertyBoolean('HasState'))
-                {
-                    if (array_key_exists($this->GetIDForIdent('STATE'), $this->NoTriggerVarList))
-                    {
+            } else {
+                if ($this->ReadPropertyBoolean('HasState')) {
+                    if (array_key_exists($this->GetIDForIdent('STATE'), $this->NoTriggerVarList)) {
                         $this->SetStatus(204); //State ist in den Links
                         $temp = false;
                     }
                 }
             }
-            if ($temp)
-            {
+            if ($temp) {
                 $this->SetStatus(IS_ACTIVE);
             }
-        }
-        else
-        {
+        } else {
             $temp = false;
             $this->SetStatus(IS_INACTIVE);
         }
@@ -528,40 +495,37 @@ class NoTriggerGroup extends NoTriggerBase
      */
     private function StartTimer()
     {
-        if (IPS_GetKernelRunlevel() != KR_READY)
+        if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
+        }
         $this->ActiveVarID = 0;
         $NowTime = time();
         $LastTime = $NowTime + 98765; //init wert damit lasttime immer größer als aktuelle zeit
         $TriggerVarList = $this->NoTriggerVarList;
-        foreach ($TriggerVarList->Items as $i => $IPSVars)
-        {
-            if (!IPS_VariableExists($IPSVars->VarId))
+        foreach ($TriggerVarList->Items as $i => $IPSVars) {
+            if (!IPS_VariableExists($IPSVars->VarId)) {
                 continue;
-            if ($IPSVars->Alert === true)
+            }
+            if ($IPSVars->Alert === true) {
                 continue;
+            }
             $Variable = IPS_GetVariable($IPSVars->VarId);
             $TestTime = $Variable['VariableUpdated'];
 
-            if (($TestTime + $this->ReadPropertyInteger('Timer')) < $NowTime) //alarm da in vergangenheit
-            {
+            if (($TestTime + $this->ReadPropertyInteger('Timer')) < $NowTime) { //alarm da in vergangenheit
                 $TriggerVarList->Items[$i]->Alert = true;
                 $this->Alerts++;
-                if ($this->Alerts == 1)
-                {
+                if ($this->Alerts == 1) {
                     $this->SetStateVar(true, $IPSVars->VarId);
                     $this->DoScript($IPSVars->VarId, true, false);
-                }
-                else
-                {
-                    if ($this->ReadPropertyBoolean('MultipleAlert'))
+                } else {
+                    if ($this->ReadPropertyBoolean('MultipleAlert')) {
                         $this->DoScript($IPSVars->VarId, true, false);
+                    }
                 }
                 continue;
-            } else
-            {
-                if ($TestTime < $LastTime)
-                {
+            } else {
+                if ($TestTime < $LastTime) {
                     $LastTime = $TestTime;
                     $this->ActiveVarID = $IPSVars->VarId;
                 }
@@ -570,13 +534,10 @@ class NoTriggerGroup extends NoTriggerBase
         $this->NoTriggerVarList = $TriggerVarList;
 
 
-        if ($this->ActiveVarID == 0)
-        {
+        if ($this->ActiveVarID == 0) {
             IPS_LogMessage('NoTrigger', 'Keine Var mehr in Ruhe. Überwachung pausiert');
             $this->StopTimer();
-        }
-        else
-        {
+        } else {
             $TargetTime = $LastTime + $this->ReadPropertyInteger('Timer');
             $DiffTime = $TargetTime - $NowTime;
             $this->SetTimerInterval('NoTrigger', $DiffTime * 1000);
@@ -601,24 +562,23 @@ class NoTriggerGroup extends NoTriggerBase
     public function TimerFire2()
     {
         $this->StopTimer();
-        if (IPS_GetKernelRunlevel() != KR_READY)
+        if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
-        if ($this->Alerts == 0)
-        {
+        }
+        if ($this->Alerts == 0) {
             $this->SetStateVar(true, $this->ActiveVarID);
             $this->DoScript($this->ActiveVarID, true, false);
-        }
-        else
-        {
-            if ($this->ReadPropertyBoolean('MultipleAlert'))
+        } else {
+            if ($this->ReadPropertyBoolean('MultipleAlert')) {
                 $this->DoScript($this->ActiveVarID, true, false);
+            }
         }
         $this->Alerts++;
         $TriggerVarList = $this->NoTriggerVarList;
-        foreach ($TriggerVarList->Items as $i => $IPSVars)
-        {
-            if ($IPSVars->VarId == $this->ActiveVarID)
+        foreach ($TriggerVarList->Items as $i => $IPSVars) {
+            if ($IPSVars->VarId == $this->ActiveVarID) {
                 $TriggerVarList->Items[$i]->Alert = true;
+            }
         }
         $this->NoTriggerVarList = $TriggerVarList;
         $this->StartTimer();
@@ -632,36 +592,35 @@ class NoTriggerGroup extends NoTriggerBase
     private function GetAllTargets()
     {
         $Links = IPS_GetChildrenIDs($this->InstanceID);
-        foreach ($this->NoTriggerVarList->Items as $IPSVar)
-        {
+        foreach ($this->NoTriggerVarList->Items as $IPSVar) {
             $this->UnregisterVariableWatch($IPSVar->VarId);
             $this->UnregisterLinkWatch($IPSVar->LinkId);
         }
         $TriggerVarList = new TNoTriggerVarList();
 
-        foreach ($Links as $Link)
-        {
+        foreach ($Links as $Link) {
             $Objekt = IPS_GetObject($Link);
-            if ($Objekt['ObjectType'] != otLink)
+            if ($Objekt['ObjectType'] != otLink) {
                 continue;
+            }
 
             $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
-            if ($Target === false)
+            if ($Target === false) {
                 continue;
-            if ($Target['ObjectType'] != otVariable)
+            }
+            if ($Target['ObjectType'] != otVariable) {
                 continue;
-//      zur Liste hinzufügen und Register auf Variable, Link etc...            
+            }
+//      zur Liste hinzufügen und Register auf Variable, Link etc...
             $NoTriggerVar = new TNoTriggerVar($Target['ObjectID'], $Link, false);
             $TriggerVarList->Add($NoTriggerVar);
         }
         $this->NoTriggerVarList = $TriggerVarList;
-        foreach ($TriggerVarList->Items as $IPSVar)
-        {
+        foreach ($TriggerVarList->Items as $IPSVar) {
             $this->RegisterVariableWatch($IPSVar->VarId);
             $this->RegisterLinkWatch($IPSVar->LinkId);
         }
     }
-
 }
 
 /** @} */
