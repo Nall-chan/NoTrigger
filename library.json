@@ -3,11 +3,10 @@
     "author": "Michael Tr\u00f6ger",
     "name": "NoTrigger Library",
     "url": "https://github.com/Nall-chan/IPSMS35/IPSNoTrigger",
-    "version": "2.01",
-    "build": 123,
-    "date": 1485265527,
-    "title": "Überwachung von Variablen auf regelmässige Änderungen oder Aktualisierungen",
-    "description": "Ermöglich das ausführen von Scripten, wenn sich eine Variable über einen bestimmten Zeitraum nicht geändert hat bzw. nicht aktualisiert wurde.",
-    "tags": ["Verzögerung", "Überwachung", "Ereignis", "Treppenlicht"],
-    "req_ips_version": "4.1"
+    "compatibility": {
+        "version": "5.1"
+    },
+    "version": "2.5",
+    "build": 130,
+    "date": 1556987178 
 }

@@ -1,11 +1,10 @@
-[![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.2-blue.svg)]()
+[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.5-blue.svg)]()
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
-[![Version](https://img.shields.io/badge/Symcon%20Version-4.1%20%3E-green.svg)](https://www.symcon.de/service/dokumentation/installation/migration-v40-v41/)
+[![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
 [![StyleCI](https://styleci.io/repos/45338150/shield?style=flat)](https://styleci.io/repos/45338150)  
 
-# IPSNoTrigger
-
+# Symcon-Modul: Variablenüberwachung  
 ## Dokumentation
 
 **Inhaltsverzeichnis**
@@ -56,24 +55,13 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
 ## 2. Voraussetzungen
 
- - IPS ab Version 3.1 bis 3.4 oder ab Version 4.1  
+ - IPS ab Version 5.1  
  
 ## 3. Installation
 
-### IPS 4.1:
-   Bei privater Nutzung unter IPS 4.1:  
-    Über das Modul-Control folgende URL hinzufügen.  
-   `git://github.com/Nall-chan/IPSNoTrigger.git`  
-
-### IPS 3.x:
-   Bei privater Nutzung unter IPS 3.x:  
-    Kopieren von der NoTrigger.dll in das Unterverzeichnis 'modules' unterhalb des  
-    IP-Symcon Installationsverzeichnisses.  
-    Der Ordner 'modules' muss u.U. manuell angelegt werden.  
-    Beispiel:  
-	'C:\IP-Symcon\modules'  
-    IPS-Dienst Neustarten.  
-
+**IPS 5.1:**  
+   Bei privater Nutzung:
+     Über den 'Module-Store' in IPS.  
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
 
 ## 4. Variablenüberwachung (single)
@@ -193,6 +181,9 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
  Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1  
 
 **Changlog:**  
+
+Version 2.5:  
+ - Release für IPS 5.1 und den Module-Store   
 
 Version 2.2:  
  - Fixes für IPS 5.0  

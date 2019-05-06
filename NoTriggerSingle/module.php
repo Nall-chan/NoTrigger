@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /*
  * @addtogroup notrigger
  * @{
@@ -7,13 +8,13 @@
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2016 Michael Tröger
+ * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.0
+ * @version       2.5
  *
  */
 
-require_once(__DIR__ . "/../libs/NoTriggerBase.php");
+require_once(__DIR__ . '/../libs/NoTriggerBase.php');
 
 /**
  * NoTrigger Klasse für die die Überwachung einer Variable auf fehlende Änderung/Aktualisierung.
@@ -21,9 +22,9 @@ require_once(__DIR__ . "/../libs/NoTriggerBase.php");
  *
  * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2016 Michael Tröger
+ * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.0
+ * @version       2.5
  * @example <b>Ohne</b>
  *
  * @property int $State Letzer Zustand
@@ -31,7 +32,6 @@ require_once(__DIR__ . "/../libs/NoTriggerBase.php");
  */
 class NoTriggerSingle extends NoTriggerBase
 {
-
     /**
      * Interne Funktion des SDK.
      *
@@ -48,7 +48,7 @@ class NoTriggerSingle extends NoTriggerBase
         $this->RegisterPropertyBoolean('HasState', true);
         $this->RegisterPropertyInteger('StartUp', 0);
         $this->RegisterPropertyInteger('CheckMode', 0);
-        $this->RegisterTimer('NoTrigger', 0, '<? NT_TimerFire(' . $this->InstanceID . '); ');
+        $this->RegisterTimer('NoTrigger', 0, 'NT_TimerFire($_IPS["TARGET"]); ');
         $this->State = false;
         $this->VarId = 0;
     }
@@ -60,9 +60,6 @@ class NoTriggerSingle extends NoTriggerBase
      */
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
-        $this->SendDebug('Message:SenderID', $SenderID, 0);
-        $this->SendDebug('Message:Message', $Message, 0);
-        $this->SendDebug('Message:Data', $Data, 0);
         switch ($Message) {
             case IPS_KERNELMESSAGE:
                 switch ($Data[0]) {
@@ -79,9 +76,7 @@ class NoTriggerSingle extends NoTriggerBase
                                 }
                                 break;
                         }
-                        break;
-                    case KR_UNINIT:
-                        $this->StopTimer();
+                        $this->UnregisterMessage(0, IPS_KERNELMESSAGE);
                         break;
                 }
                 break;
@@ -119,11 +114,7 @@ class NoTriggerSingle extends NoTriggerBase
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         parent::ApplyChanges();
 
-        if ($this->ReadPropertyBoolean('HasState')) {
-            $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, true);
-        } else {
-            $this->MaintainVariable('STATE', 'STATE', vtBoolean, '~Alert', 0, false);
-        }
+        $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, $this->ReadPropertyBoolean('HasState'));
         if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
         }
@@ -133,7 +124,6 @@ class NoTriggerSingle extends NoTriggerBase
     }
 
     ################## PRIVATE
-
     /**
      * Prüft die Konfiguration
      *
@@ -245,6 +235,7 @@ class NoTriggerSingle extends NoTriggerBase
             }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
         }
     }
+
 }
 
 /** @} */

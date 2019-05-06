@@ -5,60 +5,68 @@
                     "name": "Active",
                     "type": "CheckBox",
                     "caption": "active"
-                },
-                {
-                    "name": "CheckMode",
-                    "type": "Select",
-                    "caption": "Mode",
-                    "options": [
+                }, {
+                    "type": "RowLayout",
+                    "items": [
                         {
-                            "label": "OnUpdate",
-                            "value": 0
+                            "name": "CheckMode",
+                            "type": "Select",
+                            "caption": "Mode",
+                            "options": [
+                                {
+                                    "label": "OnUpdate",
+                                    "value": 0
+                                },
+                                {
+                                    "label": "OnChange",
+                                    "value": 1
+                                }
+                            ]
                         },
                         {
-                            "label": "OnChange",
-                            "value": 1
+                            "name": "Timer",
+                            "type": "IntervalBox",
+                            "caption": "seconds"
+                        },
+                        {
+                            "name": "StartUp",
+                            "type": "Select",
+                            "caption": "Delay after startup",
+                            "options": [
+                                {
+                                    "label": "none",
+                                    "value": 0
+                                },
+                                {
+                                    "label": "Interval",
+                                    "value": 1
+                                },
+                                {
+                                    "label": "until variable change",
+                                    "value": 2
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "name": "Timer",
-                    "type": "IntervalBox",
-                    "caption": "seconds"
-                },
-                {
-                    "name": "HasState",
-                    "type": "CheckBox",
-                    "caption": "Create statusvariable ''STATE'' ?"
-                },
-                {
-                    "name": "ScriptID",
-                    "type": "SelectScript",
-                    "caption": "Script"
-                },
-                {
-                    "name": "StartUp",
-                    "type": "Select",
-                    "caption": "Delay after startup",
-                    "options": [
+                }, {
+                    "type": "RowLayout",
+                    "items": [
                         {
-                            "label": "none",
-                            "value": 0
+                            "name": "HasState",
+                            "type": "CheckBox",
+                            "caption": "Create statusvariable ''STATE'' ?"
                         },
                         {
-                            "label": "Interval",
-                            "value": 1
+                            "name": "ScriptID",
+                            "type": "SelectScript",
+                            "caption": "Script"
                         },
                         {
-                            "label": "until variable change",
-                            "value": 2
+                            "name": "MultipleAlert",
+                            "type": "CheckBox",
+                            "caption": "multiple alerts"
                         }
                     ]
-                },
-                {
-                    "name": "MultipleAlert",
-                    "type": "CheckBox",
-                    "caption": "multiple alerts"
                 }
             ],
     "status":

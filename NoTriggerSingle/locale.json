@@ -18,7 +18,8 @@
             "Watchdog inactiv.": "Überwachung inaktiv.",
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
             "Variable must be set.": "Variable muß gesetzt sein.",
-            "Variable invalid.": "Variable darf nicht auf sich selbst zeigen."
+            "Variable invalid.": "Variable darf nicht auf sich selbst zeigen.",
+            "Script %d not exists!":"Script %d existiert nicht!"
         }
     }
 }
