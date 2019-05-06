@@ -30,7 +30,6 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  */
 class NoTriggerBase extends IPSModule
 {
-
     use \NoTrigger\BufferHelper,
         \NoTrigger\DebugHelper;
     /**
@@ -142,7 +141,6 @@ class NoTriggerBase extends IPSModule
         $this->RegisterMessage($VarId, VM_UPDATE);
         $this->RegisterReference($VarId);
     }
-
 }
 
 /** @} */

@@ -235,7 +235,6 @@ class NoTriggerSingle extends NoTriggerBase
             }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
         }
     }
-
 }
 
 /** @} */
