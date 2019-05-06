@@ -63,7 +63,6 @@ class TNoTriggerVar
         $this->LinkId = $LinkId;
         $this->Alert = $Alert;
     }
-
 }
 
 /**
@@ -156,7 +155,6 @@ class TNoTriggerVarList
         }
         return false;
     }
-
 }
 
 /**
@@ -235,7 +233,7 @@ class NoTriggerGroup extends NoTriggerBase
                     return;
                 }
                 $NoTriggerVar = $TriggerVarList->Get($Index);
-                if ($NoTriggerVar->Alert and ( ($Data[1] == true) or ( $this->ReadPropertyInteger('CheckMode') == 0))) {
+                if ($NoTriggerVar->Alert and (($Data[1] == true) or ($this->ReadPropertyInteger('CheckMode') == 0))) {
                     $TriggerVarList->Items[$Index]->Alert = false;
                     $this->NoTriggerVarList = $TriggerVarList;
                     $this->Alerts--;
@@ -251,7 +249,7 @@ class NoTriggerGroup extends NoTriggerBase
 
                 // Var das die aktive Var für den Timer ? Dann Timer neu berechnen
                 $ActiveVarID = $this->ActiveVarID;
-                if ((($SenderID == $ActiveVarID) or ( $ActiveVarID == 0)) and ( ($Data[1] === true) or ( $this->ReadPropertyInteger('CheckMode') == 0))) { //Update von Var welche gerade den Timer steuert
+                if ((($SenderID == $ActiveVarID) or ($ActiveVarID == 0)) and (($Data[1] === true) or ($this->ReadPropertyInteger('CheckMode') == 0))) { //Update von Var welche gerade den Timer steuert
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
                 break;
@@ -286,7 +284,7 @@ class NoTriggerGroup extends NoTriggerBase
                     return;
                 }
                 $ActiveVarID = $this->ActiveVarID;
-                if (($SenderID == $ActiveVarID) or ( $ActiveVarID == 0)) {
+                if (($SenderID == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
                 break;
@@ -342,14 +340,14 @@ class NoTriggerGroup extends NoTriggerBase
 
 
                 $ActiveVarID = $this->ActiveVarID;
-                if (($NoTriggerVar->VarId == $ActiveVarID) or ( $ActiveVarID == 0)) {
+                if (($NoTriggerVar->VarId == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();
                 }         // alte Var war aktiv oder gar keine
 
                 break;
             case OM_CHILDADDED:
                 $IPSObjekt = IPS_GetObject($Data[0]);
-                if (($SenderID != $this->InstanceID) or ( $IPSObjekt['ObjectType'] != OBJECTTYPE_LINK)) {
+                if (($SenderID != $this->InstanceID) or ($IPSObjekt['ObjectType'] != OBJECTTYPE_LINK)) {
                     return;
                 }
                 $TriggerVarList = $this->NoTriggerVarList;
@@ -413,7 +411,7 @@ class NoTriggerGroup extends NoTriggerBase
                     return;
                 }
                 $ActiveVarID = $this->ActiveVarID;
-                if (($NoTriggerVar->VarId == $ActiveVarID) or ( $ActiveVarID == 0)) {
+                if (($NoTriggerVar->VarId == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();         // neue Var für timer festlegen und timer starten
                 }
 
@@ -611,7 +609,6 @@ class NoTriggerGroup extends NoTriggerBase
             $this->RegisterLinkWatch($IPSVar->LinkId);
         }
     }
-
 }
 
 /** @} */
