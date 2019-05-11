@@ -21,21 +21,22 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * NoTrigger Basis-Klasse für die die Überwachung von Variablen auf fehlende Änderung/Aktualisierung.
  * Erweitert IPSModule.
  *
- * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.5
+ *
  * @example <b>Ohne</b>
  */
 class NoTriggerBase extends IPSModule
 {
     use \NoTrigger\BufferHelper,
         \NoTrigger\DebugHelper;
+
     /**
      * Setzt die Status-Variable.
      *
-     * @access protected
      * @param bool $NewState Der neue Wert der Statusvariable
      */
     protected function SetStateVar(bool $NewState)
@@ -51,14 +52,13 @@ class NoTriggerBase extends IPSModule
     /**
      * Startet das Alarm-Script.
      *
-     * @access protected
-     * @param int $IPSVarID Variable welche den Alarm ausgelöst hat.
+     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
      * @param bool $NewState Alarmstatus neu
      * @param bool $OldState Alarmstatus vorher
      */
     protected function DoScript(int $IPSVarID, bool $NewState, bool $OldState)
     {
-        if ($this->ReadPropertyInteger('ScriptID') <> 0) {
+        if ($this->ReadPropertyInteger('ScriptID') != 0) {
             if (IPS_ScriptExists($this->ReadPropertyInteger('ScriptID'))) {
                 IPS_RunScriptEx($this->ReadPropertyInteger('ScriptID'), [
                     'VALUE'    => $NewState,
@@ -77,7 +77,6 @@ class NoTriggerBase extends IPSModule
     /**
      * Deregistriert eine Überwachung eines Links.
      *
-     * @access protected
      * @param int $LinkId IPS-ID des Link.
      */
     protected function UnregisterLinkWatch(int $LinkId)
@@ -94,7 +93,6 @@ class NoTriggerBase extends IPSModule
     /**
      * Registriert eine Überwachung eines Links.
      *
-     * @access protected
      * @param int $LinkId IPS-ID des Link.
      */
     protected function RegisterLinkWatch(int $LinkId)
@@ -110,7 +108,6 @@ class NoTriggerBase extends IPSModule
     /**
      * Deregistriert eine Überwachung einer Variable.
      *
-     * @access protected
      * @param int $VarId IPS-ID der Variable.
      */
     protected function UnregisterVariableWatch($VarId)
@@ -128,7 +125,6 @@ class NoTriggerBase extends IPSModule
     /**
      * Registriert eine Überwachung einer Variable.
      *
-     * @access protected
      * @param int $VarId IPS-ID der Variable.
      */
     protected function RegisterVariableWatch(int $VarId)
@@ -143,4 +139,4 @@ class NoTriggerBase extends IPSModule
     }
 }
 
-/** @} */
+/* @} */

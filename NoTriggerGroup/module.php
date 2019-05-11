@@ -14,47 +14,49 @@ declare(strict_types=1);
  *
  */
 
-require_once(__DIR__ . '/../libs/NoTriggerBase.php');
+require_once __DIR__ . '/../libs/NoTriggerBase.php';
 
 /**
  * TNoTriggerVar ist eine Klasse welche die Daten einer überwachten Variable enthält.
  *
- * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.5
+ *
  * @example <b>Ohne</b>
  */
 class TNoTriggerVar
 {
     /**
      * IPS-ID der Variable.
+     *
      * @var int
-     * @access public
      */
     public $VarId = 0;
 
     /**
      * IPS-ID des Link.
+     *
      * @var int
-     * @access public
      */
     public $LinkId = 0;
 
     /**
      * True wenn Variable schon Alarm ausgelöst hat.
+     *
      * @var bool
-     * @access public
      */
     public $Alert = false;
 
     /**
      * Erzeugt ein neues Objekt aus TNoTriggerVar.
-     * @access public
-     * @param int $VarId IPS-ID der Variable.
+     *
+     * @param int $VarId  IPS-ID der Variable.
      * @param int $LinkId IPS-ID des Link.
-     * @param int $Alert Wert für Alert
+     * @param int $Alert  Wert für Alert
+     *
      * @return TNoTriggerVar Das erzeugte Objekt.
      */
     public function __construct(int $VarId, int $LinkId, bool $Alert)
@@ -68,25 +70,25 @@ class TNoTriggerVar
 /**
  * TNoTriggerVarList ist eine Klasse welche die Daten aller überwachten Variablen enthält.
  *
- * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.5
+ *
  * @example <b>Ohne</b>
  */
 class TNoTriggerVarList
 {
     /**
      * Array mit allen überwachten Variablen.
+     *
      * @var array
-     * @access public
      */
     public $Items = [];
 
     /**
      * Liefert die Daten welche behalten werden müssen.
-     * @access public
      */
     public function __sleep()
     {
@@ -95,7 +97,7 @@ class TNoTriggerVarList
 
     /**
      * Fügt einen Eintrag in $Items hinzu.
-     * @access public
+     *
      * @param TNoTriggerVar $NoTriggerVar Das hinzuzufügende Variablen-Objekt.
      */
     public function Add(TNoTriggerVar $NoTriggerVar)
@@ -105,7 +107,7 @@ class TNoTriggerVarList
 
     /**
      * Löscht einen Eintrag aus $Items.
-     * @access public
+     *
      * @param int $Index Der Index des zu löschenden Items.
      */
     public function Remove(int $Index)
@@ -115,8 +117,9 @@ class TNoTriggerVarList
 
     /**
      * Liefert einen bestimmten Eintrag aus den Items.
-     * @access public
+     *
      * @param int $Index
+     *
      * @return TNoTriggerVar
      */
     public function Get(int $Index)
@@ -126,8 +129,9 @@ class TNoTriggerVarList
 
     /**
      * Liefert den Index von dem Item mit der entsprechenden IPS-Variablen-ID.
-     * @access public
+     *
      * @param int $VarId Die zu suchende IPS-ID der Variable.
+     *
      * @return int Index des gefundenen Eintrags.
      */
     public function IndexOfVarID(int $VarId)
@@ -142,8 +146,9 @@ class TNoTriggerVarList
 
     /**
      * Liefert den Index von dem Item mit der entsprechenden IPS-Link-ID.
-     * @access public
+     *
      * @param int $LinkId Die zu suchende IPS-ID des Link.
+     *
      * @return int Index des gefundenen Eintrags.
      */
     public function IndexOfLinkID(int $LinkId)
@@ -161,11 +166,12 @@ class TNoTriggerVarList
  * NoTrigger Klasse für die die Überwachung von mehreren Variablen auf fehlende Änderung/Aktualisierung.
  * Erweitert NoTriggerBase.
  *
- * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.5
+ *
  * @example <b>Ohne</b>
  *
  * @property int $Alerts Anzahl der Alarme
@@ -176,8 +182,6 @@ class NoTriggerGroup extends NoTriggerBase
 {
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function Create()
     {
@@ -199,8 +203,6 @@ class NoTriggerGroup extends NoTriggerBase
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
@@ -338,7 +340,6 @@ class NoTriggerGroup extends NoTriggerBase
                 $this->NoTriggerVarList = $TriggerVarList;
                 $this->RegisterVariableWatch($Data[0]);
 
-
                 $ActiveVarID = $this->ActiveVarID;
                 if (($NoTriggerVar->VarId == $ActiveVarID) or ($ActiveVarID == 0)) {
                     $this->StartTimer();
@@ -421,8 +422,6 @@ class NoTriggerGroup extends NoTriggerBase
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function ApplyChanges()
     {
@@ -440,12 +439,12 @@ class NoTriggerGroup extends NoTriggerBase
         }
     }
 
-    ################## PRIVATE
+    //################# PRIVATE
+
     /**
-     * Prüft die Konfiguration
+     * Prüft die Konfiguration.
      *
-     * @access private
-     * @return  boolean True bei OK
+     * @return bool True bei OK
      */
     private function CheckConfig()
     {
@@ -477,9 +476,7 @@ class NoTriggerGroup extends NoTriggerBase
     }
 
     /**
-     * Startet den Timer bis zum Alarm
-     *
-     * @access private
+     * Startet den Timer bis zum Alarm.
      */
     private function StartTimer()
     {
@@ -521,7 +518,6 @@ class NoTriggerGroup extends NoTriggerBase
         }
         $this->NoTriggerVarList = $TriggerVarList;
 
-
         if ($this->ActiveVarID == 0) {
             $this->LogMessage($this->Translate('Keine Var mehr in Ruhe. Überwachung pausiert.'), KL_MESSAGE);
             $this->StopTimer();
@@ -533,9 +529,7 @@ class NoTriggerGroup extends NoTriggerBase
     }
 
     /**
-     * Stopt den Timer
-     *
-     * @access private
+     * Stopt den Timer.
      */
     private function StopTimer()
     {
@@ -544,8 +538,6 @@ class NoTriggerGroup extends NoTriggerBase
 
     /**
      * Timer abgelaufen Alarm wird erzeugt.
-     *
-     * @access public
      */
     public function TimerFire()
     {
@@ -574,8 +566,6 @@ class NoTriggerGroup extends NoTriggerBase
 
     /**
      * Liest alle zu Überwachenden Variablen ein.
-     *
-     * @access private
      */
     private function GetAllTargets()
     {
@@ -611,4 +601,4 @@ class NoTriggerGroup extends NoTriggerBase
     }
 }
 
-/** @} */
+/* @} */
