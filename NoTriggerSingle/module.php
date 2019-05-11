@@ -14,17 +14,18 @@ declare(strict_types=1);
  *
  */
 
-require_once(__DIR__ . '/../libs/NoTriggerBase.php');
+require_once __DIR__ . '/../libs/NoTriggerBase.php';
 
 /**
  * NoTrigger Klasse für die die Überwachung einer Variable auf fehlende Änderung/Aktualisierung.
  * Erweitert NoTriggerBase.
  *
- * @package       NoTrigger
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.5
+ *
  * @example <b>Ohne</b>
  *
  * @property int $State Letzer Zustand
@@ -34,8 +35,6 @@ class NoTriggerSingle extends NoTriggerBase
 {
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function Create()
     {
@@ -55,8 +54,6 @@ class NoTriggerSingle extends NoTriggerBase
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
@@ -106,8 +103,6 @@ class NoTriggerSingle extends NoTriggerBase
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function ApplyChanges()
     {
@@ -123,12 +118,12 @@ class NoTriggerSingle extends NoTriggerBase
         }
     }
 
-    ################## PRIVATE
+    //################# PRIVATE
+
     /**
-     * Prüft die Konfiguration
+     * Prüft die Konfiguration.
      *
-     * @access private
-     * @return  boolean True bei OK
+     * @return bool True bei OK
      */
     private function CheckConfig()
     {
@@ -163,9 +158,7 @@ class NoTriggerSingle extends NoTriggerBase
     }
 
     /**
-     * Startet den Timer bis zum Alarm
-     *
-     * @access private
+     * Startet den Timer bis zum Alarm.
      */
     private function StartTimer()
     {
@@ -205,9 +198,7 @@ class NoTriggerSingle extends NoTriggerBase
     }
 
     /**
-     * Stopt den Timer
-     *
-     * @access private
+     * Stopt den Timer.
      */
     private function StopTimer()
     {
@@ -216,8 +207,6 @@ class NoTriggerSingle extends NoTriggerBase
 
     /**
      * Timer abgelaufen Alarm wird erzeugt.
-     *
-     * @access public
      */
     public function TimerFire()
     {
@@ -237,4 +226,4 @@ class NoTriggerSingle extends NoTriggerBase
     }
 }
 
-/** @} */
+/* @} */
