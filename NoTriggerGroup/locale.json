@@ -14,7 +14,7 @@
             "until variable change": "bis Aktualisierung",
             "multiple alerts": "Mehrfachauslösung",
             "Watchdog active.": "Überwachung aktiv.",
-            "Watchdog inactiv.": "Überwachung inaktiv.",
+            "Watchdog inactive.": "Überwachung inaktiv.",
             "Invalid object in link.": "Ungültige Objekte in der Überwachung.",
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
             "No links found.": "Keine Links angelegt!",
