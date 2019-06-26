@@ -14,7 +14,7 @@ declare(strict_types=1);
  *
  */
 
-eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/Bufferhelper.php') . '}');
+eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/BufferHelper.php') . '}');
 eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/DebugHelper.php') . '}');
 
 /**
