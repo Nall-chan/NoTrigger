@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2019 Michael Tröger
+ * @copyright     2020 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.5
+ * @version       2.60
  *
  */
 
@@ -22,10 +22,10 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * Erweitert IPSModule.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2019 Michael Tröger
+ * @copyright     2020 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.5
+ * @version       2.60
  *
  * @example <b>Ohne</b>
  */
@@ -75,7 +75,7 @@ class NoTriggerBase extends IPSModule
     }
 
     /**
-     * Deregistriert eine Überwachung eines Links.
+     * Desregistriert eine Überwachung eines Links.
      *
      * @param int $LinkId IPS-ID des Link.
      */
@@ -106,7 +106,7 @@ class NoTriggerBase extends IPSModule
     }
 
     /**
-     * Deregistriert eine Überwachung einer Variable.
+     * Desregistriert eine Überwachung einer Variable.
      *
      * @param int $VarId IPS-ID der Variable.
      */

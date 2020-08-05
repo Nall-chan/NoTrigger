@@ -15,11 +15,11 @@
             "until variable change": "bis Aktualisierung",
             "multiple alerts": "Mehrfachauslösung",
             "Watchdog active.": "Überwachung aktiv.",
-            "Watchdog inactiv.": "Überwachung inaktiv.",
+            "Watchdog inactive.": "Überwachung inaktiv.",
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
             "Variable must be set.": "Variable muß gesetzt sein.",
             "Variable invalid.": "Variable darf nicht auf sich selbst zeigen.",
-            "Script %d not exists!":"Script %d existiert nicht!"
+            "Script %d not exists!": "Script %d existiert nicht!"
         }
     }
 }

@@ -1,105 +1,106 @@
 {
-    "elements":
-            [
+    "elements": [
+        {
+            "name": "Active",
+            "type": "CheckBox",
+            "caption": "active"
+        },
+        {
+            "type": "RowLayout",
+            "items": [
                 {
-                    "name": "Active",
-                    "type": "CheckBox",
-                    "caption": "active"
-                }, {
-                    "type": "RowLayout",
-                    "items": [
+                    "name": "CheckMode",
+                    "type": "Select",
+                    "caption": "Mode",
+                    "options": [
                         {
-                            "name": "CheckMode",
-                            "type": "Select",
-                            "caption": "Mode",
-                            "options": [
-                                {
-                                    "label": "OnUpdate",
-                                    "value": 0
-                                },
-                                {
-                                    "label": "OnChange",
-                                    "value": 1
-                                }
-                            ]
+                            "label": "OnUpdate",
+                            "value": 0
                         },
                         {
-                            "name": "Timer",
-                            "type": "IntervalBox",
-                            "caption": "seconds"
-                        },
-                        {
-                            "name": "StartUp",
-                            "type": "Select",
-                            "caption": "Delay after startup",
-                            "options": [
-                                {
-                                    "label": "none",
-                                    "value": 0
-                                },
-                                {
-                                    "label": "Interval",
-                                    "value": 1
-                                },
-                                {
-                                    "label": "until variable change",
-                                    "value": 2
-                                }
-                            ]
+                            "label": "OnChange",
+                            "value": 1
                         }
                     ]
-                }, {
-                    "type": "RowLayout",
-                    "items": [
+                },
+                {
+                    "name": "Timer",
+                    "type": "NumberSpinner",
+                    "caption":"Interval",
+                    "prefix": "seconds"
+                },
+                {
+                    "name": "StartUp",
+                    "type": "Select",
+                    "caption": "Delay after startup",
+                    "options": [
                         {
-                            "name": "HasState",
-                            "type": "CheckBox",
-                            "caption": "Create statusvariable ''STATE'' ?"
+                            "label": "none",
+                            "value": 0
                         },
                         {
-                            "name": "ScriptID",
-                            "type": "SelectScript",
-                            "caption": "Script"
+                            "label": "Interval",
+                            "value": 1
                         },
                         {
-                            "name": "MultipleAlert",
-                            "type": "CheckBox",
-                            "caption": "multiple alerts"
+                            "label": "until variable change",
+                            "value": 2
                         }
                     ]
-                }
-            ],
-    "status":
-            [
-                {
-                    "code": 102,
-                    "icon": "active",
-                    "caption": "Watchdog active."
-                },
-                {
-                    "code": 104,
-                    "icon": "inactive",
-                    "caption": "Watchdog inactive."
-                },
-                {
-                    "code": 105,
-                    "icon": "active",
-                    "caption": "Invalid object in link."
-                },
-                {
-                    "code": 202,
-                    "icon": "error",
-                    "caption": "Timer to small."
-                },
-                {
-                    "code": 203,
-                    "icon": "error",
-                    "caption": "No links found."
-                },
-                {
-                    "code": 204,
-                    "icon": "error",
-                    "caption": "StateVariable in link."
                 }
             ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "name": "HasState",
+                    "type": "CheckBox",
+                    "caption": "Create statusvariable ''STATE'' ?"
+                },
+                {
+                    "name": "ScriptID",
+                    "type": "SelectScript",
+                    "caption": "Script"
+                },
+                {
+                    "name": "MultipleAlert",
+                    "type": "CheckBox",
+                    "caption": "multiple alerts"
+                }
+            ]
+        }
+    ],
+    "status": [
+        {
+            "code": 102,
+            "icon": "active",
+            "caption": "Watchdog active."
+        },
+        {
+            "code": 104,
+            "icon": "inactive",
+            "caption": "Watchdog inactive."
+        },
+        {
+            "code": 105,
+            "icon": "active",
+            "caption": "Invalid object in link."
+        },
+        {
+            "code": 202,
+            "icon": "error",
+            "caption": "Timer to small."
+        },
+        {
+            "code": 203,
+            "icon": "error",
+            "caption": "No links found."
+        },
+        {
+            "code": 204,
+            "icon": "error",
+            "caption": "StateVariable in link."
+        }
+    ]
 }

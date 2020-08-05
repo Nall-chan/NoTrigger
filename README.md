@@ -1,24 +1,24 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.5-blue.svg)]()
+[![Version](https://img.shields.io/badge/Modul%20Version-2.60-blue.svg)]()
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
-[![StyleCI](https://styleci.io/repos/45338150/shield?style=flat)](https://styleci.io/repos/45338150)  
+[![Check Style](https://github.com/Nall-chan/NoTrigger/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions) [![Run Tests](https://github.com/Nall-chan/NoTrigger/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions)  
 
-# Symcon-Modul: Variablenüberwachung  
-## Dokumentation
+# Symcon-Modul: Variablenüberwachung (NoTrigger)  
+## Dokumentation <!-- omit in toc -->
 
 **Inhaltsverzeichnis**
 
-1. [Funktionsumfang](#1-funktionsumfang) 
-2. [Voraussetzungen](#2-voraussetzungen)
-3. [Installation](#3-installation)
-4. [Variablenüberwachung (single)](#4-variablen%C3%BCberwachung-single)
-5. [Variablenüberwachung (group)](#5-variablen%C3%BCberwachung-group)
-6. [Variablen im Ziel-Script](#6-variablen-im-ziel-script)
-7. [Parameter / Modul-Infos](#7-parameter--modul-infos)
-8. [Anhang](#8-anhang)
-9. [Spenden](#9-spenden)
-10. [Lizenz](#10-lizenz)
+- [1. Funktionsumfang](#1-funktionsumfang)
+- [2. Voraussetzungen](#2-voraussetzungen)
+- [3. Installation](#3-installation)
+- [4. Variablenüberwachung (single)](#4-variablenüberwachung-single)
+- [5. Variablenüberwachung (group)](#5-variablenüberwachung-group)
+- [6. Variablen im Ziel-Script](#6-variablen-im-ziel-script)
+- [7. Parameter / Modul-Infos](#7-parameter--modul-infos)
+- [8. Anhang](#8-anhang)
+- [9. Spenden](#9-spenden)
+- [10. Lizenz](#10-lizenz)
 
 ## 1. Funktionsumfang
 
@@ -93,7 +93,7 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
     Grundsätzlich wird immer ein Alarm ausgelöst, wenn die letzte Änderung/Aktualisierung der zu überwachenden Variable länger her ist als der eingestellte Intervall. Dies kann bei einem Dienst-Neustart zu falschen Meldungen führen.  
     Beispiele wo keine Verzögerung nötig ist sind z.B. Geräte welche sich nur einmal pro Woche / Monat etc. melden sollten, da es hier sehr unwahrscheinlich ist das ein Neustart genau in diesen Zeitpunkt fällt wo sich die Variable ändern sollte. Hier ist es sogar ungünstig mit einer Verzögerung zu arbeiten, weil dann vielleicht erst nach 10 statt 5 Tagen auffällt dass der Rauchmelder schon lange nicht mehr sendet.  
 
-    Bei z.B. 1-Wire/Modbus Geräten und anderen Instanzen welche IPS mit einem internen Timer ausließt, sollte die Verzögerung auf Intervall stehen. Somit hat IPS beim starten erst mal Zeit die Geräte abzufragen bzw. die Daten zu lesen, bevor es zu einen Alarm kommt.  
+    Bei z.B. 1-Wire/ModBus Geräten und anderen Instanzen welche IPS mit einem internen Timer ausließt, sollte die Verzögerung auf Intervall stehen. Somit hat IPS beim starten erst mal Zeit die Geräte abzufragen bzw. die Daten zu lesen, bevor es zu einen Alarm kommt.  
     (IPS-Neustart 30 Sekunden, letzter Wert vor Neustart ist 0sek, Intervall ist 5 Sekunden. => Startet IPS, gibt es ohne eingestellter Verzögerung gleich einen Alarm, da der letzte Wert vor über 30 Sekunden gelesen wurde und somit größer als der eingestellte Intervall von 5 Sekunden ist.)  
     Die Verzögerung 'bis Aktualisierung' sollte für Geräte genutzt werden, wo man nicht genau weiß wann Sie nach einen Neustart wieder mit IPS kommunizieren. Die Überwachung und somit die Intervall-Zeit beginnt erst, wenn die Variable geändert/aktualisiert wurde.  
     Dies birgt aber auch ein Risiko: Sollte nach dem Neustart die Variable nie geändert/aktualisiert werden, wird auch nie ein Alarm erzeugt.  
@@ -118,13 +118,13 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
  Folgende Felder im Array der PHP-Variable $_IPS stehen im Ziel-Script zur Verfügung:  
 
-| Index    | Typ     | Beschreibung                                             |
-| :-------:|:------: | :------------------------------------------------------: |
-| VALUE    | boolean | Aktueller Status wobei True = Alarm und False = Ruhe ist |
-| OLDVALUE | boolean | vorheriger Wert                                          |
-| EVENT    | integer | Instanz ID der auslösenden Variablenüberwachung          |
-| VARIABLE | integer | ID der Variable welche die Auslösung verursacht hat      |
-| SENDER   | string  | 'NoTrigger' FixString                                    |
+|  Index   |   Typ   |                       Beschreibung                       |
+| :------: | :-----: | :------------------------------------------------------: |
+|  VALUE   | boolean | Aktueller Status wobei True = Alarm und False = Ruhe ist |
+| OLDVALUE | boolean |                     vorheriger Wert                      |
+|  EVENT   | integer |     Instanz ID der auslösenden Variablenüberwachung      |
+| VARIABLE | integer |   ID der Variable welche die Auslösung verursacht hat    |
+|  SENDER  | string  |                  'NoTrigger' FixString                   |
 
  Das Ziel-Script sollte immer den Wert 'VALUE' abfragen, damit unterschieden werden kann ob es sich um eine Alarm-Meldung oder Ruhe-Meldung handelt:  
 
@@ -142,45 +142,49 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 
 ## 7. Parameter / Modul-Infos
 
-**GUIDs der Instanzen (z.B. wenn Instanz per PHP angelegt werden soll):**  
+**GUID der Instanzen (z.B. wenn Instanz per PHP angelegt werden soll):**  
 
-| Instanz                       | GUID                                   |
+|            Instanz            |                  GUID                  |
 | :---------------------------: | :------------------------------------: |
 | Variablenüberwachung (Single) | {BACCE313-C8F2-4189-B128-74A6888DAD21} |
 | Variablenüberwachung (Group)  | {28198BA1-3563-4C85-81AE-8176B53589B8} |
 
 **Eigenschaften von Variablenüberwachung (Single):**  
 
-| Eigenschaft   | Typ     | Standardwert | Funktion                                                                  |
+|  Eigenschaft  |   Typ   | Standardwert |                                 Funktion                                  |
 | :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
-| Active        | boolean | false        | Aktivieren / Deaktivieren der Überwachung                                 |
-| VarID         | integer | 0            | Variable welche überwacht werden soll                                     |
-| CheckMode     | integer | 0            | Überwachung auf Aktualisierung (0) oder Änderung (1)                      |
-| Intervall     | integer | 0            | Zeit in Sek bis zum Auslösen eines Alarm                                  |
-| HasState      | boolean | true         | Variable 'STATE' anlegen                                                  |
-| ScriptID      | integer | 0            | Ziel-Script                                                               |
-| StartUp       | integer | 0            | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
-| MultipleAlert | boolean | false        | Mehrfachauslösung                                                         |
+|    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
+|     VarID     | integer |      0       |                   Variable welche überwacht werden soll                   |
+|   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
+|   Intervall   | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
+|   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
+|   ScriptID    | integer |      0       |                                Ziel-Script                                |
+|    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
+| MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
 
 **Eigenschaften von Variablenüberwachung (Group):**  
 
-| Eigenschaft   | Typ     | Standardwert | Funktion                                                                  |
+|  Eigenschaft  |   Typ   | Standardwert |                                 Funktion                                  |
 | :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
-| Active        | boolean | false        | Aktivieren / Deaktivieren der Überwachung                                 |
-| CheckMode     | integer | 0            | Überwachung auf Aktualisierung (0) oder Änderung (1)                      |
-| Intervall     | integer | 0            | Zeit in Sek bis zum Auslösen eines Alarm                                  |
-| HasState      | boolean | true         | Variable 'STATE' anlegen                                                  |
-| ScriptID      | integer | 0            | Ziel-Script                                                               |
-| StartUp       | integer | 0            | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
-| MultipleAlert | boolean | false        | Mehrfachauslösung                                                         |
+|    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
+|   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
+|   Intervall   | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
+|   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
+|   ScriptID    | integer |      0       |                                Ziel-Script                                |
+|    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
+| MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
 
 
 ## 8. Anhang
 
- Idee von MCS-51 mit dem IPSLibary-Modul IPS-Health welche nie offiziell Verbreitet wurde.  
+ Idee von MCS-51 mit dem IPSLibrary-Modul IPS-Health welche nie offiziell Verbreitet wurde.  
  Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1  
 
-**Changlog:**  
+**Changelog:**  
+
+Version 2.6:  
+ - Schreibfehler korrigiert.  
+ - Fehlende Übersetzungen ergänzt.  
 
 Version 2.5:  
  - Release für IPS 5.1 und den Module-Store   
@@ -202,7 +206,7 @@ Version 1.0.0.7:
 
 ## 9. Spenden  
   
-  Die Library ist für die nicht kommzerielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
+  Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>
 

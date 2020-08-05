@@ -19,7 +19,7 @@
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
             "No links found.": "Keine Links angelegt!",
             "StateVariable in link.": "Link auf eigene Status Variable!",
-            "All variable alams have fired. Monitoring paused.": "Keine Var mehr in Ruhe. Überwachung pausiert.",
+            "All alarms have fired. Monitoring paused.": "Keine Var mehr in Ruhe. Überwachung pausiert.",
             "Script %d not exists!": "Script %d existiert nicht!"
         }
     }

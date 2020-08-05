@@ -3,9 +3,12 @@
     "name": "NoTriggerGroup",
     "type": 3,
     "vendor": "",
-    "aliases": ["Variablenüberwachung (Group)"],
+    "aliases": [
+        "Variablenüberwachung (Group)"
+    ],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
-    "prefix": "NT"
+    "prefix": "NT",
+    "url": "https://github.com/Nall-chan/NoTrigger"
 }

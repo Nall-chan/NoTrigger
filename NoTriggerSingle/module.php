@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2019 Michael Tröger
+ * @copyright     2020 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.5
+ * @version       2.60
  *
  */
 
@@ -21,14 +21,14 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * Erweitert NoTriggerBase.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2019 Michael Tröger
+ * @copyright     2020 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.5
+ * @version       2.60
  *
  * @example <b>Ohne</b>
  *
- * @property int $State Letzer Zustand
+ * @property bool $State Letzter Zustand
  * @property int $VarId ID der überwachten Variable
  */
 class NoTriggerSingle extends NoTriggerBase
@@ -58,24 +58,20 @@ class NoTriggerSingle extends NoTriggerBase
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
         switch ($Message) {
-            case IPS_KERNELMESSAGE:
-                switch ($Data[0]) {
-                    case KR_READY:
-                        switch ($this->ReadPropertyInteger('StartUp')) {
-                            case 0:
-                                if ($this->CheckConfig()) {
-                                    $this->StartTimer();
-                                }
-                                break;
-                            case 1:
-                                if ($this->CheckConfig()) {
-                                    $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
-                                }
-                                break;
+            case IPS_KERNELSTARTED:
+                switch ($this->ReadPropertyInteger('StartUp')) {
+                    case 0:
+                        if ($this->CheckConfig()) {
+                            $this->StartTimer();
                         }
-                        $this->UnregisterMessage(0, IPS_KERNELMESSAGE);
+                        break;
+                    case 1:
+                        if ($this->CheckConfig()) {
+                            $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+                        }
                         break;
                 }
+                $this->UnregisterMessage(0, IPS_KERNELSTARTED);
                 break;
             case VM_UPDATE:
                 if ($SenderID != $this->ReadPropertyInteger('VarID')) {
@@ -106,7 +102,7 @@ class NoTriggerSingle extends NoTriggerBase
      */
     public function ApplyChanges()
     {
-        $this->RegisterMessage(0, IPS_KERNELMESSAGE);
+        $this->RegisterMessage(0, IPS_KERNELSTARTED);
         parent::ApplyChanges();
 
         $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, $this->ReadPropertyBoolean('HasState'));
@@ -115,6 +111,26 @@ class NoTriggerSingle extends NoTriggerBase
         }
         if ($this->CheckConfig()) {
             $this->StartTimer();
+        }
+    }
+
+    /**
+     * Timer abgelaufen Alarm wird erzeugt.
+     */
+    public function TimerFire()
+    {
+        if (IPS_GetKernelRunlevel() == KR_READY) {
+            $this->SetStateVar(true);
+
+            $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
+            $this->State = true;
+
+            if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
+                $this->StopTimer();
+            }  //kein Mehrfachalarm -> Timer aus
+            else {
+                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
+            }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
         }
     }
 
@@ -203,26 +219,6 @@ class NoTriggerSingle extends NoTriggerBase
     private function StopTimer()
     {
         $this->SetTimerInterval('NoTrigger', 0);
-    }
-
-    /**
-     * Timer abgelaufen Alarm wird erzeugt.
-     */
-    public function TimerFire()
-    {
-        if (IPS_GetKernelRunlevel() == KR_READY) {
-            $this->SetStateVar(true);
-
-            $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
-            $this->State = true;
-
-            if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
-                $this->StopTimer();
-            }  //kein Mehrfachalarm -> Timer aus
-            else {
-                $this->SetTimerInterval('NoTrigger', $this->ReadPropertyInteger('Timer') * 1000);
-            }  // neuer Timer mit max. Zeit, ohne now zu berücksichtigen.
-        }
     }
 }
 

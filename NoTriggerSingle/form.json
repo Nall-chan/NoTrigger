@@ -1,97 +1,96 @@
 {
-    "elements":
-            [
+    "elements": [
+        {
+            "name": "Active",
+            "type": "CheckBox",
+            "caption": "active"
+        },
+        {
+            "name": "VarID",
+            "type": "SelectVariable",
+            "caption": "Variable"
+        },
+        {
+            "name": "CheckMode",
+            "type": "Select",
+            "caption": "Mode",
+            "options": [
                 {
-                    "name": "Active",
-                    "type": "CheckBox",
-                    "caption": "active"
+                    "label": "OnUpdate",
+                    "value": 0
                 },
                 {
-                    "name": "VarID",
-                    "type": "SelectVariable",
-                    "caption": "Variable"
-                },
-                {
-                    "name": "CheckMode",
-                    "type": "Select",
-                    "caption": "Mode",
-                    "options": [
-                        {
-                            "label": "OnUpdate",
-                            "value": 0
-                        },
-                        {
-                            "label": "OnChange",
-                            "value": 1
-                        }
-                    ]
-                },
-                {
-                    "name": "Timer",
-                    "type": "IntervalBox",
-                    "caption": "seconds"
-                },
-                {
-                    "name": "HasState",
-                    "type": "CheckBox",
-                    "caption": "Create statusvariable ''STATE'' ?"
-                },
-                {
-                    "name": "ScriptID",
-                    "type": "SelectScript",
-                    "caption": "Script"
-                },
-                {
-                    "name": "StartUp",
-                    "type": "Select",
-                    "caption": "Delay after startup",
-                    "options": [
-                        {
-                            "label": "none",
-                            "value": 0
-                        },
-                        {
-                            "label": "Interval",
-                            "value": 1
-                        },
-                        {
-                            "label": "until variable change",
-                            "value": 2
-                        }
-                    ]
-                },
-                {
-                    "name": "MultipleAlert",
-                    "type": "CheckBox",
-                    "caption": "multiple alerts"
-                }
-            ],
-    "status":
-            [
-                {
-                    "code": 102,
-                    "icon": "active",
-                    "caption": "Watchdog active."
-                },
-                {
-                    "code": 104,
-                    "icon": "inactive",
-                    "caption": "Watchdog inactiv."
-                },
-                {
-                    "code": 202,
-                    "icon": "error",
-                    "caption": "Timer to small."
-                },
-                {
-                    "code": 203,
-                    "icon": "error",
-                    "caption": "Variable must be set."
-                },
-                {
-                    "code": 204,
-                    "icon": "error",
-                    "caption": "Variable invalid"
+                    "label": "OnChange",
+                    "value": 1
                 }
             ]
+        },
+        {
+            "name": "Timer",
+            "type": "NumberSpinner",
+            "caption": "Interval",
+            "prefix": "seconds"
+        },
+        {
+            "name": "HasState",
+            "type": "CheckBox",
+            "caption": "Create statusvariable ''STATE'' ?"
+        },
+        {
+            "name": "ScriptID",
+            "type": "SelectScript",
+            "caption": "Script"
+        },
+        {
+            "name": "StartUp",
+            "type": "Select",
+            "caption": "Delay after startup",
+            "options": [
+                {
+                    "label": "none",
+                    "value": 0
+                },
+                {
+                    "label": "Interval",
+                    "value": 1
+                },
+                {
+                    "label": "until variable change",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "name": "MultipleAlert",
+            "type": "CheckBox",
+            "caption": "multiple alerts"
+        }
+    ],
+    "status": [
+        {
+            "code": 102,
+            "icon": "active",
+            "caption": "Watchdog active."
+        },
+        {
+            "code": 104,
+            "icon": "inactive",
+            "caption": "Watchdog inactive."
+        },
+        {
+            "code": 202,
+            "icon": "error",
+            "caption": "Timer to small."
+        },
+        {
+            "code": 203,
+            "icon": "error",
+            "caption": "Variable must be set."
+        },
+        {
+            "code": 204,
+            "icon": "error",
+            "caption": "Variable invalid"
+        }
+    ]
 }

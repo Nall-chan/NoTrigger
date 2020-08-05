@@ -2,11 +2,11 @@
     "id": "{A0969803-3F8E-4E29-9613-DA4E1B63D878}",
     "author": "Michael Tr\u00f6ger",
     "name": "NoTrigger Library",
-    "url": "https://github.com/Nall-chan/IPSMS35/IPSNoTrigger",
+    "url": "https://github.com/Nall-chan/NoTrigger",
     "compatibility": {
         "version": "5.1"
     },
-    "version": "2.5",
-    "build": 130,
-    "date": 1556987178 
+    "version": "2.6",
+    "build": 260,
+    "date": 1596646255
 }
