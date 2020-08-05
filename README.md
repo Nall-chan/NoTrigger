@@ -59,9 +59,8 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
  
 ## 3. Installation
 
-**IPS 5.1:**  
-   Bei privater Nutzung:
-     Über den 'Module-Store' in IPS.  
+ Über den 'Module-Store' in IPS das Modul 'Variablenüberwachung' hinzufügen.  
+
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
 
 ## 4. Variablenüberwachung (single)
