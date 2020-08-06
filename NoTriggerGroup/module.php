@@ -277,7 +277,7 @@ class NoTriggerGroup extends NoTriggerBase
                 $this->NoTriggerVarList = $TriggerVarList;
                 if (count($TriggerVarList->Items) == 0) {
                     $this->ActiveVarID = 0;
-                    $this->SetStatus(203);
+                    $this->SetStatus(IS_EBASE + 3);
                     $this->StopTimer();
                     return;
                 }
@@ -311,7 +311,7 @@ class NoTriggerGroup extends NoTriggerBase
                 // Prüfen ob Ziel eigener State ist
                 if ($this->ReadPropertyBoolean('HasState')) {
                     if ($this->GetIDForIdent('STATE') == $Data[0]) {
-                        $this->SetStatus(204); //State ist in den Links
+                        $this->SetStatus(IS_EBASE + 4); //State ist in den Links
                         $this->StopTimer();
                         return;
                     }
@@ -326,7 +326,7 @@ class NoTriggerGroup extends NoTriggerBase
                     if (count($TriggerVarList->Items) == 0) {
                         $this->NoTriggerVarList = $TriggerVarList;
                         $this->ActiveVarID = 0;
-                        $this->SetStatus(203);
+                        $this->SetStatus(IS_EBASE + 3);
                         $this->StopTimer();
                         return;
                     }
@@ -357,7 +357,7 @@ class NoTriggerGroup extends NoTriggerBase
                 $Link = IPS_GetLink($Data[0]);
                 if ($this->ReadPropertyBoolean('HasState')) {
                     if ($this->GetIDForIdent('STATE') == $Link['TargetID']) {
-                        $this->SetStatus(204); //State ist in den Links
+                        $this->SetStatus(IS_EBASE + 4); //State ist in den Links
                         $this->StopTimer();
                         return;
                     }
@@ -403,7 +403,7 @@ class NoTriggerGroup extends NoTriggerBase
                 $this->NoTriggerVarList = $TriggerVarList;
                 if (count($TriggerVarList->Items) == 0) {
                     $this->ActiveVarID = 0;
-                    $this->SetStatus(203);
+                    $this->SetStatus(IS_EBASE + 3);
                     $this->StopTimer();
                     return;
                 }
@@ -475,16 +475,16 @@ class NoTriggerGroup extends NoTriggerBase
         $temp = true;
         if ($this->ReadPropertyBoolean('Active') == true) {
             if ($this->ReadPropertyInteger('Timer') < 1) {
-                $this->SetStatus(202); //Error Timer is Zero
+                $this->SetStatus(IS_EBASE + 2); //Error Timer is Zero
                 $temp = false;
             }
             if (count($this->NoTriggerVarList->Items) == 0) {
-                $this->SetStatus(203); // kein Children
+                $this->SetStatus(IS_EBASE + 3); // kein Children
                 $temp = false;
             } else {
                 if ($this->ReadPropertyBoolean('HasState')) {
                     if ($this->NoTriggerVarList->IndexOfVarID($this->GetIDForIdent('STATE'))) {
-                        $this->SetStatus(204); //State ist in den Links
+                        $this->SetStatus(IS_EBASE + 4); //State ist in den Links
                         $temp = false;
                     }
                 }

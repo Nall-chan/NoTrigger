@@ -148,16 +148,16 @@ class NoTriggerSingle extends NoTriggerBase
         $temp = true;
         if ($this->ReadPropertyBoolean('Active') == true) {
             if ($this->ReadPropertyInteger('Timer') < 1) {
-                $this->SetStatus(202); //Error Timer is Zero
+                $this->SetStatus(IS_EBASE + 2); //Error Timer is Zero
                 $temp = false;
             }
             if ($this->ReadPropertyInteger('VarID') == 0) {
-                $this->SetStatus(203); //VarID is Zero
+                $this->SetStatus(IS_EBASE + 3); //VarID is Zero
                 $temp = false;
             }
             if ($this->ReadPropertyBoolean('HasState')) {
                 if ($this->ReadPropertyInteger('VarID') == $this->GetIDForIdent('STATE')) {
-                    $this->SetStatus(204); //VarID is Self
+                    $this->SetStatus(IS_EBASE + 4); //VarID is Self
                     $temp = false;
                 }
             }
