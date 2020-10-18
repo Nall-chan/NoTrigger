@@ -421,13 +421,13 @@ class NoTriggerGroup extends NoTriggerBase
      */
     public function ApplyChanges()
     {
-        $this->RegisterMessage(0, IPS_KERNELSTARTED);
         $this->RegisterMessage($this->InstanceID, OM_CHILDADDED);
         $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
         parent::ApplyChanges();
 
         $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, $this->ReadPropertyBoolean('HasState'));
         if (IPS_GetKernelRunlevel() != KR_READY) {
+            $this->RegisterMessage(0, IPS_KERNELSTARTED);
             return;
         }
         if ($this->CheckConfig()) {

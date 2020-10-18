@@ -1,11 +1,11 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.60-blue.svg)]()
+[![Version](https://img.shields.io/badge/Modul%20Version-2.61-blue.svg)]()
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
 [![Check Style](https://github.com/Nall-chan/NoTrigger/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions) [![Run Tests](https://github.com/Nall-chan/NoTrigger/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions)  
 
-# Symcon-Modul: Variablenüberwachung (NoTrigger)  
-## Dokumentation <!-- omit in toc -->
+# Symcon-Modul: Variablenüberwachung (NoTrigger) <!-- omit in toc -->  
+## Dokumentation <!-- omit in toc -->  
 
 **Inhaltsverzeichnis**
 
@@ -180,6 +180,9 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
  Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1  
 
 **Changelog:**  
+
+Version 2.61:  
+ - Fehlermeldung beim IPS Shutdown.  
 
 Version 2.6:  
  - Schreibfehler korrigiert.  
