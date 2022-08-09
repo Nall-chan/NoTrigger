@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2020 Michael Tröger
+ * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.60
+ * @version       2.70
  *
  */
 
@@ -21,10 +21,10 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * Erweitert NoTriggerBase.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2020 Michael Tröger
+ * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.60
+ * @version       2.70
  *
  * @example <b>Ohne</b>
  *
@@ -41,12 +41,13 @@ class NoTriggerSingle extends NoTriggerBase
         parent::Create();
         $this->RegisterPropertyBoolean('Active', false);
         $this->RegisterPropertyBoolean('MultipleAlert', false);
-        $this->RegisterPropertyInteger('VarID', 0);
+        $this->RegisterPropertyInteger('VarID', 1);
+        $this->RegisterPropertyInteger('ScriptID', 1);
         $this->RegisterPropertyInteger('Timer', 0);
-        $this->RegisterPropertyInteger('ScriptID', 0);
         $this->RegisterPropertyBoolean('HasState', true);
         $this->RegisterPropertyInteger('StartUp', 0);
         $this->RegisterPropertyInteger('CheckMode', 0);
+        $this->RegisterPropertyString('Actions', json_encode([]));
         $this->RegisterTimer('NoTrigger', 0, 'NT_TimerFire($_IPS["TARGET"]); ');
         $this->State = false;
         $this->VarId = 0;
@@ -109,6 +110,9 @@ class NoTriggerSingle extends NoTriggerBase
             $this->RegisterMessage(0, IPS_KERNELSTARTED);
             return;
         }
+        if ($this->ConfigHasUpgraded()) {
+            return;
+        }
         if ($this->CheckConfig()) {
             $this->StartTimer();
         }
@@ -121,8 +125,7 @@ class NoTriggerSingle extends NoTriggerBase
     {
         if (IPS_GetKernelRunlevel() == KR_READY) {
             $this->SetStateVar(true);
-
-            $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
+            $this->DoAction($this->ReadPropertyInteger('VarID'), true, $this->State);
             $this->State = true;
 
             if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
@@ -135,7 +138,6 @@ class NoTriggerSingle extends NoTriggerBase
     }
 
     //################# PRIVATE
-
     /**
      * Prüft die Konfiguration.
      *
@@ -194,7 +196,7 @@ class NoTriggerSingle extends NoTriggerBase
         $DiffTime = $TargetTime - $NowTime;
         if ($TargetTime < $NowTime) {
             $this->SetStateVar(true);
-            $this->DoScript($this->ReadPropertyInteger('VarID'), true, $this->State);
+            $this->DoAction($this->ReadPropertyInteger('VarID'), true, $this->State);
             $this->State = true;
             if ($this->ReadPropertyBoolean('MultipleAlert') == false) {
                 $this->StopTimer();
@@ -205,7 +207,7 @@ class NoTriggerSingle extends NoTriggerBase
         } else {
             $this->SetStateVar(false);
             if ($this->State) {
-                $this->DoScript($this->ReadPropertyInteger('VarID'), false, $this->State);
+                $this->DoAction($this->ReadPropertyInteger('VarID'), false, $this->State);
                 $this->State = false;
             }
 

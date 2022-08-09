@@ -3,7 +3,36 @@
         {
             "name": "Active",
             "type": "CheckBox",
-            "caption": "active"
+            "caption": "active",
+            "width": "350px"
+        },
+        {
+            "type": "ExpansionPanel",
+            "caption": "Variables",
+            "items": [
+                {
+                    "type": "List",
+                    "name": "Variables",
+                    "rowCount": 9,
+                    "add": true,
+                    "delete": true,
+                    "sort": {
+                        "column": "VariableID",
+                        "direction": "ascending"
+                    },
+                    "columns": [
+                        {
+                            "name": "VariableID",
+                            "caption": "Variable",
+                            "add": 1,
+                            "width": "auto",
+                            "edit": {
+                                "type": "SelectVariable"
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         {
             "type": "RowLayout",
@@ -21,32 +50,13 @@
                             "label": "OnChange",
                             "value": 1
                         }
-                    ]
+                    ],
+                    "width": "350px"
                 },
                 {
-                    "name": "Timer",
-                    "type": "NumberSpinner",
-                    "caption":"Interval",
-                    "prefix": "seconds"
-                },
-                {
-                    "name": "StartUp",
-                    "type": "Select",
-                    "caption": "Delay after startup",
-                    "options": [
-                        {
-                            "label": "none",
-                            "value": 0
-                        },
-                        {
-                            "label": "Interval",
-                            "value": 1
-                        },
-                        {
-                            "label": "until variable change",
-                            "value": 2
-                        }
-                    ]
+                    "name": "HasState",
+                    "type": "CheckBox",
+                    "caption": "Create statusvariable ''STATE'' ?"
                 }
             ]
         },
@@ -54,19 +64,88 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "name": "HasState",
-                    "type": "CheckBox",
-                    "caption": "Create statusvariable ''STATE'' ?"
-                },
-                {
-                    "name": "ScriptID",
-                    "type": "SelectScript",
-                    "caption": "Script"
+                    "name": "Timer",
+                    "type": "NumberSpinner",
+                    "caption": "Interval",
+                    "minimum":0,
+                    "prefix": "seconds",
+                    "width": "350px"
                 },
                 {
                     "name": "MultipleAlert",
                     "type": "CheckBox",
                     "caption": "multiple alerts"
+                }
+            ]
+        },
+        {
+            "name": "StartUp",
+            "type": "Select",
+            "caption": "Delay after startup",
+            "options": [
+                {
+                    "label": "none",
+                    "value": 0
+                },
+                {
+                    "label": "Interval",
+                    "value": 1
+                },
+                {
+                    "label": "until variable change",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "type": "ExpansionPanel",
+            "caption": "Custom actions",
+            "items": [
+                {
+                    "type": "List",
+                    "name": "Actions",
+                    "caption": "Actions for events",
+                    "rowCount": 9,
+                    "add": true,
+                    "delete": true,
+                    "sort": {
+                        "column": "event",
+                        "direction": "ascending"
+                    },
+                    "columns": [
+                        {
+                            "name": "event",
+                            "caption": "Event",
+                            "width": "100px",
+                            "add": 0,
+                            "edit": {
+                                "type": "Select",
+                                "options": [
+                                    {
+                                        "value": -1,
+                                        "caption": "Always"
+                                    },
+                                    {
+                                        "value": 0,
+                                        "caption": "On reset"
+                                    },
+                                    {
+                                        "value": 1,
+                                        "caption": "On alarm"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "action",
+                            "caption": "Action",
+                            "width": "auto",
+                            "add": "",
+                            "edit": {
+                                "type": "SelectAction"
+                            }
+                        }
+                    ]
                 }
             ]
         }

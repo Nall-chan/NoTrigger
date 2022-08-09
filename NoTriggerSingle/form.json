@@ -1,45 +1,64 @@
 {
     "elements": [
         {
-            "name": "Active",
-            "type": "CheckBox",
-            "caption": "active"
-        },
-        {
-            "name": "VarID",
-            "type": "SelectVariable",
-            "caption": "Variable"
-        },
-        {
-            "name": "CheckMode",
-            "type": "Select",
-            "caption": "Mode",
-            "options": [
+            "type": "RowLayout",
+            "items": [
                 {
-                    "label": "OnUpdate",
-                    "value": 0
+                    "name": "Active",
+                    "type": "CheckBox",
+                    "caption": "active",
+                    "width": "350px"
                 },
                 {
-                    "label": "OnChange",
-                    "value": 1
+                    "name": "VarID",
+                    "type": "SelectVariable",
+                    "caption": "Variable"
                 }
             ]
         },
         {
-            "name": "Timer",
-            "type": "NumberSpinner",
-            "caption": "Interval",
-            "prefix": "seconds"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "name": "CheckMode",
+                    "type": "Select",
+                    "caption": "Mode",
+                    "options": [
+                        {
+                            "label": "OnUpdate",
+                            "value": 0
+                        },
+                        {
+                            "label": "OnChange",
+                            "value": 1
+                        }
+                    ],
+                    "width": "350px"
+                },
+                {
+                    "name": "HasState",
+                    "type": "CheckBox",
+                    "caption": "Create statusvariable ''STATE'' ?"
+                }
+            ]
         },
         {
-            "name": "HasState",
-            "type": "CheckBox",
-            "caption": "Create statusvariable ''STATE'' ?"
-        },
-        {
-            "name": "ScriptID",
-            "type": "SelectScript",
-            "caption": "Script"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "name": "Timer",
+                    "type": "NumberSpinner",
+                    "caption": "Interval",
+                    "minimum": 0,
+                    "prefix": "seconds",
+                    "width": "350px"
+                },
+                {
+                    "name": "MultipleAlert",
+                    "type": "CheckBox",
+                    "caption": "multiple alerts"
+                }
+            ]
         },
         {
             "name": "StartUp",
@@ -61,9 +80,56 @@
             ]
         },
         {
-            "name": "MultipleAlert",
-            "type": "CheckBox",
-            "caption": "multiple alerts"
+            "type": "ExpansionPanel",
+            "caption": "Custom actions",
+            "items": [
+                {
+                    "type": "List",
+                    "name": "Actions",
+                    "caption": "Actions for events",
+                    "rowCount": 9,
+                    "add": true,
+                    "delete": true,
+                    "sort": {
+                        "column": "event",
+                        "direction": "ascending"
+                    },
+                    "columns": [
+                        {
+                            "name": "event",
+                            "caption": "Event",
+                            "width": "100px",
+                            "add": -1,
+                            "edit": {
+                                "type": "Select",
+                                "options": [
+                                    {
+                                        "value": -1,
+                                        "caption": "Always"
+                                    },
+                                    {
+                                        "value": 0,
+                                        "caption": "On reset"
+                                    },
+                                    {
+                                        "value": 1,
+                                        "caption": "On alarm"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "action",
+                            "caption": "Action",
+                            "width": "auto",
+                            "add": "",
+                            "edit": {
+                                "type": "SelectAction"
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "status": [

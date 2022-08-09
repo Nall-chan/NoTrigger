@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2020 Michael Tröger
+ * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.60
+ * @version       2.70
  *
  */
 
@@ -22,17 +22,96 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * Erweitert IPSModule.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2020 Michael Tröger
+ * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.60
+ * @version       2.70
  *
  * @example <b>Ohne</b>
  */
 class NoTriggerBase extends IPSModule
 {
-    use \NoTrigger\BufferHelper,
-        \NoTrigger\DebugHelper;
+    use \NoTrigger\BufferHelper;
+    use \NoTrigger\DebugHelper;
+
+    public function RequestAction($Ident, $Value)
+    {
+        if (parent::RequestAction($Ident, $Value)) {
+            return true;
+        }
+        switch ($Ident) {
+            case 'RunScript':
+                return $this->RunScript(unserialize($Value));
+            case 'RunActions':
+                return $this->RunActions(unserialize($Value));
+            }
+        trigger_error($this->Translate('Invalid Ident.'), E_USER_NOTICE);
+        return false;
+    }
+
+    protected function ConfigHasUpgraded()
+    {
+        //return true;
+        $ScriptID = $this->ReadPropertyInteger('ScriptID');
+        // nur alte Config updaten
+        // Neue Aktion nur eintragen, wenn vorher Script vorhanden war.
+        if (IPS_ScriptExists($ScriptID)) {
+            $Action = [
+                'event' => -1,
+                'action'=> json_encode(
+                    [
+                        'actionID'  => '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}',
+                        'parameters'=> [
+                            'TARGET'     => $ScriptID,
+                            'ENVIRONMENT'=> 'default',
+                            'PARENT'     => 0
+                        ]
+                    ]
+                )
+            ];
+            IPS_SetProperty($this->InstanceID, 'Actions', json_encode([$Action]));
+            IPS_SetProperty($this->InstanceID, 'ScriptID', 1);
+            $this->SendDebug('Actions', $Action, 0);
+        }
+
+        if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
+            // Müssen bei Group noch die Links konvertiert werden?
+            if (IPS_GetProperty($this->InstanceID, 'Variables') == '[]') {
+                $Variables = [];
+                $Links = IPS_GetChildrenIDs($this->InstanceID);
+                foreach ($Links as $Link) {
+                    $Objekt = IPS_GetObject($Link);
+                    if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
+                        continue;
+                    }
+
+                    $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
+                    if ($Target === false) {
+                        continue;
+                    }
+                    if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
+                        continue;
+                    }
+                    if (!in_array($Target['ObjectID'], $Variables)) {
+                        //zur Liste hinzufügen
+                        $Variables[] = ['VariableID'=> $Target['ObjectID']];
+                    }
+                    $this->SendDebug('Found Link', $Link, 0);
+                    $this->SendDebug('Found Variable', $Target['ObjectID'], 0);
+                    IPS_DeleteLink($Link);
+                }
+                if (count($Variables)) {
+                    $this->SendDebug('Variables', $Variables, 0);
+                    IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
+                }
+            }
+        }
+        if (IPS_HasChanges($this->InstanceID)) {
+            IPS_ApplyChanges($this->InstanceID);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Setzt die Status-Variable.
@@ -45,64 +124,8 @@ class NoTriggerBase extends IPSModule
             if (!IPS_VariableExists(@$this->GetIDForIdent('STATE'))) {
                 $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, true);
             }
-            SetValueBoolean($this->GetIDForIdent('STATE'), $NewState);
+            $this->SetValue('STATE', $NewState);
         }
-    }
-
-    /**
-     * Startet das Alarm-Script.
-     *
-     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
-     * @param bool $NewState Alarmstatus neu
-     * @param bool $OldState Alarmstatus vorher
-     */
-    protected function DoScript(int $IPSVarID, bool $NewState, bool $OldState)
-    {
-        if ($this->ReadPropertyInteger('ScriptID') != 0) {
-            if (IPS_ScriptExists($this->ReadPropertyInteger('ScriptID'))) {
-                IPS_RunScriptEx($this->ReadPropertyInteger('ScriptID'), [
-                    'VALUE'    => $NewState,
-                    'OLDVALUE' => $OldState,
-                    'VARIABLE' => $IPSVarID,
-                    'EVENT'    => $this->InstanceID,
-                    'SENDER'   => 'NoTrigger'
-                        ]
-                );
-            } else {
-                $this->LogMessage(sprintf($this->Translate('Script %d not exists!'), $this->ReadPropertyInteger('ScriptID')), KL_ERROR);
-            }
-        }
-    }
-
-    /**
-     * Desregistriert eine Überwachung eines Links.
-     *
-     * @param int $LinkId IPS-ID des Link.
-     */
-    protected function UnregisterLinkWatch(int $LinkId)
-    {
-        if ($LinkId == 0) {
-            return;
-        }
-
-        $this->SendDebug('UnregisterLM', $LinkId, 0);
-        $this->UnregisterMessage($LinkId, LM_CHANGETARGET);
-        $this->UnregisterReference($LinkId);
-    }
-
-    /**
-     * Registriert eine Überwachung eines Links.
-     *
-     * @param int $LinkId IPS-ID des Link.
-     */
-    protected function RegisterLinkWatch(int $LinkId)
-    {
-        if ($LinkId == 0) {
-            return;
-        }
-        $this->SendDebug('RegisterLM', $LinkId, 0);
-        $this->RegisterMessage($LinkId, LM_CHANGETARGET);
-        $this->RegisterReference($LinkId);
     }
 
     /**
@@ -136,6 +159,73 @@ class NoTriggerBase extends IPSModule
         $this->RegisterMessage($VarId, VM_DELETE);
         $this->RegisterMessage($VarId, VM_UPDATE);
         $this->RegisterReference($VarId);
+    }
+    /**
+     * Startet das Alarm-Script.
+     *
+     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
+     * @param bool $NewState Alarmstatus neu
+     * @param bool $OldState Alarmstatus vorher
+     */
+    /*
+    protected function DoScript(int $IPSVarID, bool $NewState, bool $OldState)
+    {
+        if ($this->ReadPropertyInteger('ScriptID') > 0) {
+            $AlarmData['VALUE'] = $NewState;
+            $AlarmData['OLDVALUE'] = $OldState;
+            $AlarmData['VARIABLE'] = $IPSVarID;
+            $AlarmData['SENDER'] = 'NoTrigger';
+            $AlarmData['PARENT'] = $this->InstanceID;
+            $AlarmData['EVENT'] = $this->InstanceID;
+            IPS_RunScriptText('IPS_RequestAction(' . $this->InstanceID . ',\'RunScript\',\'' . serialize($AlarmData) . '\');');
+        }
+    }*/
+    /**
+     * Startet das Alarm-Script.
+     *
+     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
+     * @param bool $NewState Alarmstatus neu
+     * @param bool $OldState Alarmstatus vorher
+     */
+    /*protected function RunScript(array $AlarmData)
+    {
+        if (IPS_ScriptExists($this->ReadPropertyInteger('ScriptID'))) {
+            IPS_RunScriptEx($this->ReadPropertyInteger('ScriptID'), $AlarmData);
+        } else {
+            $this->LogMessage(sprintf($this->Translate('Script %d not exists!'), $this->ReadPropertyInteger('ScriptID')), KL_ERROR);
+        }
+    }*/
+    protected function DoAction(int $IPSVarID, bool $NewState, bool $OldState)
+    {
+        $AlarmData['VALUE'] = $NewState;
+        $AlarmData['OLDVALUE'] = $OldState;
+        $AlarmData['VARIABLE'] = $IPSVarID;
+        $AlarmData['SENDER'] = 'NoTrigger';
+        $AlarmData['PARENT'] = $this->InstanceID;
+        $AlarmData['EVENT'] = $this->InstanceID;
+        IPS_RunScriptText('IPS_RequestAction(' . $this->InstanceID . ',\'RunActions\',\'' . serialize($AlarmData) . '\');');
+    }
+    protected function RunActions(array $AlarmData)
+    {
+        $Actions = json_decode($this->ReadPropertyString('Actions'), true);
+        if (count($Actions) == 0) {
+            return;
+        }
+        $RunActions = array_filter($Actions, function ($Action) use ($AlarmData)
+        {
+            if ($Action['event'] == -1) {
+                return true;
+            }
+            return (bool) $Action['event'] === $AlarmData['VALUE'];
+        });
+        $this->SendDebug('RunActions', $RunActions, 0);
+        $this->SendDebug('RunActions', $AlarmData, 0);
+        foreach ($RunActions as $Action) {
+            $ActionData = json_decode($Action['action'], true);
+            $ActionData['parameters'] = array_merge($ActionData['parameters'], $AlarmData);
+            $this->SendDebug('ActionData', $ActionData, 0);
+            IPS_RunAction($ActionData['actionID'], $ActionData['parameters']);
+        }
     }
 }
 

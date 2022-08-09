@@ -1,10 +1,14 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.61-blue.svg)]()
+[![Version](https://img.shields.io/badge/Modul%20Version-2.70-blue.svg)](https://community.symcon.de/t/modul-notrigger-ueberwachen-von-ips-variablen-auf-ausbleibende-aktualisierung-oder-veraenderung/42474)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
-[![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
+[![Version](https://img.shields.io/badge/Symcon%20Version-6.1%20%3E-green.svg)](https://www.symcon.de/service/dokumentation/installation/migrationen/v60-v61-q1-2022/)
 [![Check Style](https://github.com/Nall-chan/NoTrigger/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions) [![Run Tests](https://github.com/Nall-chan/NoTrigger/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions)  
+[![Spenden](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif)](#5-spenden)  
 
-# Symcon-Modul: Variablenüberwachung (NoTrigger) <!-- omit in toc -->  
+# Variablenüberwachung (NoTrigger) <!-- omit in toc -->  
+
+Überwachen von IPS-Variablen auf ausbleibende Aktualisierung oder Veränderung.  
+
 ## Dokumentation <!-- omit in toc -->  
 
 **Inhaltsverzeichnis**
@@ -12,18 +16,23 @@
 - [1. Funktionsumfang](#1-funktionsumfang)
 - [2. Voraussetzungen](#2-voraussetzungen)
 - [3. Installation](#3-installation)
-- [4. Variablenüberwachung (single)](#4-variablenüberwachung-single)
-- [5. Variablenüberwachung (group)](#5-variablenüberwachung-group)
+- [4. Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
+  - [1. Variablenüberwachung (single)](#1-variablenüberwachung-single)
+  - [2. Variablenüberwachung (group)](#2-variablenüberwachung-group)
+- [5. Aktionen konfigurieren](#5-aktionen-konfigurieren)
 - [6. Variablen im Ziel-Script](#6-variablen-im-ziel-script)
-- [7. Parameter / Modul-Infos](#7-parameter--modul-infos)
-- [8. Anhang](#8-anhang)
-- [9. Spenden](#9-spenden)
-- [10. Lizenz](#10-lizenz)
+- [7. Anhang](#7-anhang)
+  - [1. Danksagung](#1-danksagung)
+  - [2. GUID der Module](#2-guid-der-module)
+  - [3. Parameter der Instanzen](#3-parameter-der-instanzen)
+  - [4. Changelog](#4-changelog)
+  - [5. Spenden](#5-spenden)
+- [8. Lizenz](#8-lizenz)
 
 ## 1. Funktionsumfang
 
-Überwachen von IPS-Variablen auf Aktualisierung oder Veränderung.  
-Grundidee war festzustellen ob bestimme (Status)Variablen regelmäßig aktualisiert werden, um dann entsprechend hierauf reagieren zu können.  
+Überwachen von IPS-Variablen auf ausbleibende Aktualisierung oder Veränderung.  
+Grundidee war festzustellen ob bestimme (Status)Variablen regelmäßig aktualisiert werden, um dann, bei ausbleiben der Aktualisierung, entsprechend hierauf reagieren zu können.  
   
 Beispiele:  
   
@@ -49,21 +58,22 @@ etc....
   
 Die Funktion besteht im wesentlichen darin festzustellen ob sich eine Variable ändert bzw. aktualisiert.  
 Sollte Dies innerhalb der konfigurierten Intervall-Zeit geschehen, wird keine Aktion ausgelöst.  
-Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw. eine Statusvariable gesetzt.  
-Über das vom Benutzer selber zu erzeugende Ziel-Skript können dann weitere Maßnahmen und Steuerungen erfolgen (WFC_Notification / eMail / Steckdose aus & einschalten etc).  
-
+Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Ziel-Skript gestartet, eine Statusvariable gesetzt und die konfigurierten Aktionen ausgelöst.  
+Über die konfigurierbaren Aktionen und das vom Benutzer selber zu erzeugende Ziel-Skript können dann weitere Maßnahmen und Steuerungen erfolgen (Ablaufplan starten, WFC_Notification / eMail / Steckdose aus & einschalten etc).  
 
 ## 2. Voraussetzungen
 
- - IPS ab Version 5.1  
+ - IPS ab Version 6.1  
  
 ## 3. Installation
 
  Über den 'Module-Store' in IPS das Modul 'Variablenüberwachung' hinzufügen.  
+  **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
+![Module-Store](imgs/install.png)  
 
-   **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
+## 4. Einrichten der Instanzen in IP-Symcon
 
-## 4. Variablenüberwachung (single)
+### 1. Variablenüberwachung (single)
 
  Unter Instanz hinzufügen ist die Variablenüberwachung unter (Sonstige) zu finden.  
  Jeweils einmal als Typ Single und Group.  
@@ -83,7 +93,7 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
     Der Zeitraum in Sekunden in dem sich die Variable(n) nach dem unter Prüfmodus festgelegten Modus geändert haben muss. Wird  dieser Zeitraum überschritten, wird die Statusvariable 'STATE'  gesetzt und/oder das Ziel-Script gestartet. (max. Wert 599000000)  
         
  - Statusvariable 'STATE' verwenden:  
-    Hiermit kann eine Statusvariable der Instanz zu/weg geschaltet werden. (z.B. zur Visualisierung).  
+    Hiermit kann eine Statusvariable der Instanz zu/weg geschaltet werden. (z.B. zur Visualisierung oder Abfrage in einem Ablaufplan).  
         
  - Skript:  
     Ziel-Script welches ausgeführt wird, wenn der  Überwachungszeitraum überschritten wurde. Das Script wird  ebenfalls ausgeführt, wenn die Überwachung wieder in  'Ruhe' geht nachdem die überwachte(n) Variable(n) sich nach dem unter Prüfmodus festgelegten Modus geändert haben.  
@@ -102,7 +112,7 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
     So wird jetzt bei jedem OnUpdate oder OnChange (je nach Modus) die eigene Statusvariable aktualisiert und das Ziel-Script gestartet.  
 
 
-## 5. Variablenüberwachung (group)
+### 2. Variablenüberwachung (group)
 
  Die Konfiguration und die Funktion sind  nahezu identisch zu der Variante 'Single'.  
  Folgendes ist jedoch zu beachten:  
@@ -112,6 +122,9 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
  Der Punkt Mehrfachauslösung unterscheidet sich entsprechend von der Funktion zu 'Single'.  
  Normalerweise wird hier nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe, als Summe aller überwachten Variablen, die eigene Statusvariable gesetzt und das Ziel-Script gestartet.  
  Wird die Mehrfachauslösung aktiviert, wird jetzt einzeln für jede überwachte Variable der Übergang Ruhe/Alarm und Alarm/Ruhe alle Aktionen ausgelöst.  
+
+
+## 5. Aktionen konfigurieren
 
 ## 6. Variablen im Ziel-Script
 
@@ -139,14 +152,21 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
         }
 ```
 
-## 7. Parameter / Modul-Infos
+## 7. Anhang
 
-**GUID der Instanzen (z.B. wenn Instanz per PHP angelegt werden soll):**  
+### 1. Danksagung
+
+ Idee von MCS-51 mit dem IPSLibrary-Modul IPS-Health welche nie offiziell Verbreitet wurde.  
+ Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1.  
+
+### 2. GUID der Module
 
 |            Instanz            |                  GUID                  |
 | :---------------------------: | :------------------------------------: |
 | Variablenüberwachung (Single) | {BACCE313-C8F2-4189-B128-74A6888DAD21} |
 | Variablenüberwachung (Group)  | {28198BA1-3563-4C85-81AE-8176B53589B8} |
+
+### 3. Parameter der Instanzen
 
 **Eigenschaften von Variablenüberwachung (Single):**  
 
@@ -173,13 +193,10 @@ Nach Ablauf der Intervall-Zeit wird ein	eingestelltes Ziel-Skript gestartet bzw.
 |    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
 | MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
 
+### 4. Changelog  
 
-## 8. Anhang
-
- Idee von MCS-51 mit dem IPSLibrary-Modul IPS-Health welche nie offiziell Verbreitet wurde.  
- Umsetzung von Nall-chan als natives IPS-Modul für IPS ab Version 3.1  
-
-**Changelog:**  
+Version 2.70:  
+ - Bei auslösen der Überwachungen können Aktionen gestartet werden.    
 
 Version 2.61:  
  - Fehlermeldung beim IPS Shutdown.  
@@ -206,13 +223,16 @@ Version 1.1:
 Version 1.0.0.7:  
  - Erstes internes Release mit Gruppenüberwachung  
 
-## 9. Spenden  
+### 5. Spenden  
   
   Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>
+  PayPal:  
+<a href="https://www.paypal.com/donate?hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
 
+  Wunschliste:  
+<a href="https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg" border="0" width="100"/></a>  
 
-## 10. Lizenz  
+## 8. Lizenz  
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
