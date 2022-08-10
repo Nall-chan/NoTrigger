@@ -50,6 +50,7 @@
                     "type": "NumberSpinner",
                     "caption": "Interval",
                     "minimum": 0,
+                    "maximum": 599000000,
                     "prefix": "seconds",
                     "width": "350px"
                 },

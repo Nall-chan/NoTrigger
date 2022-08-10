@@ -20,7 +20,7 @@
   - [1. Variablenüberwachung (single)](#1-variablenüberwachung-single)
   - [2. Variablenüberwachung (group)](#2-variablenüberwachung-group)
 - [5. Aktionen konfigurieren](#5-aktionen-konfigurieren)
-- [6. Variablen im Ziel-Script](#6-variablen-im-ziel-script)
+- [6. Variablen im PHP-Script bei 'Führe Automation aus'](#6-variablen-im-php-script-bei-führe-automation-aus)
 - [7. Anhang](#7-anhang)
   - [1. Danksagung](#1-danksagung)
   - [2. GUID der Module](#2-guid-der-module)
@@ -58,8 +58,8 @@ etc....
   
 Die Funktion besteht im wesentlichen darin festzustellen ob sich eine Variable ändert bzw. aktualisiert.  
 Sollte Dies innerhalb der konfigurierten Intervall-Zeit geschehen, wird keine Aktion ausgelöst.  
-Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Ziel-Skript gestartet, eine Statusvariable gesetzt und die konfigurierten Aktionen ausgelöst.  
-Über die konfigurierbaren Aktionen und das vom Benutzer selber zu erzeugende Ziel-Skript können dann weitere Maßnahmen und Steuerungen erfolgen (Ablaufplan starten, WFC_Notification / eMail / Steckdose aus & einschalten etc).  
+Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable gesetzt und die konfigurierten Aktionen ausgelöst.  
+Über die konfigurierbaren Aktionen können dann weitere Maßnahmen und Steuerungen erfolgen (Ablaufplan starten, Script starten, WFC_Notification / eMail / Steckdose aus & einschalten etc).  
 
 ## 2. Voraussetzungen
 
@@ -69,22 +69,25 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
 
  Über den 'Module-Store' in IPS das Modul 'Variablenüberwachung' hinzufügen.  
   **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
+
 ![Module-Store](imgs/install.png)  
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 
 ### 1. Variablenüberwachung (single)
 
- Unter Instanz hinzufügen ist die Variablenüberwachung unter (Sonstige) zu finden.  
+ Unter Instanz hinzufügen ist die Variablenüberwachung unter 'Nall-chan' oder dem Schnellfilter zu finden.  
  Jeweils einmal als Typ Single und Group.  
-        
+
+![Instanz erstellen](imgs/create.png)  
+
  Nach dem Anlegen der Instanz ist diese noch entsprechend zu konfigurieren.  
         
  - Aktiv :  
     Um die Überwachung zu aktivieren bzw. desaktivieren.  
         
  - Variable:  
-    Nur bei Single lässt sich hier die zu überwachende Variable auswählen.  
+    Die zu überwachende Variable auswählen.  
         
  - Prüfmodus:  
     Legt fest ob sich der Wert der Variable(n) verändert haben muss, oder ob es reichte das eine Variable aktualisiert wurde auch wenn sich der Wert nicht geändert hat.  
@@ -94,9 +97,6 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
         
  - Statusvariable 'STATE' verwenden:  
     Hiermit kann eine Statusvariable der Instanz zu/weg geschaltet werden. (z.B. zur Visualisierung oder Abfrage in einem Ablaufplan).  
-        
- - Skript:  
-    Ziel-Script welches ausgeführt wird, wenn der  Überwachungszeitraum überschritten wurde. Das Script wird  ebenfalls ausgeführt, wenn die Überwachung wieder in  'Ruhe' geht nachdem die überwachte(n) Variable(n) sich nach dem unter Prüfmodus festgelegten Modus geändert haben.  
         
  - Neustart-Verzögerung:  
     Grundsätzlich wird immer ein Alarm ausgelöst, wenn die letzte Änderung/Aktualisierung der zu überwachenden Variable länger her ist als der eingestellte Intervall. Dies kann bei einem Dienst-Neustart zu falschen Meldungen führen.  
@@ -108,25 +108,37 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
     Dies birgt aber auch ein Risiko: Sollte nach dem Neustart die Variable nie geändert/aktualisiert werden, wird auch nie ein Alarm erzeugt.  
         
  - Mehrfachauslösung:  
-    Normalerweise wird nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe die eigene Statusvariable gesetzt und das Ziel-Script gestartet. Wird die Mehrfachauslösung aktiviert, werden auch bei Updates von Ruhe/Ruhe und Alarm/Alarm alle Aktionen ausgelöst.  
-    So wird jetzt bei jedem OnUpdate oder OnChange (je nach Modus) die eigene Statusvariable aktualisiert und das Ziel-Script gestartet.  
+    Normalerweise wird nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe die eigene Statusvariable gesetzt und alle Aktionen gestartet.  
+    Wird die Mehrfachauslösung aktiviert, werden auch bei Updates von Ruhe/Ruhe und Alarm/Alarm alle Aktionen ausgelöst.  
 
+   ![Konfiguration Single](imgs/conf1.png)  
 
 ### 2. Variablenüberwachung (group)
 
- Die Konfiguration und die Funktion sind  nahezu identisch zu der Variante 'Single'.  
- Folgendes ist jedoch zu beachten:  
-        
- Die zu überwachenden Variablen müssen als Link unterhalb Dieser Instanz liegen. Somit entfällt auch in der Konfiguration der Punkt Variable.  
  Alle zu überwachenden Variablen sind immer ODER verknüpft, es reicht also wenn Eine sich nicht innerhalb der Intervallzeit ändert/aktualisiert um eine Alarm-Meldung zu generieren. Im Umkehrschluss heißt dies dass die Ruhemeldung nur auslöst, wenn alle überwachten Variablen sich innerhalb der Intervallzeit ändert/aktualisiert haben.  
- Der Punkt Mehrfachauslösung unterscheidet sich entsprechend von der Funktion zu 'Single'.  
- Normalerweise wird hier nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe, als Summe aller überwachten Variablen, die eigene Statusvariable gesetzt und das Ziel-Script gestartet.  
- Wird die Mehrfachauslösung aktiviert, wird jetzt einzeln für jede überwachte Variable der Übergang Ruhe/Alarm und Alarm/Ruhe alle Aktionen ausgelöst.  
 
+ Die Konfiguration und die Funktion sind ähnlich. Folgende Einstellungen unterscheiden sich:
+
+ - Variable:  
+    In der Liste die zu überwachenden Variablen auswählen.  
+
+ - Statusvariable 'STATE' verwenden:  
+    Der Zustand der Variable immer eine ODER Verknüpfung auf die Alarmmeldungen
+    Somit wird die Variable 'true' sobald eine Variable einen Alarm auslöst und 'false' wenn alle Variablen keinen Alarm mehr auslösen.  
+        
+  - Mehrfachauslösung:  
+    Wird die Mehrfachauslösung aktiviert, werden für jede überwachte Variable der Übergang Ruhe/Alarm und Alarm/Ruhe die Aktionen ausgelöst.  
+    Wird die Mehrfachauslösung deaktiviert, wird nur der erste Alarm und die letzte Ruhemeldung zum auslösen der Aktionen benutzt.  
+
+   ![Konfiguration Group](imgs/conf2.png)   
 
 ## 5. Aktionen konfigurieren
 
-## 6. Variablen im Ziel-Script
+   Hier werden die gewünschten Aktionen hinterlegt, welche ausgeführt werden sollen.  
+   Bei jeder Aktion kann noch ausgewählt werden ob sie 'Bei Auslösung', 'Bei Rücksetzen' oder 'immer' ausgeführt werden soll.  
+   Für Aktionen werden entsprechende Parameter übergeben, welche z.B. bei 'Führe Automation aus' in einem PHP-Script zur Verfügung stehen. 
+
+## 6. Variablen im PHP-Script bei 'Führe Automation aus'
 
  Folgende Felder im Array der PHP-Variable $_IPS stehen im Ziel-Script zur Verfügung:  
 
@@ -138,17 +150,14 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
 | VARIABLE | integer |   ID der Variable welche die Auslösung verursacht hat    |
 |  SENDER  | string  |                  'NoTrigger' FixString                   |
 
- Das Ziel-Script sollte immer den Wert 'VALUE' abfragen, damit unterschieden werden kann ob es sich um eine Alarm-Meldung oder Ruhe-Meldung handelt:  
+ Ein PHP-Script sollte immer den Wert 'VALUE' abfragen, damit unterschieden werden kann ob es sich um eine Alarm-Meldung oder Ruhe-Meldung handelt, falls bei 'Auslösendes Ereignis' 'immer' eingestellt wurde:  
 
 ```php
         if ($_IPS['VALUE'])
         {
             // Alarm wurde ausgelöst
-            // Jetzt Gerät aus- und einschalten
-            // Und eMail versenden
         } else {
             // Ruhemeldung nach	Alarm
-            // eMail das alles wieder gut ist
         }
 ```
 
@@ -175,23 +184,25 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
 |    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
 |     VarID     | integer |      0       |                   Variable welche überwacht werden soll                   |
 |   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
-|   Intervall   | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
+|     Timer     | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
 |   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
-|   ScriptID    | integer |      0       |                                Ziel-Script                                |
 |    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
 | MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
+|    Actions    | string  |      []      |             JSON-String mit Daten der zu startenden Aktionen              |
 
 **Eigenschaften von Variablenüberwachung (Group):**  
 
 |  Eigenschaft  |   Typ   | Standardwert |                                 Funktion                                  |
 | :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
 |    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
+|   Variables   | string  |      []      |           JSON-String mit Daten der zu überwachenden Variablen            |
 |   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
-|   Intervall   | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
+|     Timer     | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
 |   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
 |   ScriptID    | integer |      0       |                                Ziel-Script                                |
 |    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
 | MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
+|    Actions    | string  |      []      |             JSON-String mit Daten der zu startenden Aktionen              |
 
 ### 4. Changelog  
 

@@ -40,8 +40,6 @@ class NoTriggerBase extends IPSModule
             return true;
         }
         switch ($Ident) {
-            case 'RunScript':
-                return $this->RunScript(unserialize($Value));
             case 'RunActions':
                 return $this->RunActions(unserialize($Value));
             }
@@ -160,41 +158,7 @@ class NoTriggerBase extends IPSModule
         $this->RegisterMessage($VarId, VM_UPDATE);
         $this->RegisterReference($VarId);
     }
-    /**
-     * Startet das Alarm-Script.
-     *
-     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
-     * @param bool $NewState Alarmstatus neu
-     * @param bool $OldState Alarmstatus vorher
-     */
-    /*
-    protected function DoScript(int $IPSVarID, bool $NewState, bool $OldState)
-    {
-        if ($this->ReadPropertyInteger('ScriptID') > 0) {
-            $AlarmData['VALUE'] = $NewState;
-            $AlarmData['OLDVALUE'] = $OldState;
-            $AlarmData['VARIABLE'] = $IPSVarID;
-            $AlarmData['SENDER'] = 'NoTrigger';
-            $AlarmData['PARENT'] = $this->InstanceID;
-            $AlarmData['EVENT'] = $this->InstanceID;
-            IPS_RunScriptText('IPS_RequestAction(' . $this->InstanceID . ',\'RunScript\',\'' . serialize($AlarmData) . '\');');
-        }
-    }*/
-    /**
-     * Startet das Alarm-Script.
-     *
-     * @param int  $IPSVarID Variable welche den Alarm ausgelöst hat.
-     * @param bool $NewState Alarmstatus neu
-     * @param bool $OldState Alarmstatus vorher
-     */
-    /*protected function RunScript(array $AlarmData)
-    {
-        if (IPS_ScriptExists($this->ReadPropertyInteger('ScriptID'))) {
-            IPS_RunScriptEx($this->ReadPropertyInteger('ScriptID'), $AlarmData);
-        } else {
-            $this->LogMessage(sprintf($this->Translate('Script %d not exists!'), $this->ReadPropertyInteger('ScriptID')), KL_ERROR);
-        }
-    }*/
+
     protected function DoAction(int $IPSVarID, bool $NewState, bool $OldState)
     {
         $AlarmData['VALUE'] = $NewState;
