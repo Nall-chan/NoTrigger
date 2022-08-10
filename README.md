@@ -196,7 +196,7 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, ein eingestelltes Zi
 ### 4. Changelog  
 
 Version 2.70:  
- - IPS 6.1 als Voraussetzung.
+ - IPS 6.1 als Voraussetzung.  
  - Bei auslösen der Überwachungen können mehrere Aktionen gestartet werden.  
  - Vorhandenes Alarm-Script wird automatisch in eine Aktion übertragen.  
  - Gruppenüberwachung von Variablen benutzt jetzt eine Liste und keine Links.  
