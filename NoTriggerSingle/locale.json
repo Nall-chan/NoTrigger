@@ -1,25 +1,31 @@
 {
     "translations": {
         "de": {
-            "active": "Aktiv",
+            "Active": "Aktiv",
+            "Variables": "Variablen",
             "Variable": "Variable",
-            "Mode": "Prüfmodus",
-            "OnUpdate": "OnUpdate",
-            "OnChange": "OnChange",
+            "Check mode": "Prüfmodus",
+            "On update": "Auf Aktualisierung",
+            "On change": "Auf Änderung",
             "seconds": "Sekunden",
             "Create statusvariable ''STATE'' ?": "Statusvariable ''STATE'' verwenden ?",
-            "Script": "Script",
+            "Multiple alerts": "Mehrfachauslösung",
             "Delay after startup": "Neustart-Verzögerung",
             "none": "keine",
             "Interval": "Intervallzeit",
             "until variable change": "bis Aktualisierung",
-            "multiple alerts": "Mehrfachauslösung",
+            "Actions": "Aktionen",
+            "Triggering event": "Auslösendes Ereignis",
+            "Action": "Aktion",
+            "Always": "Immer",
+            "On reset": "Bei Rücksetzen",
+            "On alarm": "Bei Auslösung",
             "Watchdog active.": "Überwachung aktiv.",
             "Watchdog inactive.": "Überwachung inaktiv.",
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
             "Variable must be set.": "Variable muß gesetzt sein.",
             "Variable invalid.": "Variable darf nicht auf sich selbst zeigen.",
-            "Script %d not exists!": "Script %d existiert nicht!"
+            "This module is free for non-commercial use,\r\nDonations in support of the author are accepted here:": "Dieses Modul ist für die nicht kommerzielle Nutzung kostenlos,\r\nSchenkungen als Unterstützung für den Autor werden hier akzeptiert:"
         }
     }
 }

@@ -1,26 +1,32 @@
 {
     "translations": {
         "de": {
-            "active": "Aktiv",
-            "Mode": "Prüfmodus",
-            "OnUpdate": "OnUpdate",
-            "OnChange": "OnChange",
+            "Active": "Aktiv",
+            "Variables": "Variablen",
+            "Variable": "Variable",
+            "Check mode": "Prüfmodus",
+            "On update": "Auf Aktualisierung",
+            "On change": "Auf Änderung",
             "seconds": "Sekunden",
             "Create statusvariable ''STATE'' ?": "Statusvariable ''STATE'' verwenden ?",
-            "Script": "Script",
+            "Multiple alerts": "Mehrfachauslösung",
             "Delay after startup": "Neustart-Verzögerung",
             "none": "keine",
             "Interval": "Intervallzeit",
             "until variable change": "bis Aktualisierung",
-            "multiple alerts": "Mehrfachauslösung",
+            "Actions": "Aktionen",
+            "Triggering event": "Auslösendes Ereignis",
+            "Action": "Aktion",
+            "Always": "Immer",
+            "On reset": "Bei Rücksetzen",
+            "On alarm": "Bei Auslösung",
             "Watchdog active.": "Überwachung aktiv.",
             "Watchdog inactive.": "Überwachung inaktiv.",
-            "Invalid object in link.": "Ungültige Objekte in der Überwachung.",
             "Timer to small.": "Timer darf nicht kleiner 1 sein.",
-            "No links found.": "Keine Links angelegt!",
-            "StateVariable in link.": "Link auf eigene Status Variable!",
+            "List of variables is empty.": "Liste der Variablen ist leer.",
+            "State-Variable in list of variables.": "Eigene Status Variable in der Variablen Liste.",
             "All alarms have fired. Monitoring paused.": "Keine Var mehr in Ruhe. Überwachung pausiert.",
-            "Script %d not exists!": "Script %d existiert nicht!"
+            "This module is free for non-commercial use,\r\nDonations in support of the author are accepted here:": "Dieses Modul ist für die nicht kommerzielle Nutzung kostenlos,\r\nSchenkungen als Unterstützung für den Autor werden hier akzeptiert:"
         }
     }
 }
