@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.70
+ * @version       2.71
  *
  */
 eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/../libs/helper/SemaphoreHelper.php') . '}');
@@ -23,7 +23,7 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.70
+ * @version       2.71
  *
  * @example <b>Ohne</b>
  */
@@ -65,7 +65,7 @@ class TNoTriggerVar
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.70
+ * @version       2.71
  *
  * @example <b>Ohne</b>
  */
@@ -144,7 +144,7 @@ class TNoTriggerVarList
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.70
+ * @version       2.71
  *
  * @example <b>Ohne</b>
  *
@@ -291,6 +291,8 @@ class NoTriggerGroup extends NoTriggerBase
         $this->GetAllTargets();
         if ($this->CheckConfig()) {
             $this->StartTimer();
+        } else {
+            $this->StopTimer();
         }
     }
 
