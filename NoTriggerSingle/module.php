@@ -160,7 +160,7 @@ class NoTriggerSingle extends NoTriggerBase
                 $temp = false;
             }
             if ($this->ReadPropertyBoolean('HasState')) {
-                if ($this->ReadPropertyInteger('VarID') == $this->GetIDForIdent('STATE')) {
+                if ($this->ReadPropertyInteger('VarID') == $this->FindIDForIdent('STATE')) {
                     $this->SetStatus(IS_EBASE + 4); //VarID is Self
                     $temp = false;
                 }

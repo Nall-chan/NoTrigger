@@ -117,7 +117,7 @@ class NoTriggerBase extends IPSModuleStrict
     protected function SetStateVar(bool $NewState): void
     {
         if ($this->ReadPropertyBoolean('HasState')) {
-            if (!IPS_VariableExists(@$this->GetIDForIdent('STATE'))) {
+            if (!IPS_VariableExists($this->FindIDForIdent('STATE'))) {
                 $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, true);
             }
             $this->SetValue('STATE', $NewState);

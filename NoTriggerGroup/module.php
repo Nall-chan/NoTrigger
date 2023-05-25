@@ -348,7 +348,7 @@ class NoTriggerGroup extends NoTriggerBase
                 $Result = false;
             } else {
                 if ($this->ReadPropertyBoolean('HasState')) {
-                    if ($this->NoTriggerVarList->IndexOfVarID($this->GetIDForIdent('STATE'))) {
+                    if ($this->NoTriggerVarList->IndexOfVarID($this->FindIDForIdent('STATE'))) {
                         $this->SetStatus(IS_EBASE + 4); //State ist in der Liste
                         $Result = false;
                     }
