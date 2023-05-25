@@ -4,9 +4,9 @@
     "name": "NoTrigger Library",
     "url": "https://github.com/Nall-chan/NoTrigger",
     "compatibility": {
-        "version": "6.1"
+        "version": "7.0"
     },
-    "version": "2.71",
-    "build": 271,
-    "date": 1665768033
+    "version": "2.72",
+    "build": 272,
+    "date": 1685034471
 }
