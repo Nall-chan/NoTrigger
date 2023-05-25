@@ -1,6 +1,6 @@
 {
     "id": "{A0969803-3F8E-4E29-9613-DA4E1B63D878}",
-    "author": "Michael Tr\u00f6ger",
+    "author": "Michael Tröger",
     "name": "NoTrigger Library",
     "url": "https://github.com/Nall-chan/NoTrigger",
     "compatibility": {
@@ -8,5 +8,5 @@
     },
     "version": "2.71",
     "build": 271,
-    "date": 1665768033 
+    "date": 1665768033
 }
