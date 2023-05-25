@@ -34,14 +34,14 @@ class TNoTriggerVar
      *
      * @var int
      */
-    public $VarId = 0;
+    public int $VarId = 0;
 
     /**
      * True wenn Variable schon Alarm ausgelöst hat.
      *
      * @var bool
      */
-    public $Alert = false;
+    public bool $Alert = false;
 
     /**
      * Erzeugt ein neues Objekt aus TNoTriggerVar.
@@ -74,14 +74,14 @@ class TNoTriggerVarList
     /**
      * Array mit allen überwachten Variablen.
      *
-     * @var array
+     * @var TNoTriggerVar[]
      */
-    public $Items = [];
+    public array $Items = [];
 
     /**
      * Liefert die Daten welche behalten werden müssen.
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         return ['Items'];
     }
@@ -91,7 +91,7 @@ class TNoTriggerVarList
      *
      * @param TNoTriggerVar $NoTriggerVar Das hinzuzufügende Variablen-Objekt.
      */
-    public function Add(TNoTriggerVar $NoTriggerVar)
+    public function Add(TNoTriggerVar $NoTriggerVar): void
     {
         $this->Items[] = $NoTriggerVar;
     }
@@ -101,7 +101,7 @@ class TNoTriggerVarList
      *
      * @param int $Index Der Index des zu löschenden Items.
      */
-    public function Remove(int $Index)
+    public function Remove(int $Index): void
     {
         unset($this->Items[$Index]);
     }
@@ -113,7 +113,7 @@ class TNoTriggerVarList
      *
      * @return TNoTriggerVar
      */
-    public function Get(int $Index)
+    public function Get(int $Index): TNoTriggerVar
     {
         return $this->Items[$Index];
     }
@@ -123,9 +123,9 @@ class TNoTriggerVarList
      *
      * @param int $VarId Die zu suchende IPS-ID der Variable.
      *
-     * @return int Index des gefundenen Eintrags.
+     * @return false|int Index des gefundenen Eintrags.
      */
-    public function IndexOfVarID(int $VarId)
+    public function IndexOfVarID(int $VarId): false|int
     {
         foreach ($this->Items as $Index => $NoTriggerVar) {
             if ($NoTriggerVar->VarId == $VarId) {
@@ -151,6 +151,8 @@ class TNoTriggerVarList
  * @property int $Alerts Anzahl der Alarme
  * @property int $ActiveVarID Anzahl der aktiven Vars
  * @property TNoTriggerVarList $NoTriggerVarList Liste mit allen Variablen
+ * @method bool lock(string $ident)
+ * @method void unlock(string $ident)
  */
 class NoTriggerGroup extends NoTriggerBase
 {
@@ -159,7 +161,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
 
@@ -181,7 +183,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    public function MessageSink(int $TimeStamp, int $SenderID, int $Message, array $Data): void
     {
         switch ($Message) {
             case IPS_KERNELSTARTED:
@@ -274,7 +276,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         $this->RegisterMessage($this->InstanceID, OM_CHILDADDED);
         $this->RegisterMessage($this->InstanceID, OM_CHILDREMOVED);
@@ -299,7 +301,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Timer abgelaufen Alarm wird erzeugt.
      */
-    public function TimerFire()
+    public function TimerFire(): void
     {
         $this->StopTimer();
         if (IPS_GetKernelRunlevel() != KR_READY) {
@@ -333,7 +335,7 @@ class NoTriggerGroup extends NoTriggerBase
      *
      * @return bool True bei OK
      */
-    private function CheckConfig()
+    private function CheckConfig(): bool
     {
         $Result = true;
         if ($this->ReadPropertyBoolean('Active') == true) {
@@ -365,7 +367,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Startet den Timer bis zum Alarm.
      */
-    private function StartTimer()
+    private function StartTimer(): void
     {
         if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
@@ -419,7 +421,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Stopt den Timer.
      */
-    private function StopTimer()
+    private function StopTimer(): void
     {
         $this->SetTimerInterval('NoTrigger', 0);
     }
@@ -427,7 +429,7 @@ class NoTriggerGroup extends NoTriggerBase
     /**
      * Liest alle zu Überwachenden Variablen ein.
      */
-    private function GetAllTargets()
+    private function GetAllTargets(): void
     {
         $this->lock('NoTriggerVarList');
         $OldTriggerVarList = $this->NoTriggerVarList;
@@ -437,7 +439,10 @@ class NoTriggerGroup extends NoTriggerBase
         $NewVariables = json_decode($this->ReadPropertyString('Variables'), true);
         $NewTriggerVarList = new TNoTriggerVarList();
         foreach ($NewVariables as $NewVariable) {
-            $Objekt = IPS_GetObject($NewVariable['VariableID']);
+            $Objekt = @IPS_GetObject($NewVariable['VariableID']);
+            if ($Objekt == 0) {
+                continue;
+            }
             if ($Objekt['ObjectType'] != OBJECTTYPE_VARIABLE) {
                 continue;
             }

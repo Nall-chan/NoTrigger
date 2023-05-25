@@ -28,26 +28,25 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * @version       2.71
  *
  * @example <b>Ohne</b>
+ *
+ * @method bool SendDebug(string $Message, mixed $Data, int $Format)
  */
-class NoTriggerBase extends IPSModule
+class NoTriggerBase extends IPSModuleStrict
 {
     use \NoTrigger\BufferHelper;
     use \NoTrigger\DebugHelper;
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction(string $Ident, mixed $Value): void
     {
-        if (parent::RequestAction($Ident, $Value)) {
-            return true;
-        }
         switch ($Ident) {
             case 'RunActions':
-                return $this->RunActions(unserialize($Value));
-            }
+                $this->RunActions(unserialize($Value));
+                return;
+        }
         trigger_error($this->Translate('Invalid Ident.'), E_USER_NOTICE);
-        return false;
     }
 
-    protected function ConfigHasUpgraded()
+    protected function ConfigHasUpgraded(): bool
     {
         //return true;
         $ScriptID = $this->ReadPropertyInteger('ScriptID');
@@ -82,7 +81,6 @@ class NoTriggerBase extends IPSModule
                     if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
                         continue;
                     }
-
                     $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
                     if ($Target === false) {
                         continue;
@@ -116,7 +114,7 @@ class NoTriggerBase extends IPSModule
      *
      * @param bool $NewState Der neue Wert der Statusvariable
      */
-    protected function SetStateVar(bool $NewState)
+    protected function SetStateVar(bool $NewState): void
     {
         if ($this->ReadPropertyBoolean('HasState')) {
             if (!IPS_VariableExists(@$this->GetIDForIdent('STATE'))) {
@@ -131,7 +129,7 @@ class NoTriggerBase extends IPSModule
      *
      * @param int $VarId IPS-ID der Variable.
      */
-    protected function UnregisterVariableWatch($VarId)
+    protected function UnregisterVariableWatch($VarId): void
     {
         if ($VarId == 0) {
             return;
@@ -148,7 +146,7 @@ class NoTriggerBase extends IPSModule
      *
      * @param int $VarId IPS-ID der Variable.
      */
-    protected function RegisterVariableWatch(int $VarId)
+    protected function RegisterVariableWatch(int $VarId): void
     {
         if ($VarId == 0) {
             return;
@@ -159,7 +157,7 @@ class NoTriggerBase extends IPSModule
         $this->RegisterReference($VarId);
     }
 
-    protected function DoAction(int $IPSVarID, bool $NewState, bool $OldState)
+    protected function DoAction(int $IPSVarID, bool $NewState, bool $OldState): void
     {
         $AlarmData['VALUE'] = $NewState;
         $AlarmData['OLDVALUE'] = $OldState;
@@ -169,7 +167,8 @@ class NoTriggerBase extends IPSModule
         $AlarmData['EVENT'] = $this->InstanceID;
         IPS_RunScriptText('IPS_RequestAction(' . $this->InstanceID . ',\'RunActions\',\'' . serialize($AlarmData) . '\');');
     }
-    protected function RunActions(array $AlarmData)
+
+    protected function RunActions(array $AlarmData): void
     {
         $Actions = json_decode($this->ReadPropertyString('Actions'), true);
         if (count($Actions) == 0) {

@@ -36,7 +36,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         $this->RegisterPropertyBoolean('Active', false);
@@ -56,7 +56,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    public function MessageSink(int $TimeStamp, int $SenderID, int $Message, array $Data): void
     {
         switch ($Message) {
             case IPS_KERNELSTARTED:
@@ -101,7 +101,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Interne Funktion des SDK.
      */
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -123,7 +123,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Timer abgelaufen Alarm wird erzeugt.
      */
-    public function TimerFire()
+    public function TimerFire(): void
     {
         if (IPS_GetKernelRunlevel() == KR_READY) {
             $this->SetStateVar(true);
@@ -145,7 +145,7 @@ class NoTriggerSingle extends NoTriggerBase
      *
      * @return bool True bei OK
      */
-    private function CheckConfig()
+    private function CheckConfig(): bool
     {
         $this->UnregisterVariableWatch($this->VarId);
         $this->VarId = 0;
@@ -180,7 +180,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Startet den Timer bis zum Alarm.
      */
-    private function StartTimer()
+    private function StartTimer(): void
     {
         if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
@@ -220,7 +220,7 @@ class NoTriggerSingle extends NoTriggerBase
     /**
      * Stopt den Timer.
      */
-    private function StopTimer()
+    private function StopTimer(): void
     {
         $this->SetTimerInterval('NoTrigger', 0);
     }
