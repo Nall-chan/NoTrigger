@@ -14,6 +14,7 @@ declare(strict_types=1);
  *
  */
 
+eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/VariableHelper.php') . '}');
 eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/BufferHelper.php') . '}');
 eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/helper/DebugHelper.php') . '}');
 
@@ -33,6 +34,7 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  */
 class NoTriggerBase extends IPSModuleStrict
 {
+    use \NoTrigger\VariableHelper;
     use \NoTrigger\BufferHelper;
     use \NoTrigger\DebugHelper;
 
