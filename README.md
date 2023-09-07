@@ -208,6 +208,7 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 Version 2.71:  
  - Timer wurden nicht zuverlässig angehalten, wenn Instanzen inaktiv geschaltet wurden.  
+ - Timer wurde gestartet, obwohl Instanz inaktiv war.  
 
 Version 2.70:  
  - IPS 6.1 als Voraussetzung.  

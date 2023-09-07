@@ -151,6 +151,8 @@ class TNoTriggerVarList
  * @property int $Alerts Anzahl der Alarme
  * @property int $ActiveVarID Anzahl der aktiven Vars
  * @property TNoTriggerVarList $NoTriggerVarList Liste mit allen Variablen
+ * @method bool lock(string $ident)
+ * @method void unlock(string $ident)
  */
 class NoTriggerGroup extends NoTriggerBase
 {
@@ -336,7 +338,7 @@ class NoTriggerGroup extends NoTriggerBase
     private function CheckConfig()
     {
         $Result = true;
-        if ($this->ReadPropertyBoolean('Active') == true) {
+        if ($this->ReadPropertyBoolean('Active')) {
             if ($this->ReadPropertyInteger('Timer') < 1) {
                 $this->SetStatus(IS_EBASE + 2); //Error Timer is Zero
                 $Result = false;
@@ -434,10 +436,18 @@ class NoTriggerGroup extends NoTriggerBase
         foreach ($OldTriggerVarList->Items as $IPSVar) {
             $this->UnregisterVariableWatch($IPSVar->VarId);
         }
+        $this->unlock('NoTriggerVarList');
+        if (!$this->ReadPropertyBoolean('Active')) {
+            return;
+        }
+        $this->lock('NoTriggerVarList');
         $NewVariables = json_decode($this->ReadPropertyString('Variables'), true);
         $NewTriggerVarList = new TNoTriggerVarList();
         foreach ($NewVariables as $NewVariable) {
-            $Objekt = IPS_GetObject($NewVariable['VariableID']);
+            $Objekt = @IPS_GetObject($NewVariable['VariableID']);
+            if ($Objekt == 0) {
+                continue;
+            }
             if ($Objekt['ObjectType'] != OBJECTTYPE_VARIABLE) {
                 continue;
             }

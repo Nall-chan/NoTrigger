@@ -28,6 +28,8 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * @version       2.71
  *
  * @example <b>Ohne</b>
+ *
+ * @method bool SendDebug(string $Message, mixed $Data, int $Format)
  */
 class NoTriggerBase extends IPSModule
 {
@@ -42,7 +44,7 @@ class NoTriggerBase extends IPSModule
         switch ($Ident) {
             case 'RunActions':
                 return $this->RunActions(unserialize($Value));
-            }
+        }
         trigger_error($this->Translate('Invalid Ident.'), E_USER_NOTICE);
         return false;
     }
