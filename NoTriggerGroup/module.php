@@ -338,7 +338,7 @@ class NoTriggerGroup extends NoTriggerBase
     private function CheckConfig(): bool
     {
         $Result = true;
-        if ($this->ReadPropertyBoolean('Active') == true) {
+        if ($this->ReadPropertyBoolean('Active')) {
             if ($this->ReadPropertyInteger('Timer') < 1) {
                 $this->SetStatus(IS_EBASE + 2); //Error Timer is Zero
                 $Result = false;
@@ -436,6 +436,11 @@ class NoTriggerGroup extends NoTriggerBase
         foreach ($OldTriggerVarList->Items as $IPSVar) {
             $this->UnregisterVariableWatch($IPSVar->VarId);
         }
+        $this->unlock('NoTriggerVarList');
+        if (!$this->ReadPropertyBoolean('Active')) {
+            return;
+        }
+        $this->lock('NoTriggerVarList');
         $NewVariables = json_decode($this->ReadPropertyString('Variables'), true);
         $NewTriggerVarList = new TNoTriggerVarList();
         foreach ($NewVariables as $NewVariable) {
