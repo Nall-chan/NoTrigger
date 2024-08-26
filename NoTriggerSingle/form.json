@@ -119,6 +119,16 @@
                             }
                         },
                         {
+                            "name": "condition",
+                            "caption": "Condition",
+                            "width": "300px",
+                            "add": "[]",
+                            "edit": {
+                                "type": "SelectCondition",
+                                "multi": true
+                            }
+                        },
+                        {
                             "name": "action",
                             "caption": "Action",
                             "width": "auto",

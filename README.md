@@ -1,9 +1,9 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.72-blue.svg)](https://community.symcon.de/t/modul-notrigger-ueberwachen-von-ips-variablen-auf-ausbleibende-aktualisierung-oder-veraenderung/42474)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![Version](https://img.shields.io/badge/Modul%20Version-2.80-blue.svg)](https://community.symcon.de/t/modul-notrigger-ueberwachen-von-ips-variablen-auf-ausbleibende-aktualisierung-oder-veraenderung/42474)
 ![Version](https://img.shields.io/badge/Symcon%20Version-7.0%20%3E-green.svg)  
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Check Style](https://github.com/Nall-chan/NoTrigger/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions) [![Run Tests](https://github.com/Nall-chan/NoTrigger/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions)  
-[![Spenden](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif)](#5-spenden)  
+[![Spenden](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif)](#5-spenden)[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](#5-spenden)  
 
 # Variablenüberwachung (NoTrigger) <!-- omit in toc -->  
 
@@ -136,6 +136,7 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
    Hier werden die gewünschten Aktionen hinterlegt, welche ausgeführt werden sollen.  
    Bei jeder Aktion kann noch ausgewählt werden ob sie 'Bei Auslösung', 'Bei Rücksetzen' oder 'immer' ausgeführt werden soll.  
+   Zusätzlich können Bedingungen angegeben werden, welche das ausführen einer Aktion erlauben oder verhindern.  
    Für Aktionen werden entsprechende Parameter übergeben, welche z.B. bei 'Führe Automation aus' in einem PHP-Script zur Verfügung stehen. 
 
 ## 6. Variablen im PHP-Script bei 'Führe Automation aus'
@@ -179,69 +180,70 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 **Eigenschaften von Variablenüberwachung (Single):**  
 
-|  Eigenschaft  |   Typ   | Standardwert |                                 Funktion                                  |
-| :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
-|    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
-|     VarID     | integer |      0       |                   Variable welche überwacht werden soll                   |
-|   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
-|     Timer     | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
-|   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
-|    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
-| MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
-|    Actions    | string  |      []      |             JSON-String mit Daten der zu startenden Aktionen              |
+| Eigenschaft   |   Typ   | Standardwert | Funktion                                                                  |
+| :------------ | :-----: | :----------: | :------------------------------------------------------------------------ |
+| Active        | boolean |    false     | Aktivieren / Deaktivieren der Überwachung                                 |
+| VarID         | integer |      0       | Variable welche überwacht werden soll                                     |
+| CheckMode     | integer |      0       | Überwachung auf Aktualisierung (0) oder Änderung (1)                      |
+| Timer         | integer |      0       | Zeit in Sek bis zum Auslösen eines Alarm                                  |
+| HasState      | boolean |     true     | Variable 'STATE' anlegen                                                  |
+| StartUp       | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
+| MultipleAlert | boolean |    false     | Mehrfachauslösung                                                         |
+| Actions       | string  |      []      | JSON-String mit Daten der zu startenden Aktionen                          |
 
 **Eigenschaften von Variablenüberwachung (Group):**  
 
-|  Eigenschaft  |   Typ   | Standardwert |                                 Funktion                                  |
-| :-----------: | :-----: | :----------: | :-----------------------------------------------------------------------: |
-|    Active     | boolean |    false     |                 Aktivieren / Deaktivieren der Überwachung                 |
-|   Variables   | string  |      []      |           JSON-String mit Daten der zu überwachenden Variablen            |
-|   CheckMode   | integer |      0       |           Überwachung auf Aktualisierung (0) oder Änderung (1)            |
-|     Timer     | integer |      0       |                 Zeit in Sek bis zum Auslösen eines Alarm                  |
-|   HasState    | boolean |     true     |                         Variable 'STATE' anlegen                          |
-|   ScriptID    | integer |      0       |                                Ziel-Script                                |
-|    StartUp    | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
-| MultipleAlert | boolean |    false     |                             Mehrfachauslösung                             |
-|    Actions    | string  |      []      |             JSON-String mit Daten der zu startenden Aktionen              |
+| Eigenschaft   |   Typ   | Standardwert | Funktion                                                                  |
+| :------------ | :-----: | :----------: | :------------------------------------------------------------------------ |
+| Active        | boolean |    false     | Aktivieren / Deaktivieren der Überwachung                                 |
+| Variables     | string  |      []      | JSON-String mit Daten der zu überwachenden Variablen                      |
+| CheckMode     | integer |      0       | Überwachung auf Aktualisierung (0) oder Änderung (1)                      |
+| Timer         | integer |      0       | Zeit in Sek bis zum Auslösen eines Alarm                                  |
+| HasState      | boolean |     true     | Variable 'STATE' anlegen                                                  |
+| StartUp       | integer |      0       | Neustart-Verzögerung 0 = keine, 1 = Intervallzeit, 2 = bis Aktualisierung |
+| MultipleAlert | boolean |    false     | Mehrfachauslösung                                                         |
+| Actions       | string  |      []      | JSON-String mit Daten der zu startenden Aktionen                          |
 
 ### 4. Changelog  
 
-Version 2.72:  
- - Version für IPS 7.0.  
+**Version 2.80:**  
+ - Version setzt IPS 7.0 voraus.  
+ - Bedingungen können bei Aktionen ausgewählte werden, um Aktionen zu blockieren.  
 
-Version 2.71:  
+**Version 2.72:**  
  - Timer wurden nicht zuverlässig angehalten, wenn Instanzen inaktiv geschaltet wurden.  
+ - Timer wurde gestartet, obwohl Instanz inaktiv war.  
 
-Version 2.70:  
+**Version 2.70:**  
  - IPS 6.1 als Voraussetzung.  
  - Bei auslösen der Überwachungen können mehrere Aktionen gestartet werden.  
  - Vorhandenes Alarm-Script wird automatisch in eine Aktion übertragen.  
  - Gruppenüberwachung von Variablen benutzt jetzt eine Liste und keine Links.  
  - Bei Gruppenüberwachung werden die Links automatisch in die Variablen-Liste überführt.  
 
-Version 2.61:  
+**Version 2.61:**  
  - Fehlermeldung beim IPS Shutdown.  
 
-Version 2.6:  
+**Version 2.6:**  
  - Schreibfehler korrigiert.  
  - Fehlende Übersetzungen ergänzt.  
 
-Version 2.5:  
+**Version 2.5:**  
  - Release für IPS 5.1 und den Module-Store   
 
-Version 2.2:  
+**Version 2.2:**  
  - Fixes für IPS 5.0  
 
-Version 2.1:  
+**Version 2.1:**  
  - Fix: Timer in Create verschoben  
 
-Version 2.0:  
+**Version 2.0:**  
  - Erste Version für IPS 4.1  
 
-Version 1.1:  
+**Version 1.1:**  
  - Erstes öffentliches Release im Forum  
 
-Version 1.0.0.7:  
+**Version 1.0.0.7:**  
  - Erstes internes Release mit Gruppenüberwachung  
 
 ### 5. Spenden  
@@ -252,7 +254,7 @@ Version 1.0.0.7:
 <a href="https://www.paypal.com/donate?hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
 
   Wunschliste:  
-<a href="https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg" border="0" width="100"/></a>  
+[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share)  
 
 ## 8. Lizenz  
 

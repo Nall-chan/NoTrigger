@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.72
+ * @version       2.80
  *
  */
 
@@ -24,7 +24,7 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.72
+ * @version       2.80
  *
  * @example <b>Ohne</b>
  *
@@ -39,16 +39,7 @@ class NoTriggerSingle extends NoTriggerBase
     public function Create(): void
     {
         parent::Create();
-        $this->RegisterPropertyBoolean('Active', false);
-        $this->RegisterPropertyBoolean('MultipleAlert', false);
         $this->RegisterPropertyInteger('VarID', 1);
-        $this->RegisterPropertyInteger('ScriptID', 1);
-        $this->RegisterPropertyInteger('Timer', 0);
-        $this->RegisterPropertyBoolean('HasState', true);
-        $this->RegisterPropertyInteger('StartUp', 0);
-        $this->RegisterPropertyInteger('CheckMode', 0);
-        $this->RegisterPropertyString('Actions', json_encode([]));
-        $this->RegisterTimer('NoTrigger', 0, 'NT_TimerFire($_IPS["TARGET"]); ');
         $this->State = false;
         $this->VarId = 0;
     }
@@ -108,9 +99,6 @@ class NoTriggerSingle extends NoTriggerBase
         $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, $this->ReadPropertyBoolean('HasState'));
         if (IPS_GetKernelRunlevel() != KR_READY) {
             $this->RegisterMessage(0, IPS_KERNELSTARTED);
-            return;
-        }
-        if ($this->ConfigHasUpgraded()) {
             return;
         }
         if ($this->CheckConfig()) {

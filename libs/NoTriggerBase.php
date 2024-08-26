@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.72
+ * @version       2.80
  *
  */
 
@@ -26,7 +26,7 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.72
+ * @version       2.80
  *
  * @example <b>Ohne</b>
  *
@@ -37,6 +37,24 @@ class NoTriggerBase extends IPSModuleStrict
     use \NoTrigger\VariableHelper;
     use \NoTrigger\BufferHelper;
     use \NoTrigger\DebugHelper;
+    /**
+     * Interne Funktion des SDK.
+     */
+    public function Create(): void
+    {
+        parent::Create();
+
+        $this->RegisterPropertyBoolean('Active', false);
+        $this->RegisterPropertyBoolean('MultipleAlert', false);
+        $this->RegisterPropertyInteger('ScriptID', 1);
+        $this->RegisterPropertyInteger('Timer', 0);
+        $this->RegisterPropertyBoolean('HasState', true);
+        $this->RegisterPropertyInteger('StartUp', 0);
+        $this->RegisterPropertyInteger('CheckMode', 0);
+        $this->RegisterPropertyString('Actions', json_encode([]));
+
+        $this->RegisterTimer('NoTrigger', 0, 'NT_TimerFire($_IPS["TARGET"]); ');
+    }
 
     public function RequestAction(string $Ident, mixed $Value): void
     {
@@ -48,67 +66,69 @@ class NoTriggerBase extends IPSModuleStrict
         trigger_error($this->Translate('Invalid Ident.'), E_USER_NOTICE);
     }
 
-    protected function ConfigHasUpgraded(): bool
+    public function Migrate(string $JSONData): string
     {
-        //return true;
-        $ScriptID = $this->ReadPropertyInteger('ScriptID');
-        // nur alte Config updaten
-        // Neue Aktion nur eintragen, wenn vorher Script vorhanden war.
-        if (IPS_ScriptExists($ScriptID)) {
-            $Action = [
-                'event' => -1,
-                'action'=> json_encode(
-                    [
-                        'actionID'  => '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}',
-                        'parameters'=> [
-                            'TARGET'     => $ScriptID,
-                            'ENVIRONMENT'=> 'default',
-                            'PARENT'     => 0
+        $Data = json_decode($JSONData);
+        if (property_exists($Data->configuration, 'ScriptID')) {
+            $ScriptID = $Data->configuration->ScriptID;
+            if (IPS_ScriptExists($ScriptID)) {
+                $Action = [
+                    'event'    => -1,
+                    'condition'=> '',
+                    'action'   => json_encode(
+                        [
+                            'actionID'  => '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}',
+                            'parameters'=> [
+                                'TARGET'     => $ScriptID,
+                                'ENVIRONMENT'=> 'default',
+                                'PARENT'     => 0
+                            ]
                         ]
-                    ]
-                )
-            ];
-            IPS_SetProperty($this->InstanceID, 'Actions', json_encode([$Action]));
-            IPS_SetProperty($this->InstanceID, 'ScriptID', 1);
-            $this->SendDebug('Actions', $Action, 0);
-        }
-
-        if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
-            // Müssen bei Group noch die Links konvertiert werden?
-            if (IPS_GetProperty($this->InstanceID, 'Variables') == '[]') {
-                $Variables = [];
-                $Links = IPS_GetChildrenIDs($this->InstanceID);
-                foreach ($Links as $Link) {
-                    $Objekt = IPS_GetObject($Link);
-                    if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
-                        continue;
+                    )
+                ];
+                $Data->configuration->Actions = json_encode([$Action]);
+                $this->SendDebug('Migrate Action', $Action, 0);
+                $this->LogMessage('Migrated Action:' . json_encode($Action), KL_MESSAGE);
+            }
+            if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
+                // Müssen bei Group noch die Links konvertiert werden?
+                if (IPS_GetProperty($this->InstanceID, 'Variables') == '[]') {
+                    $Variables = [];
+                    $Links = IPS_GetChildrenIDs($this->InstanceID);
+                    foreach ($Links as $Link) {
+                        $Objekt = IPS_GetObject($Link);
+                        if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
+                            continue;
+                        }
+                        $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
+                        if ($Target === false) {
+                            continue;
+                        }
+                        if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
+                            continue;
+                        }
+                        if (!in_array($Target['ObjectID'], $Variables)) {
+                            //zur Liste hinzufügen
+                            $Variables[] = ['VariableID'=> $Target['ObjectID']];
+                        }
+                        $this->SendDebug('Migrate Link', $Link, 0);
+                        $this->LogMessage('Migrated Link:' . $Link, KL_MESSAGE);
+                        $this->SendDebug('Migrate Variable', $Target['ObjectID'], 0);
+                        $this->LogMessage('Migrated Variable:' . $Target['ObjectID'], KL_MESSAGE);
+                        IPS_DeleteLink($Link);
                     }
-                    $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
-                    if ($Target === false) {
-                        continue;
-                    }
-                    if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
-                        continue;
-                    }
-                    if (!in_array($Target['ObjectID'], $Variables)) {
-                        //zur Liste hinzufügen
-                        $Variables[] = ['VariableID'=> $Target['ObjectID']];
-                    }
-                    $this->SendDebug('Found Link', $Link, 0);
-                    $this->SendDebug('Found Variable', $Target['ObjectID'], 0);
-                    IPS_DeleteLink($Link);
-                }
-                if (count($Variables)) {
-                    $this->SendDebug('Variables', $Variables, 0);
-                    IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
+                    $Data->configuration->Variables = json_encode($Variables);
                 }
             }
+            $this->SendDebug('Migrate', json_encode($Data), 0);
+            $this->LogMessage('Migrated settings:' . json_encode($Data), KL_MESSAGE);
         }
-        if (IPS_HasChanges($this->InstanceID)) {
-            IPS_ApplyChanges($this->InstanceID);
-            return true;
+        $Actions = json_decode($Data->configuration->Actions, true);
+        foreach ($Actions as &$Action) {
+            $Action['condition'] = $Action['condition'] ?? '[]';
         }
-        return false;
+        $Data->configuration->Actions = json_encode($Actions);
+        return json_encode($Data);
     }
 
     /**
@@ -178,17 +198,23 @@ class NoTriggerBase extends IPSModuleStrict
         }
         $RunActions = array_filter($Actions, function ($Action) use ($AlarmData)
         {
+            if (!IPS_IsConditionPassing($Action['condition'])) {
+                $this->SendDebug('Condition', 'Condition is blocking', 0);
+                return false;
+            }
             if ($Action['event'] == -1) {
                 return true;
             }
             return (bool) $Action['event'] === $AlarmData['VALUE'];
         });
         $this->SendDebug('RunActions', $RunActions, 0);
-        $this->SendDebug('RunActions', $AlarmData, 0);
+        if (count($RunActions)) {
+            $this->SendDebug('RunActions', $AlarmData, 0);
+        }
         foreach ($RunActions as $Action) {
             $ActionData = json_decode($Action['action'], true);
             $ActionData['parameters'] = array_merge($ActionData['parameters'], $AlarmData);
-            $this->SendDebug('ActionData', $ActionData, 0);
+            //$this->SendDebug('ActionData', $ActionData, 0);
             IPS_RunAction($ActionData['actionID'], $ActionData['parameters']);
         }
     }

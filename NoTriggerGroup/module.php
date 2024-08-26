@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.72
+ * @version       2.80
  *
  */
 eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR__ . '/../libs/helper/SemaphoreHelper.php') . '}');
@@ -23,7 +23,7 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.72
+ * @version       2.80
  *
  * @example <b>Ohne</b>
  */
@@ -65,7 +65,7 @@ class TNoTriggerVar
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.72
+ * @version       2.80
  *
  * @example <b>Ohne</b>
  */
@@ -144,7 +144,7 @@ class TNoTriggerVarList
  * @copyright     2022 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.72
+ * @version       2.80
  *
  * @example <b>Ohne</b>
  *
@@ -164,20 +164,10 @@ class NoTriggerGroup extends NoTriggerBase
     public function Create(): void
     {
         parent::Create();
-
-        $this->RegisterPropertyBoolean('Active', false);
-        $this->RegisterPropertyBoolean('MultipleAlert', false);
-        $this->RegisterPropertyInteger('ScriptID', 1);
-        $this->RegisterPropertyInteger('Timer', 0);
-        $this->RegisterPropertyBoolean('HasState', true);
-        $this->RegisterPropertyInteger('StartUp', 0);
-        $this->RegisterPropertyInteger('CheckMode', 0);
         $this->RegisterPropertyString('Variables', json_encode([]));
-        $this->RegisterPropertyString('Actions', json_encode([]));
         $this->Alerts = 0;
         $this->ActiveVarID = 0;
         $this->NoTriggerVarList = new TNoTriggerVarList();
-        $this->RegisterTimer('NoTrigger', 0, 'NT_TimerFire($_IPS["TARGET"]); ');
     }
 
     /**
@@ -285,9 +275,6 @@ class NoTriggerGroup extends NoTriggerBase
         $this->MaintainVariable('STATE', 'STATE', VARIABLETYPE_BOOLEAN, '~Alert', 0, $this->ReadPropertyBoolean('HasState'));
         if (IPS_GetKernelRunlevel() != KR_READY) {
             $this->RegisterMessage(0, IPS_KERNELSTARTED);
-            return;
-        }
-        if ($this->ConfigHasUpgraded()) {
             return;
         }
         $this->GetAllTargets();
