@@ -63,7 +63,7 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 ## 2. Voraussetzungen
 
- - IPS ab Version 6.1  
+ - IPS ab Version 7.0  
  
 ## 3. Installation
 
