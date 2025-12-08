@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  * @version       2.80
  *
@@ -20,7 +20,7 @@ require_once __DIR__ . '/../libs/NoTriggerBase.php';
  * TNoTriggerVar ist eine Klasse welche die Daten einer überwachten Variable enthält.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
  * @version       2.80
@@ -62,7 +62,7 @@ class TNoTriggerVar
  * TNoTriggerVarList ist eine Klasse welche die Daten aller überwachten Variablen enthält.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
  * @version       2.80
@@ -141,7 +141,7 @@ class TNoTriggerVarList
  * Erweitert NoTriggerBase.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
  * @version       2.80

@@ -1,17 +1,15 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.80-blue.svg)](https://community.symcon.de/t/modul-notrigger-ueberwachen-von-ips-variablen-auf-ausbleibende-aktualisierung-oder-veraenderung/42474)
-![Version](https://img.shields.io/badge/Symcon%20Version-7.0%20%3E-green.svg)  
+[![Module Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FNall-chan%2FNoTrigger%2Frefs%2Fheads%2Fmaster%2Flibrary.json&query=%24.version&label=Modul%20Version&color=blue)](https://community.symcon.de/t/modul-notrigger-ueberwachen-von-ips-variablen-auf-ausbleibende-aktualisierung-oder-veraenderung/42474)
+[![Symcon Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FNall-chan%2FNoTrigger%2Frefs%2Fheads%2Fmaster%2Flibrary.json&query=%24.compatibility.version&suffix=%3E&label=Symcon%20Version&color=green)](https://www.symcon.de/de/service/dokumentation/installation/migrationen/v80-v81-q3-2025/)  
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Check Style](https://github.com/Nall-chan/NoTrigger/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions) [![Run Tests](https://github.com/Nall-chan/NoTrigger/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/NoTrigger/actions)  
-[![Spenden](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif)](#5-spenden)[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](#5-spenden)  
+[![PayPal.Me](https://img.shields.io/badge/PayPal-Me-lightblue.svg)](#5-spenden)[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](#5-spenden)  
 
 # Variablenüberwachung (NoTrigger) <!-- omit in toc -->  
 
 Überwachen von IPS-Variablen auf ausbleibende Aktualisierung oder Veränderung.  
 
-## Dokumentation <!-- omit in toc -->  
-
-**Inhaltsverzeichnis**
+## Inhaltsverzeichnis <!-- omit in toc -->  
 
 - [1. Funktionsumfang](#1-funktionsumfang)
 - [2. Voraussetzungen](#2-voraussetzungen)
@@ -63,8 +61,8 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 ## 2. Voraussetzungen
 
- - IPS ab Version 6.1  
- 
+- IP-Symcon ab Version 8.1 
+
 ## 3. Installation
 
  Über den 'Module-Store' in IPS das Modul 'Variablenüberwachung' hinzufügen.  
@@ -76,68 +74,68 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 ### 1. Variablenüberwachung (single)
 
- Unter Instanz hinzufügen ist die Variablenüberwachung unter 'Nall-chan' oder dem Schnellfilter zu finden.  
- Jeweils einmal als Typ Single und Group.  
+Unter Instanz hinzufügen ist die Variablenüberwachung unter 'Nall-chan' oder dem Schnellfilter zu finden.  
+Jeweils einmal als Typ Single und Group.  
 
 ![Instanz erstellen](imgs/create.png)  
 
- Nach dem Anlegen der Instanz ist diese noch entsprechend zu konfigurieren.  
-        
- - Aktiv :  
-    Um die Überwachung zu aktivieren bzw. desaktivieren.  
-        
- - Variable:  
-    Die zu überwachende Variable auswählen.  
-        
- - Prüfmodus:  
-    Legt fest ob sich der Wert der Variable(n) verändert haben muss, oder ob es reichte das eine Variable aktualisiert wurde auch wenn sich der Wert nicht geändert hat.  
-        
- - Intervall:  
-    Der Zeitraum in Sekunden in dem sich die Variable(n) nach dem unter Prüfmodus festgelegten Modus geändert haben muss. Wird  dieser Zeitraum überschritten, wird die Statusvariable 'STATE'  gesetzt und/oder das Ziel-Script gestartet. (max. Wert 599000000)  
-        
- - Statusvariable 'STATE' verwenden:  
-    Hiermit kann eine Statusvariable der Instanz zu/weg geschaltet werden. (z.B. zur Visualisierung oder Abfrage in einem Ablaufplan).  
-        
- - Neustart-Verzögerung:  
-    Grundsätzlich wird immer ein Alarm ausgelöst, wenn die letzte Änderung/Aktualisierung der zu überwachenden Variable länger her ist als der eingestellte Intervall. Dies kann bei einem Dienst-Neustart zu falschen Meldungen führen.  
-    Beispiele wo keine Verzögerung nötig ist sind z.B. Geräte welche sich nur einmal pro Woche / Monat etc. melden sollten, da es hier sehr unwahrscheinlich ist das ein Neustart genau in diesen Zeitpunkt fällt wo sich die Variable ändern sollte. Hier ist es sogar ungünstig mit einer Verzögerung zu arbeiten, weil dann vielleicht erst nach 10 statt 5 Tagen auffällt dass der Rauchmelder schon lange nicht mehr sendet.  
+Nach dem Anlegen der Instanz ist diese noch entsprechend zu konfigurieren.  
 
-    Bei z.B. 1-Wire/ModBus Geräten und anderen Instanzen welche IPS mit einem internen Timer ausließt, sollte die Verzögerung auf Intervall stehen. Somit hat IPS beim starten erst mal Zeit die Geräte abzufragen bzw. die Daten zu lesen, bevor es zu einen Alarm kommt.  
-    (IPS-Neustart 30 Sekunden, letzter Wert vor Neustart ist 0sek, Intervall ist 5 Sekunden. => Startet IPS, gibt es ohne eingestellter Verzögerung gleich einen Alarm, da der letzte Wert vor über 30 Sekunden gelesen wurde und somit größer als der eingestellte Intervall von 5 Sekunden ist.)  
-    Die Verzögerung 'bis Aktualisierung' sollte für Geräte genutzt werden, wo man nicht genau weiß wann Sie nach einen Neustart wieder mit IPS kommunizieren. Die Überwachung und somit die Intervall-Zeit beginnt erst, wenn die Variable geändert/aktualisiert wurde.  
-    Dies birgt aber auch ein Risiko: Sollte nach dem Neustart die Variable nie geändert/aktualisiert werden, wird auch nie ein Alarm erzeugt.  
-        
- - Mehrfachauslösung:  
-    Normalerweise wird nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe die eigene Statusvariable gesetzt und alle Aktionen gestartet.  
-    Wird die Mehrfachauslösung aktiviert, werden auch bei Updates von Ruhe/Ruhe und Alarm/Alarm alle Aktionen ausgelöst.  
+- Aktiv :  
+  Um die Überwachung zu aktivieren bzw. desaktivieren.  
 
-   ![Konfiguration Single](imgs/conf1.png)  
+- Variable:  
+  Die zu überwachende Variable auswählen.  
+
+- Prüfmodus:  
+  Legt fest ob sich der Wert der Variable(n) verändert haben muss, oder ob es reichte das eine Variable aktualisiert wurde auch wenn sich der Wert nicht geändert hat.  
+
+- Intervall:  
+  Der Zeitraum in Sekunden in dem sich die Variable(n) nach dem unter Prüfmodus festgelegten Modus geändert haben muss. Wird  dieser Zeitraum überschritten, wird die Statusvariable 'STATE'  gesetzt und/oder das Ziel-Script gestartet. (max. Wert 599000000)  
+
+- Statusvariable 'STATE' verwenden:  
+  Hiermit kann eine Statusvariable der Instanz zu/weg geschaltet werden. (z.B. zur Visualisierung oder Abfrage in einem Ablaufplan).  
+
+- Neustart-Verzögerung:  
+  Grundsätzlich wird immer ein Alarm ausgelöst, wenn die letzte Änderung/Aktualisierung der zu überwachenden Variable länger her ist als der eingestellte Intervall. Dies kann bei einem Dienst-Neustart zu falschen Meldungen führen.  
+  Beispiele wo keine Verzögerung nötig ist sind z.B. Geräte welche sich nur einmal pro Woche / Monat etc. melden sollten, da es hier sehr unwahrscheinlich ist das ein Neustart genau in diesen Zeitpunkt fällt wo sich die Variable ändern sollte. Hier ist es sogar ungünstig mit einer Verzögerung zu arbeiten, weil dann vielleicht erst nach 10 statt 5 Tagen auffällt dass der Rauchmelder schon lange nicht mehr sendet.  
+
+  Bei z.B. 1-Wire/ModBus Geräten und anderen Instanzen welche IPS mit einem internen Timer ausließt, sollte die Verzögerung auf Intervall stehen. Somit hat IPS beim starten erst mal Zeit die Geräte abzufragen bzw. die Daten zu lesen, bevor es zu einen Alarm kommt.  
+  (IPS-Neustart 30 Sekunden, letzter Wert vor Neustart ist 0sek, Intervall ist 5 Sekunden. => Startet IPS, gibt es ohne eingestellter Verzögerung gleich einen Alarm, da der letzte Wert vor über 30 Sekunden gelesen wurde und somit größer als der eingestellte Intervall von 5 Sekunden ist.)  
+  Die Verzögerung 'bis Aktualisierung' sollte für Geräte genutzt werden, wo man nicht genau weiß wann Sie nach einen Neustart wieder mit IPS kommunizieren. Die Überwachung und somit die Intervall-Zeit beginnt erst, wenn die Variable geändert/aktualisiert wurde.  
+  Dies birgt aber auch ein Risiko: Sollte nach dem Neustart die Variable nie geändert/aktualisiert werden, wird auch nie ein Alarm erzeugt.  
+
+- Mehrfachauslösung:  
+  Normalerweise wird nur beim Übergang von Ruhe/Alarm und Alarm/Ruhe die eigene Statusvariable gesetzt und alle Aktionen gestartet.  
+  Wird die Mehrfachauslösung aktiviert, werden auch bei Updates von Ruhe/Ruhe und Alarm/Alarm alle Aktionen ausgelöst.  
+
+![Konfiguration Single](imgs/conf1.png)  
 
 ### 2. Variablenüberwachung (group)
 
- Alle zu überwachenden Variablen sind immer ODER verknüpft, es reicht also wenn Eine sich nicht innerhalb der Intervallzeit ändert/aktualisiert um eine Alarm-Meldung zu generieren. Im Umkehrschluss heißt dies dass die Ruhemeldung nur auslöst, wenn alle überwachten Variablen sich innerhalb der Intervallzeit ändert/aktualisiert haben.  
+Alle zu überwachenden Variablen sind immer ODER verknüpft, es reicht also wenn Eine sich nicht innerhalb der Intervallzeit ändert/aktualisiert um eine Alarm-Meldung zu generieren. Im Umkehrschluss heißt dies dass die Ruhemeldung nur auslöst, wenn alle überwachten Variablen sich innerhalb der Intervallzeit ändert/aktualisiert haben.  
 
- Die Konfiguration und die Funktion sind ähnlich. Folgende Einstellungen unterscheiden sich:
+Die Konfiguration und die Funktion sind ähnlich. Folgende Einstellungen unterscheiden sich:
 
- - Variable:  
-    In der Liste die zu überwachenden Variablen auswählen.  
+- Variable:  
+  In der Liste die zu überwachenden Variablen auswählen.  
 
- - Statusvariable 'STATE' verwenden:  
-    Der Zustand der Variable immer eine ODER Verknüpfung auf die Alarmmeldungen
-    Somit wird die Variable 'true' sobald eine Variable einen Alarm auslöst und 'false' wenn alle Variablen keinen Alarm mehr auslösen.  
-        
-  - Mehrfachauslösung:  
-    Wird die Mehrfachauslösung aktiviert, werden für jede überwachte Variable der Übergang Ruhe/Alarm und Alarm/Ruhe die Aktionen ausgelöst.  
-    Wird die Mehrfachauslösung deaktiviert, wird nur der erste Alarm und die letzte Ruhemeldung zum auslösen der Aktionen benutzt.  
+- Statusvariable 'STATE' verwenden:  
+  Der Zustand der Variable immer eine ODER Verknüpfung auf die Alarmmeldungen
+  Somit wird die Variable 'true' sobald eine Variable einen Alarm auslöst und 'false' wenn alle Variablen keinen Alarm mehr auslösen.  
 
-   ![Konfiguration Group](imgs/conf2.png)   
+- Mehrfachauslösung:  
+  Wird die Mehrfachauslösung aktiviert, werden für jede überwachte Variable der Übergang Ruhe/Alarm und Alarm/Ruhe die Aktionen ausgelöst.  
+  Wird die Mehrfachauslösung deaktiviert, wird nur der erste Alarm und die letzte Ruhemeldung zum auslösen der Aktionen benutzt.  
+
+   ![Konfiguration Group](imgs/conf2.png)  
 
 ## 5. Aktionen konfigurieren
 
    Hier werden die gewünschten Aktionen hinterlegt, welche ausgeführt werden sollen.  
    Bei jeder Aktion kann noch ausgewählt werden ob sie 'Bei Auslösung', 'Bei Rücksetzen' oder 'immer' ausgeführt werden soll.  
    Zusätzlich können Bedingungen angegeben werden, welche das ausführen einer Aktion erlauben oder verhindern.  
-   Für Aktionen werden entsprechende Parameter übergeben, welche z.B. bei 'Führe Automation aus' in einem PHP-Script zur Verfügung stehen. 
+   Für Aktionen werden entsprechende Parameter übergeben, welche z.B. bei 'Führe Automation aus' in einem PHP-Script zur Verfügung stehen.  
 
 ## 6. Variablen im PHP-Script bei 'Führe Automation aus'
 
@@ -151,15 +149,15 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 | VARIABLE | integer |   ID der Variable welche die Auslösung verursacht hat    |
 |  SENDER  | string  |                  'NoTrigger' FixString                   |
 
- Ein PHP-Script sollte immer den Wert 'VALUE' abfragen, damit unterschieden werden kann ob es sich um eine Alarm-Meldung oder Ruhe-Meldung handelt, falls bei 'Auslösendes Ereignis' 'immer' eingestellt wurde:  
+ Ein PHP-Script sollte immer den Wert `VALUE` abfragen, damit unterschieden werden kann ob es sich um eine Alarm-Meldung oder Ruhe-Meldung handelt, falls bei `Auslösendes Ereignis` `immer` eingestellt wurde:  
 
 ```php
-        if ($_IPS['VALUE'])
-        {
-            // Alarm wurde ausgelöst
-        } else {
-            // Ruhemeldung nach	Alarm
-        }
+if ($_IPS['VALUE'])
+{
+   // Alarm wurde ausgelöst
+} else {
+   // Ruhemeldung nach Alarm
+}
 ```
 
 ## 7. Anhang
@@ -207,51 +205,63 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 ### 4. Changelog  
 
 **Version 2.80:**  
- - Version setzt IPS 7.0 voraus.  
- - Bedingungen können bei Aktionen ausgewählte werden, um Aktionen zu blockieren.  
 
+- Version setzt IPS 8.1 voraus.  
+- Bedingungen können bei Aktionen ausgewählte werden, um Aktionen zu blockieren.  
+- Migration wurde mehrfach ausgeführt.  
+  
 **Version 2.72:**  
- - Timer wurden nicht zuverlässig angehalten, wenn Instanzen inaktiv geschaltet wurden.  
- - Timer wurde gestartet, obwohl Instanz inaktiv war.  
+
+- Timer wurden nicht zuverlässig angehalten, wenn Instanzen inaktiv geschaltet wurden.  
+- Timer wurde gestartet, obwohl Instanz inaktiv war.  
 
 **Version 2.70:**  
- - IPS 6.1 als Voraussetzung.  
- - Bei auslösen der Überwachungen können mehrere Aktionen gestartet werden.  
- - Vorhandenes Alarm-Script wird automatisch in eine Aktion übertragen.  
- - Gruppenüberwachung von Variablen benutzt jetzt eine Liste und keine Links.  
- - Bei Gruppenüberwachung werden die Links automatisch in die Variablen-Liste überführt.  
+
+- IPS 6.1 als Voraussetzung.  
+- Bei auslösen der Überwachungen können mehrere Aktionen gestartet werden.  
+- Vorhandenes Alarm-Script wird automatisch in eine Aktion übertragen.  
+- Gruppenüberwachung von Variablen benutzt jetzt eine Liste und keine Links.  
+- Bei Gruppenüberwachung werden die Links automatisch in die Variablen-Liste überführt.  
 
 **Version 2.61:**  
- - Fehlermeldung beim IPS Shutdown.  
+
+- Fehlermeldung beim IPS Shutdown.  
 
 **Version 2.6:**  
- - Schreibfehler korrigiert.  
- - Fehlende Übersetzungen ergänzt.  
+
+- Schreibfehler korrigiert.  
+- Fehlende Übersetzungen ergänzt.  
 
 **Version 2.5:**  
- - Release für IPS 5.1 und den Module-Store   
+
+- Release für IPS 5.1 und den Module-Store  
 
 **Version 2.2:**  
- - Fixes für IPS 5.0  
+
+- Fixes für IPS 5.0  
 
 **Version 2.1:**  
- - Fix: Timer in Create verschoben  
+
+- Fix: Timer in Create verschoben  
 
 **Version 2.0:**  
- - Erste Version für IPS 4.1  
+
+- Erste Version für IPS 4.1  
 
 **Version 1.1:**  
- - Erstes öffentliches Release im Forum  
+
+- Erstes öffentliches Release im Forum  
 
 **Version 1.0.0.7:**  
- - Erstes internes Release mit Gruppenüberwachung  
+
+- Erstes internes Release mit Gruppenüberwachung  
 
 ### 5. Spenden  
   
   Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
   PayPal:  
-<a href="https://www.paypal.com/donate?hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
+[![PayPal.Me](https://img.shields.io/badge/PayPal-Me-lightblue.svg)](https://paypal.me/Nall4chan)  
 
   Wunschliste:  
 [![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share)  

@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @package       NoTrigger
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  * @version       2.80
  *
@@ -23,7 +23,7 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * Erweitert IPSModule.
  *
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2022 Michael Tröger
+ * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
  * @version       2.80
@@ -31,6 +31,7 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * @example <b>Ohne</b>
  *
  * @method bool SendDebug(string $Message, mixed $Data, int $Format)
+ * @method int FindIDForIdent(string $Ident)
  */
 class NoTriggerBase extends IPSModuleStrict
 {
@@ -46,7 +47,6 @@ class NoTriggerBase extends IPSModuleStrict
 
         $this->RegisterPropertyBoolean('Active', false);
         $this->RegisterPropertyBoolean('MultipleAlert', false);
-        $this->RegisterPropertyInteger('ScriptID', 1);
         $this->RegisterPropertyInteger('Timer', 0);
         $this->RegisterPropertyBoolean('HasState', true);
         $this->RegisterPropertyInteger('StartUp', 0);
@@ -91,7 +91,7 @@ class NoTriggerBase extends IPSModuleStrict
                 $this->LogMessage('Migrated Action:' . json_encode($Action), KL_MESSAGE);
             }
             if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
-                // Müssen bei Group noch die Links konvertiert werden?
+                // Müssen bei Group noch die Links einmalig konvertiert werden?
                 if (IPS_GetProperty($this->InstanceID, 'Variables') == '[]') {
                     $Variables = [];
                     $Links = IPS_GetChildrenIDs($this->InstanceID);
