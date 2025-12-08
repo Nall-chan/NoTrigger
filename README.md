@@ -61,7 +61,7 @@ Nach Ablauf der Intervall-Zeit wird, je nach Konfiguration, eine Statusvariable 
 
 ## 2. Voraussetzungen
 
-- IP-Symcon ab Version 8.1 
+- IP-Symcon ab Version 8.1  
 
 ## 3. Installation
 
