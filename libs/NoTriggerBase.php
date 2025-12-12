@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       2.80
+ * @version       2.81
  *
  */
 
@@ -26,7 +26,7 @@ eval('declare(strict_types=1);namespace NoTrigger {?>' . file_get_contents(__DIR
  * @copyright     2025 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.80
+ * @version       2.81
  *
  * @example <b>Ohne</b>
  *
@@ -89,35 +89,35 @@ class NoTriggerBase extends IPSModuleStrict
                 $Data->configuration->Actions = json_encode([$Action]);
                 $this->SendDebug('Migrate Action', $Action, 0);
                 $this->LogMessage('Migrated Action:' . json_encode($Action), KL_MESSAGE);
-            }
-            if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
-                // Müssen bei Group noch die Links einmalig konvertiert werden?
-                if (IPS_GetProperty($this->InstanceID, 'Variables') == '[]') {
-                    $Variables = [];
-                    $Links = IPS_GetChildrenIDs($this->InstanceID);
-                    foreach ($Links as $Link) {
-                        $Objekt = IPS_GetObject($Link);
-                        if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
-                            continue;
+                if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
+                    // Müssen bei Group noch die Links einmalig konvertiert werden?
+                    if ($Data->configuration->Variables == '[]') {
+                        $Variables = [];
+                        $Links = IPS_GetChildrenIDs($this->InstanceID);
+                        foreach ($Links as $Link) {
+                            $Objekt = IPS_GetObject($Link);
+                            if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
+                                continue;
+                            }
+                            $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
+                            if ($Target === false) {
+                                continue;
+                            }
+                            if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
+                                continue;
+                            }
+                            if (!in_array($Target['ObjectID'], $Variables)) {
+                                //zur Liste hinzufügen
+                                $Variables[] = ['VariableID'=> $Target['ObjectID']];
+                            }
+                            $this->SendDebug('Migrate Link', $Link, 0);
+                            $this->LogMessage('Migrated Link:' . $Link, KL_MESSAGE);
+                            $this->SendDebug('Migrate Variable', $Target['ObjectID'], 0);
+                            $this->LogMessage('Migrated Variable:' . $Target['ObjectID'], KL_MESSAGE);
+                            IPS_DeleteLink($Link);
                         }
-                        $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
-                        if ($Target === false) {
-                            continue;
-                        }
-                        if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
-                            continue;
-                        }
-                        if (!in_array($Target['ObjectID'], $Variables)) {
-                            //zur Liste hinzufügen
-                            $Variables[] = ['VariableID'=> $Target['ObjectID']];
-                        }
-                        $this->SendDebug('Migrate Link', $Link, 0);
-                        $this->LogMessage('Migrated Link:' . $Link, KL_MESSAGE);
-                        $this->SendDebug('Migrate Variable', $Target['ObjectID'], 0);
-                        $this->LogMessage('Migrated Variable:' . $Target['ObjectID'], KL_MESSAGE);
-                        IPS_DeleteLink($Link);
+                        $Data->configuration->Variables = json_encode($Variables);
                     }
-                    $Data->configuration->Variables = json_encode($Variables);
                 }
             }
             $this->SendDebug('Migrate', json_encode($Data), 0);

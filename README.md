@@ -204,6 +204,10 @@ if ($_IPS['VALUE'])
 
 ### 4. Changelog  
 
+**Version 2.81:**  
+
+- Die Migration der Einstellungen wurde angepasst um Probleme bei mehrfacher Migration zu vermeiden.
+
 **Version 2.80:**  
 
 - Version setzt IPS 8.1 voraus.  
