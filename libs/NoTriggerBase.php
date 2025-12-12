@@ -74,7 +74,7 @@ class NoTriggerBase extends IPSModuleStrict
             if (IPS_ScriptExists($ScriptID)) {
                 $Action = [
                     'event'    => -1,
-                    'condition'=> '',
+                    'condition'=> '[]',
                     'action'   => json_encode(
                         [
                             'actionID'  => '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}',
@@ -89,39 +89,43 @@ class NoTriggerBase extends IPSModuleStrict
                 $Data->configuration->Actions = json_encode([$Action]);
                 $this->SendDebug('Migrate Action', $Action, 0);
                 $this->LogMessage('Migrated Action:' . json_encode($Action), KL_MESSAGE);
-                if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
-                    // Müssen bei Group noch die Links einmalig konvertiert werden?
-                    if ($Data->configuration->Variables == '[]') {
-                        $Variables = [];
-                        $Links = IPS_GetChildrenIDs($this->InstanceID);
-                        foreach ($Links as $Link) {
-                            $Objekt = IPS_GetObject($Link);
-                            if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
-                                continue;
-                            }
-                            $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
-                            if ($Target === false) {
-                                continue;
-                            }
-                            if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
-                                continue;
-                            }
-                            if (!in_array($Target['ObjectID'], $Variables)) {
-                                //zur Liste hinzufügen
-                                $Variables[] = ['VariableID'=> $Target['ObjectID']];
-                            }
-                            $this->SendDebug('Migrate Link', $Link, 0);
-                            $this->LogMessage('Migrated Link:' . $Link, KL_MESSAGE);
-                            $this->SendDebug('Migrate Variable', $Target['ObjectID'], 0);
-                            $this->LogMessage('Migrated Variable:' . $Target['ObjectID'], KL_MESSAGE);
-                            IPS_DeleteLink($Link);
+            }
+            if (IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'] == '{28198BA1-3563-4C85-81AE-8176B53589B8}') {
+                // Müssen bei Group noch die Links einmalig konvertiert werden?
+                $HasChanged = false;
+                if ($Data->configuration->Variables == '[]') {
+                    $Variables = [];
+                    $Links = IPS_GetChildrenIDs($this->InstanceID);
+                    foreach ($Links as $Link) {
+                        $Objekt = IPS_GetObject($Link);
+                        if ($Objekt['ObjectType'] != OBJECTTYPE_LINK) {
+                            continue;
                         }
+                        $Target = @IPS_GetObject(IPS_GetLink($Link)['TargetID']);
+                        if ($Target === false) {
+                            continue;
+                        }
+                        if ($Target['ObjectType'] != OBJECTTYPE_VARIABLE) {
+                            continue;
+                        }
+                        if (!in_array($Target['ObjectID'], $Variables)) {
+                            //zur Liste hinzufügen
+                            $Variables[] = ['VariableID'=> $Target['ObjectID']];
+                        }
+                        $this->SendDebug('Migrate Link', $Link, 0);
+                        $this->LogMessage('Migrated Link:' . $Link, KL_MESSAGE);
+                        $this->SendDebug('Migrate Variable', $Target['ObjectID'], 0);
+                        $this->LogMessage('Migrated Variable:' . $Target['ObjectID'], KL_MESSAGE);
+                        IPS_DeleteLink($Link);
+                        $HasChanged = true;
+                    }
+                    if ($HasChanged) {
                         $Data->configuration->Variables = json_encode($Variables);
+                        $this->SendDebug('Migrate', json_encode($Data), 0);
+                        $this->LogMessage('Migrated settings:' . json_encode($Data), KL_MESSAGE);
                     }
                 }
             }
-            $this->SendDebug('Migrate', json_encode($Data), 0);
-            $this->LogMessage('Migrated settings:' . json_encode($Data), KL_MESSAGE);
         }
         $Actions = json_decode($Data->configuration->Actions, true);
         foreach ($Actions as &$Action) {
