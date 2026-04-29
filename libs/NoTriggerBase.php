@@ -217,7 +217,7 @@ class NoTriggerBase extends IPSModuleStrict
         }
         foreach ($RunActions as $Action) {
             $ActionData = json_decode($Action['action'], true);
-            $ActionData['parameters'] = array_merge($ActionData['parameters'], $AlarmData);
+            $ActionData['parameters'] = array_merge($AlarmData, $ActionData['parameters']);
             //$this->SendDebug('ActionData', $ActionData, 0);
             IPS_RunAction($ActionData['actionID'], $ActionData['parameters']);
         }
